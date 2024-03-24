@@ -1,0 +1,6 @@
+@PortaleBiblioteca.Server_HostAddress = http://localhost:5049
+
+GET {{PortaleBiblioteca.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
