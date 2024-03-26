@@ -1,9 +1,10 @@
-import { url } from "../../functions/config";
-import { setLoggedProfile } from "../reducers/profileReducer";
+import { setLoggedProfile } from "../redux/slicers/userSlice";
+import { url } from "../functions/config";
+import { LoginModel } from "../interfaces/profile.interface";
 
-export const fetchLogin = (loginObj) => async (dispatch) => {
+export const fetchLogin = (loginObj: LoginModel) => async (dispatch) => {
 	try {
-		const response = await fetch(url + "auth/token", {
+		const response = await fetch(url + "Auth/token", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
@@ -20,6 +21,6 @@ export const fetchLogin = (loginObj) => async (dispatch) => {
 		}
 	} catch (error) {
 		// Puoi gestire gli errori qui, se necessario
-		console.error("Errore nel fetch:", error.message);
+		console.error("Errore nel fetch:");
 	}
 };

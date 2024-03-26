@@ -9,7 +9,7 @@ export interface UserState {
 	loggedProfile: User | null;
 }
 
-export interface loginFormObj {
+export interface LoginModel {
 	email: string;
 	password: string;
 }

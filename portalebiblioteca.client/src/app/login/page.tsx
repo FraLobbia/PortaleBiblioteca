@@ -1,9 +1,12 @@
 import { Button, Container, Form } from "react-bootstrap";
-import { loginFormObj } from "../../interfaces/profile.interface";
 import { useState } from "react";
 import { useAppDispatch } from "../../functions/hooks";
+import { LoginModel } from "../../interfaces/profile.interface";
+import { fetchLogin } from "../../api/login";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
+	const navigate = useNavigate();
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
@@ -12,12 +15,13 @@ const LoginForm = () => {
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
 
-		const loginObj: loginFormObj = {
+		const LoginObj: LoginModel = {
 			email,
 			password,
 		};
 
-		dispatch(fetchLogin(loginObj));
+		dispatch(fetchLogin(LoginObj));
+		navigate("/");
 	};
 
 	return (
