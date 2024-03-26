@@ -1,26 +1,19 @@
-import { useEffect } from 'react';
-import './App.css';
-
-
-interface Login {
-    email: string;
-    password: string;
-}
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import "./App.scss";
+import Home from "./app/home/page";
+import LoginForm from "./app/login/page";
+import MyNavbar from "./app/miscComponents/myNavbar";
 
 function App() {
-
-    useEffect(() => {
-       
-    }, []);
-
-
-
-    return (
-        <div>
-            <h1>Biblioteca</h1>
-        </div>
-    );
-
+	return (
+		<BrowserRouter>
+			<MyNavbar />
+			<Routes>
+				<Route path="/" element={<Home />} />
+				<Route path="/login" element={<LoginForm />} />
+			</Routes>
+		</BrowserRouter>
+	);
 }
 
 export default App;
