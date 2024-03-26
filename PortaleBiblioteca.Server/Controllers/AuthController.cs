@@ -37,8 +37,11 @@ namespace PortaleBiblioteca.Server.Controllers
                         User = new
                         {
                             user.IdUser,
+                            user.FirstName,
+                            user.LastName,
                             user.Email,
-                            user.Role
+                            user.Role,
+                            user.UserImage,
                         }
                     }
                 );
@@ -84,8 +87,11 @@ namespace PortaleBiblioteca.Server.Controllers
             return new User
             {
                 IdUser = user.IdUser,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
                 Email = user.Email,
                 Role = user.Role,
+                UserImage = user.UserImage,
             };
         }
     }
