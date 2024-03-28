@@ -32,6 +32,18 @@ export interface Book {
 	loans?: null;
 }
 
+export interface BookToEdit {
+	idBook: number;
+	author: string;
+	title: string;
+	description?: string;
+	genre?: string;
+	availableQuantity?: number;
+	publicationDate?: Date;
+	isbn?: string;
+	coverImage?: string;
+}
+
 export interface BookCreateForm {
 	author: string;
 	title: string;

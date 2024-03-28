@@ -31,11 +31,18 @@ const ElencoLibri = () => {
 							<Card.Body>
 								<Card.Title>{book.title}</Card.Title>
 								<Card.Text>{book.description}</Card.Text>
-								<Link
-									className="btn btn-info"
-									to={"details/" + book.idBook}>
-									Dettagli libro
-								</Link>
+								<div className="d-flex gap-3">
+									<Link
+										className="btn btn-info"
+										to={"details/" + book.idBook}>
+										Dettagli libro
+									</Link>
+									<Link
+										className="btn btn-warning"
+										to={"edit/" + book.idBook}>
+										Modifica libro
+									</Link>
+								</div>
 							</Card.Body>
 						</Card>
 					</Col>

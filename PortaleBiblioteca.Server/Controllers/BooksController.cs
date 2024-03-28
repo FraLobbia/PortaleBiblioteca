@@ -39,18 +39,28 @@ namespace PortaleBiblioteca.Server.Controllers
         // PUT: api/Books/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBook(int id, Book book)
+        public async Task<IActionResult> PutBook(int id, BookFormEdit formBook)
         {
-            if (id != book.IdBook)
+            if (id != formBook.IdBook)
             {
                 return BadRequest();
             }
 
-            _context.Entry(book).State = EntityState.Modified;
-
+            // get the book from the database
+            Book book = _context.Books.Find(id);
             try
             {
+                book.Author = formBook.Author;
+                book.Title = formBook.Title;
+                book.Description = formBook.Description;
+                book.Genre = formBook.Genre;
+                book.AvailableQuantity = formBook.availableQuantity;
+                book.PublicationDate = formBook.PublicationDate;
+                book.ISBN = formBook.ISBN;
+                book.CoverImage = formBook.CoverImage;
+                _context.Entry(book).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
+
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -60,7 +70,7 @@ namespace PortaleBiblioteca.Server.Controllers
                 }
                 else
                 {
-                    throw;
+                    throw new Exception("Error updating the book");
                 }
             }
 
