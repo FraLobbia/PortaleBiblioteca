@@ -10,7 +10,7 @@ import bookSlicer from "../slicers/bookSlicer";
 const persistConfig = {
 	key: "root",
 	storage,
-	whitelist: ["profile", "cart"],
+	whitelist: ["profile"],
 
 	transforms: [
 		expireReducer("profile", {
@@ -24,7 +24,10 @@ const persistConfig = {
 //1) =================================================================================
 // `combineSlices` automatically combines the reducers using
 // their `reducerPath`s, therefore we no longer need to call `combineReducers`.
-const rootReducer = combineSlices({ user: userSlice, book: bookSlicer });
+const rootReducer = combineSlices({
+	profile: userSlice,
+	bookState: bookSlicer,
+});
 //2) =================================================================================
 // Infer the `RootState` type from the root reducer
 // Ottengo il tipo del mio rootReducer e lo chiamo RootState. Userò RootState da
@@ -37,6 +40,10 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 export const makeStore = () => {
 	const store = configureStore({
 		reducer: persistedReducer,
+		middleware: (getDefaultMiddleware) =>
+			getDefaultMiddleware({
+				serializableCheck: false,
+			}),
 	});
 	// configure listeners using the provided defaults
 	// optional, but required for `refetchOnFocus`/`refetchOnReconnect` behaviors

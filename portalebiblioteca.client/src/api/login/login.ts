@@ -1,6 +1,6 @@
-import { setLoggedProfile } from "../redux/slicers/userSlice";
-import { url } from "../functions/config";
-import { LoginModel } from "../interfaces/profile.interface";
+import { setLoggedProfile } from "../../redux/slicers/userSlice";
+import { url } from "../../functions/config";
+import { LoginModel } from "../../interfaces/profile.interface";
 
 export const fetchLogin = (loginObj: LoginModel) => async (dispatch) => {
 	try {
@@ -15,6 +15,9 @@ export const fetchLogin = (loginObj: LoginModel) => async (dispatch) => {
 		if (response.ok) {
 			const dataProfile = await response.json();
 			console.log(dataProfile);
+			// creo un cookie di autenticazione
+			document.cookie = `token=${dataProfile.token}`;
+
 			dispatch(setLoggedProfile(dataProfile));
 		} else {
 			throw new Error("Errore nel recupero dei risultati");

@@ -1,27 +1,25 @@
-﻿using PortaleBiblioteca.Server.Data.Models;
+using PortaleBiblioteca.Server.Data.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace PortaleBiblioteca
 {
-    public class Book
+    public class BookFormCreate
     {
         [Key]
-        public int IdBook { get; set; }
+        public int IdBooks { get; set; }
+        [Required]
         public string Author { get; set; }
+        [Required]
         public string Title { get; set; }
+        [Required]
         public string Description { get; set; }
+        [Required]
         public string Genre { get; set; }
-        public int AvailableQuantity { get; set; }
-        public int LoanQuantity { get; set; }
+        [Required]
         public DateTime PublicationDate { get; set; }
+        [Required]
         public string ISBN { get; set; }
+        [Required]
         public string CoverImage { get; set; }
-
-
-        public virtual ICollection<Location> Locations { get; set; }
-        public virtual ICollection<Review> Reviews { get; set; }
-        public virtual ICollection<Loan> Loans { get; set; }
-
     }
-
 }

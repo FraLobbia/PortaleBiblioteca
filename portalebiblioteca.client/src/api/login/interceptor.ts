@@ -1,4 +1,4 @@
-import { store } from "../Redux/store/store";
+import { store } from "../../redux/store/store";
 
 export async function fetchWithAuth(url: string, options = {}) {
 	// Ottieni il token dallo store Redux

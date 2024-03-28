@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using PortaleBiblioteca;
 using PortaleBiblioteca.Server.Data;
 
 namespace PortaleBiblioteca.Server.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class BooksController : ControllerBase
     {
@@ -47,7 +41,7 @@ namespace PortaleBiblioteca.Server.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutBook(int id, Book book)
         {
-            if (id != book.IdBooks)
+            if (id != book.IdBook)
             {
                 return BadRequest();
             }
@@ -75,13 +69,27 @@ namespace PortaleBiblioteca.Server.Controllers
 
         // POST: api/Books
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Book>> PostBook(Book book)
+        [HttpPost("add")]
+        public async Task<ActionResult<Book>> PostBook(BookFormCreate formBook)
         {
+
+            Book book = new Book
+            {
+                Author = formBook.Author,
+                Title = formBook.Title,
+                Description = formBook.Description,
+                Genre = formBook.Genre,
+                AvailableQuantity = 0,
+                LoanQuantity = 0,
+                PublicationDate = formBook.PublicationDate,
+                ISBN = formBook.ISBN,
+                CoverImage = formBook.CoverImage
+            };
+
             _context.Books.Add(book);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetBook", new { id = book.IdBooks }, book);
+            return CreatedAtAction("GetBook", new { id = book.IdBook }, book);
         }
 
         // DELETE: api/Books/5
@@ -102,7 +110,7 @@ namespace PortaleBiblioteca.Server.Controllers
 
         private bool BookExists(int id)
         {
-            return _context.Books.Any(e => e.IdBooks == id);
+            return _context.Books.Any(e => e.IdBook == id);
         }
     }
 }

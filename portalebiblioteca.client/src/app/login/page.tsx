@@ -2,7 +2,7 @@ import { Button, Container, Form } from "react-bootstrap";
 import { useState } from "react";
 import { useAppDispatch } from "../../functions/hooks";
 import { LoginModel } from "../../interfaces/profile.interface";
-import { fetchLogin } from "../../api/login";
+import { fetchLogin } from "../../api/login/login";
 import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
