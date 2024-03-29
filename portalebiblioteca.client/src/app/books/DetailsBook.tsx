@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "../../functions/hooks";
 import { Link, useParams } from "react-router-dom";
 import { Col, Container, Row } from "react-bootstrap";
 import { formatData } from "../../functions/utility";
-import BackButton from "../miscellaneousComponent/reusable/BackButton";
+import BackButton from "../_miscellaneousComponent/reusable/BackButton";
 
 const DetailBook = () => {
 	const dispatch = useAppDispatch();

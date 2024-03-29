@@ -1,11 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 using PortaleBiblioteca.Server.Data;
 using PortaleBiblioteca.Server.Data.Models;
 using PortaleBiblioteca.Server.Data.ModelsForms;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 namespace PortaleBiblioteca.Server.Controllers
 {
     [ApiController]
@@ -28,7 +24,7 @@ namespace PortaleBiblioteca.Server.Controllers
 
             if (user != null)
             {
-                var tokenString = BuildToken(user);
+                var tokenString = TokenHandler.BuildToken(user, _configuration);
 
                 return Ok(
                     new
@@ -50,28 +46,28 @@ namespace PortaleBiblioteca.Server.Controllers
             return Unauthorized();
         }
 
-        private string BuildToken(User user)
-        {
-            var claims = new[]
-            {
-                new Claim(JwtRegisteredClaimNames.Jti, user.IdUser.ToString()),
-                new Claim(JwtRegisteredClaimNames.Sub, user.Email),
-                new Claim(ClaimTypes.Role, user.Role),
-            };
+        // private string BuildToken(User user)
+        // {
+        //     var claims = new[]
+        //     {
+        //         new Claim(JwtRegisteredClaimNames.Jti, user.IdUser.ToString()),
+        //         new Claim(JwtRegisteredClaimNames.Sub, user.Email),
+        //         new Claim(ClaimTypes.Role, user.Role),
+        //     };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+        //     var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+        //     var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            var token = new JwtSecurityToken(
-                _configuration["Jwt:Issuer"],
-                _configuration["Jwt:Audience"],
-                claims,
-                expires: DateTime.Now.AddDays(7),
-                signingCredentials: creds
-            );
+        //     var token = new JwtSecurityToken(
+        //         _configuration["Jwt:Issuer"],
+        //         _configuration["Jwt:Audience"],
+        //         claims,
+        //         expires: DateTime.Now.AddDays(7),
+        //         signingCredentials: creds
+        //     );
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
-        }
+        //     return new JwtSecurityTokenHandler().WriteToken(token);
+        // }
 
         private User Authenticate(LoginModel login)
         {

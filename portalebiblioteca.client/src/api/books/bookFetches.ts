@@ -2,7 +2,7 @@ import { url } from "../../functions/config";
 import { BookCreateForm, BookToEdit } from "../../interfaces/book.interface";
 import { setBooks, setCurrentBook } from "../../redux/slicers/bookSlice";
 import { AppDispatch } from "../../redux/store/store";
-import { fetchWithAuth } from "../users/interceptor";
+import { fetchWithAuth } from "../interceptor";
 
 export const fetchBookList = () => async (dispatch: AppDispatch) => {
 	console.log("fetchBookList");

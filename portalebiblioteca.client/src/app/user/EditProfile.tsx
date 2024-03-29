@@ -1,41 +1,52 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Container, Form } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
-import { SignUpModel } from "../../interfaces/profile.interface";
-import { useAppDispatch } from "../../functions/hooks";
-import { fetchCreateUser } from "../../api/users/userFetches&login";
+import { useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../functions/hooks";
+import { fetchEditUser } from "../../api/users/userFetches";
+import { UserToEdit } from "../../interfaces/profile.interface";
 
 const EditProfile = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
+	const { user } = useAppSelector(
+		(state) => state.profileState.loggedProfile
+	);
 	const [name, setName] = useState<string>("");
 	const [cognome, setCognome] = useState<string>("");
 	const [email, setEmail] = useState<string>("");
-	const [password, setPassword] = useState<string>("");
-	const [passwordConfirm, setPasswordConfirm] = useState<string>("");
-	const [error, setError] = useState<string>("");
+	const [immagineProfilo, setImmagineProfilo] = useState<string>("");
+
 	const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		if (password !== passwordConfirm) {
-			setError("La password non corrisponde");
-			return;
-		}
 
-		const userToCreate: SignUpModel = {
-			FirstName: name,
-			LastName: cognome,
-			Email: email,
-			Password: password,
+		if (!user) return;
+
+		const userToEdit: UserToEdit = {
+			idUser: user.idUser,
+			firstName: name,
+			lastName: cognome,
+			email: email,
+			role: user.role,
+			userImage: immagineProfilo,
 		};
 
-		dispatch(fetchCreateUser(userToCreate));
+		dispatch(fetchEditUser(userToEdit));
 		navigate("/");
 	};
+
+	useEffect(() => {
+		if (user) {
+			setName(user.firstName);
+			setCognome(user.lastName);
+			setEmail(user.email);
+			setImmagineProfilo(user.userImage);
+		}
+	}, [user]);
 
 	return (
 		<Container>
 			<Form onSubmit={handleSignUp}>
-				<h1>Registrati</h1>
+				<h1>Modifica il tuo profilo</h1>
 
 				<Form.Group className="mb-3">
 					<Form.Label>Nome</Form.Label>
@@ -68,35 +79,21 @@ const EditProfile = () => {
 				</Form.Group>
 
 				<Form.Group className="mb-3">
-					<Form.Label>Password</Form.Label>
+					<Form.Label>Immagine profilo</Form.Label>
 					<Form.Control
-						type="password"
-						placeholder="Inserisci la tua password"
-						value={password}
-						onChange={(e) => setPassword(e.currentTarget.value)}
-					/>
-				</Form.Group>
-
-				<Form.Group className="mb-3">
-					<Form.Label>Conferma Password</Form.Label>
-					<Form.Control
-						type="password"
-						placeholder="Conferma la tua password"
-						value={passwordConfirm}
+						type="text"
+						placeholder="Inserisci la tua immagine profilo"
+						value={immagineProfilo}
 						onChange={(e) =>
-							setPasswordConfirm(e.currentTarget.value)
+							setImmagineProfilo(e.currentTarget.value)
 						}
 					/>
 				</Form.Group>
-				{error && <p className="text-danger">{error}</p>}
 
 				<Button variant="primary" type="submit">
-					Registrati
+					Modifica profilo
 				</Button>
 			</Form>
-			<div className="mt-4">
-				<Link to="/signup">Non sei registrato? Registrati</Link>
-			</div>
 		</Container>
 	);
 };

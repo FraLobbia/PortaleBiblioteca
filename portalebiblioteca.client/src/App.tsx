@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.scss";
 import Home from "./app/home/page";
-import MyNavbar from "./app/miscellaneousComponent/myNavbar";
+import MyNavbar from "./app/_miscellaneousComponent/myNavbar";
 import ElencoLibri from "./app/books/ElencoLibri";
 import FormAddBook from "./app/books/FormAddBook";
 import DetailBook from "./app/books/DetailsBook";

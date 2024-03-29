@@ -3,31 +3,36 @@ using Microsoft.EntityFrameworkCore;
 using PortaleBiblioteca.Server.Data;
 using PortaleBiblioteca.Server.Data.Models;
 using PortaleBiblioteca.Server.Data.ModelsForms;
+
+
 namespace PortaleBiblioteca.Server.Controllers
 {
     [Route("[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ApplicationDbContext _db;
+        private readonly IConfiguration _configuration;
 
-        public UsersController(ApplicationDbContext context)
+        public UsersController(ApplicationDbContext context, IConfiguration configuration)
         {
-            _context = context;
+            _db = context;
+            _configuration = configuration;
         }
 
-        // GET: api/Users
+
+        // GET: /Users
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
-            return await _context.Users.ToListAsync();
+            return await _db.Users.ToListAsync();
         }
 
-        // GET: api/Users/5
+        // GET: /Users/5
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(int id)
         {
-            var user = await _context.Users.FindAsync(id);
+            var user = await _db.Users.FindAsync(id);
 
             if (user == null)
             {
@@ -37,21 +42,38 @@ namespace PortaleBiblioteca.Server.Controllers
             return user;
         }
 
-        // PUT: api/Users/5
+        // PUT: /Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
+        public async Task<IActionResult> PutUser(int id, UserEditForm formUser)
         {
-            if (id != user.IdUser)
+            if (id != formUser.IdUser)
             {
                 return BadRequest();
             }
 
-            _context.Entry(user).State = EntityState.Modified;
+            User userToUpdate = await _db.Users.FindAsync(id);
+
+            userToUpdate.FirstName = formUser.FirstName;
+            userToUpdate.LastName = formUser.LastName;
+            userToUpdate.Email = formUser.Email;
+            userToUpdate.UserImage = formUser.UserImage;
+
+
+            _db.Entry(userToUpdate).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+
+                await _db.SaveChangesAsync();
+                var tokenString = TokenHandler.BuildToken(userToUpdate, _configuration);
+                
+                return Ok(new
+                {
+                    token = tokenString,
+                    user = userToUpdate
+                }
+                        );
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -65,13 +87,12 @@ namespace PortaleBiblioteca.Server.Controllers
                 }
             }
 
-            return NoContent();
         }
 
-        // POST: api/Users
+        // POST: /Users
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
 
-        
+
         [HttpPost("signup")]
         public async Task<ActionResult<User>> PostUser(SignUpFormModel userForm)
         {
@@ -87,8 +108,8 @@ namespace PortaleBiblioteca.Server.Controllers
 
             try
             {
-                _context.Users.Add(user);
-                await _context.SaveChangesAsync();
+                _db.Users.Add(user);
+                await _db.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
@@ -105,25 +126,25 @@ namespace PortaleBiblioteca.Server.Controllers
             return CreatedAtAction("GetUser", new { id = user.IdUser }, user);
         }
 
-        // DELETE: api/Users/5
+        // DELETE: /Users/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
-            var user = await _context.Users.FindAsync(id);
+            var user = await _db.Users.FindAsync(id);
             if (user == null)
             {
                 return NotFound();
             }
 
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
+            _db.Users.Remove(user);
+            await _db.SaveChangesAsync();
 
             return NoContent();
         }
 
         private bool UserExists(int id)
         {
-            return _context.Users.Any(e => e.IdUser == id);
+            return _db.Users.Any(e => e.IdUser == id);
         }
     }
 }

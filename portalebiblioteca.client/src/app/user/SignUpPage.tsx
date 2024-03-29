@@ -3,7 +3,7 @@ import { Button, Container, Form } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { SignUpModel } from "../../interfaces/profile.interface";
 import { useAppDispatch } from "../../functions/hooks";
-import { fetchCreateUser } from "../../api/users/userFetches&login";
+import { fetchCreateUser } from "../../api/users/userFetches";
 
 const SignUpPage = () => {
 	const dispatch = useAppDispatch();

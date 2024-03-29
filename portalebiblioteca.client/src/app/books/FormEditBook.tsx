@@ -8,7 +8,7 @@ import {
 } from "../../api/books/bookFetches";
 import { Button, Container, Form, Modal } from "react-bootstrap";
 import { BookToEdit } from "../../interfaces/book.interface";
-import BackButton from "../miscellaneousComponent/reusable/BackButton";
+import BackButton from "../_miscellaneousComponent/reusable/BackButton";
 
 const FormEditBook = () => {
 	const book = useAppSelector((state) => state.bookState.currentBook);

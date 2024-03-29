@@ -5,7 +5,8 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import { Link, NavLink } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../functions/hooks";
 import { logout } from "../../redux/slicers/userSlice";
-
+import logo from "../../assets/images/logo.png";
+import userTemplateImage from "../../assets/images/userTemplateImage.jpg";
 function MyNavbar() {
 	const dispatch = useAppDispatch();
 	const { permissionsToEdit, user } = useAppSelector(
@@ -19,8 +20,17 @@ function MyNavbar() {
 	return (
 		<Navbar expand="lg" className="bg-body-tertiary">
 			<Container>
-				<Navbar.Brand href="#home">
-					Biblioteca Quinto Vercellese
+				<Navbar.Brand>
+					<Link to="/" className="nav-link">
+						<img
+							src={logo}
+							width="30"
+							height="30"
+							className="d-inline-block align-top me-3"
+							alt="logo della biblioteca"
+						/>
+						Biblioteca Quinto Vercellese
+					</Link>
 				</Navbar.Brand>
 				<Navbar.Toggle aria-controls="basic-navbar-nav" />
 				<Navbar.Collapse
@@ -48,7 +58,27 @@ function MyNavbar() {
 					<Nav>
 						{user ? (
 							<NavDropdown
-								title={user.firstName + " " + user.lastName}
+								title={
+									<span>
+										<img
+											src={
+												user.userImage
+													? user.userImage
+													: userTemplateImage
+											}
+											style={{
+												borderRadius: "50%",
+												objectFit: "cover",
+												marginTop: "-3px",
+											}}
+											width="30"
+											height="30"
+											className="d-inline-block align-top me-1"
+											alt="immagine profilo utente"
+										/>
+										{user.firstName + " " + user.lastName}
+									</span>
+								}
 								id="basic-nav-dropdown">
 								<NavDropdown.Item as={NavLink} to="/catalogo">
 									Libri osservati
