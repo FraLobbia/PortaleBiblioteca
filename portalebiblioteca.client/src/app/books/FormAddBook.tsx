@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Container, Form } from "react-bootstrap";
 import { BookCreateForm } from "../../interfaces/book.interface";
 import { fetchBookCreate } from "../../api/books/bookFetches";
-import { useAppDispatch } from "../../functions/hooks";
+import { useAppDispatch, useAppSelector } from "../../functions/hooks";
 import BackButton from "../miscellaneousComponent/reusable/BackButton";
 import { useNavigate } from "react-router-dom";
 
@@ -15,6 +15,9 @@ const FormAddBook = () => {
 	const [dataPubblicazione, setDataPubblicazione] = useState<Date>();
 	const [isbn, setIsbn] = useState<string>("");
 	const [immagineCopertina, setImmagineCopertina] = useState<string>("");
+	const { permissionsToEdit } = useAppSelector(
+		(state) => state.profileState.loggedProfile
+	);
 	const navigate = useNavigate();
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -31,6 +34,12 @@ const FormAddBook = () => {
 		dispatch(fetchBookCreate(newBook));
 		navigate("/catalogo");
 	};
+
+	useEffect(() => {
+		if (!permissionsToEdit) {
+			navigate("/catalogo");
+		}
+	}, []);
 
 	return (
 		<Container>

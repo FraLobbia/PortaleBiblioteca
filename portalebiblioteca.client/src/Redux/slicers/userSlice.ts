@@ -1,28 +1,38 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { User, UserState } from "../../interfaces/profile.interface";
+import { UserState } from "../../interfaces/profile.interface";
 //=================================================================================
 
 const initialState: UserState = {
 	users: [],
-	currentUser: null,
-	loggedProfile: null,
+	loggedProfile: {
+		token: "",
+		permissionsToEdit: false,
+		user: null,
+	},
 };
 //=================================================================================
 const userSlice = createSlice({
 	name: "users",
 	initialState,
 	reducers: {
-		login(state, action: { payload: User }) {
-			state.currentUser = action.payload;
-		},
 		logout(state) {
-			state.currentUser = null;
+			state.loggedProfile = initialState.loggedProfile;
 		},
 		setLoggedProfile: (state, action) => {
+			if (action.payload.user) {
+				if (
+					action.payload.user.role === "admin" ||
+					action.payload.user.role === "librarian"
+				) {
+					action.payload.permissionsToEdit = true;
+				} else {
+					action.payload.permissionsToEdit = false;
+				}
+			}
 			state.loggedProfile = action.payload;
 		},
 	},
 });
 //=================================================================================
-export const { login, logout, setLoggedProfile } = userSlice.actions;
+export const { logout, setLoggedProfile } = userSlice.actions;
 export default userSlice.reducer;

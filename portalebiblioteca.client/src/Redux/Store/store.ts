@@ -5,12 +5,12 @@ import { persistReducer, persistStore } from "redux-persist";
 import userSlice from "../slicers/userSlice";
 import storage from "redux-persist/lib/storage";
 import expireReducer from "redux-persist-expire";
-import bookSlicer from "../slicers/bookSlicer";
+import bookSlicer from "../slicers/bookSlice";
 
 const persistConfig = {
 	key: "root",
 	storage,
-	whitelist: ["profile"],
+	whitelist: ["profileState"],
 
 	transforms: [
 		expireReducer("profile", {
@@ -25,7 +25,7 @@ const persistConfig = {
 // `combineSlices` automatically combines the reducers using
 // their `reducerPath`s, therefore we no longer need to call `combineReducers`.
 const rootReducer = combineSlices({
-	profile: userSlice,
+	profileState: userSlice,
 	bookState: bookSlicer,
 });
 //2) =================================================================================

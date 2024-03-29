@@ -2,10 +2,10 @@ import { Button, Container, Form } from "react-bootstrap";
 import { useState } from "react";
 import { useAppDispatch } from "../../functions/hooks";
 import { LoginModel } from "../../interfaces/profile.interface";
-import { fetchLogin } from "../../api/login/login";
-import { useNavigate } from "react-router-dom";
+import { fetchLogin } from "../../api/users/userFetches&login";
+import { Link, useNavigate } from "react-router-dom";
 
-const LoginForm = () => {
+const LoginPage = () => {
 	const navigate = useNavigate();
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
@@ -42,7 +42,7 @@ const LoginForm = () => {
 					<Form.Label>Password</Form.Label>
 					<Form.Control
 						type="password"
-						placeholder="Password"
+						placeholder="Inserisci la tua password"
 						value={password}
 						onChange={(e) => setPassword(e.currentTarget.value)}
 					/>
@@ -51,8 +51,11 @@ const LoginForm = () => {
 					Login
 				</Button>
 			</Form>
+			<div className="mt-4">
+				<Link to="/user/signup">Non sei registrato? Registrati</Link>
+			</div>
 		</Container>
 	);
 };
 
-export default LoginForm;
+export default LoginPage;

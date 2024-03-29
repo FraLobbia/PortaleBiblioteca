@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PortaleBiblioteca.Server.Data;
 
@@ -6,6 +7,7 @@ namespace PortaleBiblioteca.Server.Controllers
 {
     [Route("[controller]")]
     [ApiController]
+    [Authorize]
     public class BooksController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -17,12 +19,14 @@ namespace PortaleBiblioteca.Server.Controllers
 
         // GET: api/Books
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<Book>>> GetBooks()
         {
             return await _context.Books.ToListAsync();
         }
 
         // GET: api/Books/5
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<ActionResult<Book>> GetBook(int id)
         {
@@ -38,7 +42,9 @@ namespace PortaleBiblioteca.Server.Controllers
 
         // PUT: api/Books/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+
         [HttpPut("{id}")]
+        [Authorize(Roles = UserRole.FromLibrarianToUp)]
         public async Task<IActionResult> PutBook(int id, BookFormEdit formBook)
         {
             if (id != formBook.IdBook)
@@ -79,6 +85,7 @@ namespace PortaleBiblioteca.Server.Controllers
 
         // POST: api/Books
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize(Roles = UserRole.FromLibrarianToUp)]
         [HttpPost("add")]
         public async Task<ActionResult<Book>> PostBook(BookFormCreate formBook)
         {
@@ -103,6 +110,7 @@ namespace PortaleBiblioteca.Server.Controllers
         }
 
         // DELETE: api/Books/5
+        [Authorize(Roles = UserRole.FromLibrarianToUp)]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBook(int id)
         {

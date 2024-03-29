@@ -8,10 +8,14 @@ import { Link } from "react-router-dom";
 
 const ElencoLibri = () => {
 	const books: Book[] = useAppSelector((state) => state.bookState.books);
+	const { permissionsToEdit } = useAppSelector(
+		(state) => state.profileState.loggedProfile
+	);
 	const dispatch = useAppDispatch();
 	useEffect(() => {
 		dispatch(fetchBookList());
 	}, []);
+
 	return (
 		<Container>
 			<h1 className="text-center">Elenco Libri</h1>
@@ -21,7 +25,10 @@ const ElencoLibri = () => {
 						<Card>
 							<Card.Img
 								variant="top"
-								style={{ height: "200px", objectFit: "cover" }}
+								style={{
+									height: "200px",
+									objectFit: "cover",
+								}}
 								src={
 									book.coverImage
 										? book.coverImage
@@ -37,11 +44,13 @@ const ElencoLibri = () => {
 										to={"details/" + book.idBook}>
 										Dettagli libro
 									</Link>
-									<Link
-										className="btn btn-warning"
-										to={"edit/" + book.idBook}>
-										Modifica libro
-									</Link>
+									{permissionsToEdit && (
+										<Link
+											className="btn btn-warning"
+											to={"edit/" + book.idBook}>
+											Modifica libro
+										</Link>
+									)}
 								</div>
 							</Card.Body>
 						</Card>

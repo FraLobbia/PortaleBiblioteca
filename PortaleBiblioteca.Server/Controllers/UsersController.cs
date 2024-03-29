@@ -5,7 +5,7 @@ using PortaleBiblioteca.Server.Data.Models;
 using PortaleBiblioteca.Server.Data.ModelsForms;
 namespace PortaleBiblioteca.Server.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
     {
@@ -70,8 +70,10 @@ namespace PortaleBiblioteca.Server.Controllers
 
         // POST: api/Users
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<User>> PostUser(UserForm userForm)
+
+        
+        [HttpPost("signup")]
+        public async Task<ActionResult<User>> PostUser(SignUpFormModel userForm)
         {
             User user = new User
             {
@@ -79,12 +81,26 @@ namespace PortaleBiblioteca.Server.Controllers
                 LastName = userForm.LastName,
                 Email = userForm.Email,
                 Password = userForm.Password,
-                Role = userForm.Role,
-                UserImage = userForm.UserImage
+                Role = "user",
+                UserImage = "https://unsplash.it/640/425?random"
             };
 
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Users.Add(user);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                if (UserExists(user.IdUser))
+                {
+                    return Conflict();
+                }
+                else
+                {
+                    throw;
+                }
+            }
 
             return CreatedAtAction("GetUser", new { id = user.IdUser }, user);
         }

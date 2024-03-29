@@ -22,9 +22,9 @@ namespace PortaleBiblioteca.Server.Controllers
         }
 
         [HttpPost("token")]
-        public IActionResult CreateToken([FromBody] LoginModel login)
+        public IActionResult CreateToken([FromBody] LoginModel formlogin)
         {
-            var user = Authenticate(login);
+            var user = Authenticate(formlogin);
 
             if (user != null)
             {

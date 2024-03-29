@@ -9,6 +9,9 @@ import BackButton from "../miscellaneousComponent/reusable/BackButton";
 const DetailBook = () => {
 	const dispatch = useAppDispatch();
 	const book = useAppSelector((state) => state.bookState.currentBook);
+	const { permissionsToEdit } = useAppSelector(
+		(state) => state.profileState.loggedProfile
+	);
 	const { id } = useParams<{ id: string }>();
 	useEffect(() => {
 		if (id) dispatch(fetchBookById(id));
@@ -45,11 +48,13 @@ const DetailBook = () => {
 							<dd>{book.availableQuantity}</dd>
 							<dt>Quantità in prestito:</dt>
 							<dd>{book.loanQuantity}</dd>
-							<Link
-								to={"/catalogo/edit/" + book.idBook}
-								className="btn btn-warning">
-								Modifica dettagli
-							</Link>
+							{permissionsToEdit && (
+								<Link
+									to={"/catalogo/edit/" + book.idBook}
+									className="btn btn-warning">
+									Modifica dettagli
+								</Link>
+							)}
 						</div>
 					)}
 				</Col>
