@@ -3,14 +3,18 @@ import { url } from "../../functions/config";
 import {
 	LoginModel,
 	SignUpModel,
+	User,
 	UserToEdit,
+	loggedProfile,
 } from "../../interfaces/profile.interface";
 import { AppDispatch, RootState, store } from "../../redux/store/store";
 import { fetchWithAuth } from "../interceptor";
 import { Toast } from "../../functions/utility";
+import { NavigateFunction } from "react-router-dom";
 // fetch per ottenere il token di autenticazione
 export const fetchLogin =
-	(loginObj: LoginModel, navigate?: any) => async (dispatch: AppDispatch) => {
+	(loginObj: LoginModel, navigate?: NavigateFunction) =>
+	async (dispatch: AppDispatch) => {
 		try {
 			const response = await fetch(url + "Auth/token", {
 				method: "POST",
@@ -28,14 +32,14 @@ export const fetchLogin =
 					});
 				});
 			} else {
-				const loggedProfileData = await response.json();
+				const loggedProfileData: loggedProfile = await response.json();
 				console.info("Accesso effettuato", loggedProfileData.user);
 				dispatch(setLoggedProfile(loggedProfileData));
 				Toast.fire({
 					icon: "success",
 					title: "Accesso effettuato!",
 				});
-				navigate("/catalogo");
+				navigate();
 			}
 		} catch (error) {
 			// Puoi gestire gli errori qui, se necessario
@@ -62,7 +66,7 @@ export const fetchCreateUser =
 					});
 				});
 			} else {
-				const createdUserData = await response.json();
+				const createdUserData: User = await response.json();
 				console.info("Utente creato: ", createdUserData);
 				dispatch(
 					fetchLogin({ email: user.Email, password: user.Password })

@@ -9,11 +9,13 @@ export interface User {
 
 export interface UserState {
 	users: User[];
-	loggedProfile: {
-		token: string;
-		permissionsToEdit: boolean;
-		user: User | null;
-	};
+	loggedProfile: loggedProfile;
+}
+
+export interface loggedProfile {
+	token: string;
+	permissionsToEdit: boolean;
+	user: User | null;
 }
 
 export interface LoginModel {

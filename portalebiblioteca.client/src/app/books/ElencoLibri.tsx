@@ -4,7 +4,8 @@ import { Book, BookCreateForm } from "../../interfaces/book.interface";
 import { useAppDispatch, useAppSelector } from "../../functions/hooks";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import Card from "react-bootstrap/Card";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const ElencoLibri = () => {
 	const navigate = useNavigate();
@@ -34,7 +35,9 @@ const ElencoLibri = () => {
 	return (
 		<Container>
 			<h1 className="text-center">Elenco Libri</h1>
-			<Button onClick={aggiungilibroTEST}>Aggiungi un libro</Button>
+			<Button onClick={aggiungilibroTEST}>
+				Aggiungi un libro di DEBUG
+			</Button>
 			<Row className="gy-2 justify-content-center">
 				{books?.map((book: Book) => (
 					<Col md={10} key={"book-" + book.idBook}>

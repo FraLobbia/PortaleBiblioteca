@@ -8,6 +8,8 @@ import {
 import { setBooks, setCurrentBook } from "../../redux/slicers/bookSlice";
 import { AppDispatch } from "../../redux/store/store";
 import { fetchWithAuth } from "../interceptor";
+import { Toast } from "../../functions/utility";
+import { NavigateFunction } from "react-router-dom";
 
 export const fetchBookList = () => async (dispatch: AppDispatch) => {
 	try {
@@ -17,12 +19,17 @@ export const fetchBookList = () => async (dispatch: AppDispatch) => {
 			},
 		});
 
-		if (response.ok) {
-			const booksList = await response.json();
-			console.log("fetchBookList", booksList);
-			dispatch(setBooks(booksList));
+		if (!response.ok) {
+			response.json().then((err) => {
+				Toast.fire({
+					icon: "error",
+					title: `${err.message}`,
+				});
+			});
 		} else {
-			throw new Error("Errore nel recupero dei risultati");
+			const booksList: Book[] = await response.json();
+			console.info("Lista dei libri", booksList);
+			dispatch(setBooks(booksList));
 		}
 	} catch (error) {
 		// Handle errors here, if necessary
@@ -79,7 +86,7 @@ export const fetchBookCreate =
 	};
 
 export const fetchBookEdit =
-	(editedBook: BookToEdit, navigate: any) =>
+	(editedBook: BookToEdit, navigate: NavigateFunction) =>
 	async (dispatch: AppDispatch) => {
 		try {
 			const response = await fetchWithAuth(
@@ -117,7 +124,8 @@ export const fetchBookEdit =
 	};
 
 export const fetchBookDelete =
-	(id: string, navigate: any) => async (dispatch: AppDispatch) => {
+	(id: string, navigate: NavigateFunction) =>
+	async (dispatch: AppDispatch) => {
 		try {
 			const response = await fetchWithAuth(url + "Books/" + id, {
 				method: "DELETE",

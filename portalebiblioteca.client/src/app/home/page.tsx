@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const Home = () => {
 	return (
 		<div>
@@ -9,6 +11,11 @@ const Home = () => {
 				alt="Biblioteca"
 				className="img-fluid mx-auto d-block"
 			/>
+			<Link
+				className="mx-auto mt-3 btn btn-primary d-block"
+				to="/catalogo">
+				Vai al catalogo
+			</Link>
 		</div>
 	);
 };

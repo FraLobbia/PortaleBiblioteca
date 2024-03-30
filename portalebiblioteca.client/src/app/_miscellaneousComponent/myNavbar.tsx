@@ -18,7 +18,7 @@ function MyNavbar() {
 	};
 
 	return (
-		<Navbar expand="lg" className="bg-body-tertiary">
+		<Navbar expand="md" className="bg-body-tertiary">
 			<Container>
 				<Navbar.Brand>
 					<Link to="/" className="nav-link">
@@ -34,7 +34,7 @@ function MyNavbar() {
 				</Navbar.Brand>
 				<Navbar.Toggle aria-controls="basic-navbar-nav" />
 				<Navbar.Collapse
-					className=" justify-content-lg-between"
+					className=" justify-content-md-between"
 					id="basic-navbar-nav">
 					<Nav>
 						<NavLink className={"nav-link"} to="/">
