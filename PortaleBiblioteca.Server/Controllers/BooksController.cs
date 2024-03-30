@@ -17,7 +17,7 @@ namespace PortaleBiblioteca.Server.Controllers
             _context = context;
         }
 
-        // GET: api/Books
+        // GET: /Books
         [HttpGet]
         [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<Book>>> GetBooks()
@@ -25,7 +25,7 @@ namespace PortaleBiblioteca.Server.Controllers
             return await _context.Books.ToListAsync();
         }
 
-        // GET: api/Books/5
+        // GET: /Books/5
         [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<ActionResult<Book>> GetBook(int id)
@@ -40,9 +40,8 @@ namespace PortaleBiblioteca.Server.Controllers
             return book;
         }
 
-        // PUT: api/Books/5
+        // PUT: /Books/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-
         [HttpPut("{id}")]
         [Authorize(Roles = UserRole.FromLibrarianToUp)]
         public async Task<IActionResult> PutBook(int id, BookFormEdit formBook)
@@ -67,6 +66,8 @@ namespace PortaleBiblioteca.Server.Controllers
                 _context.Entry(book).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
 
+                return Ok(await _context.Books.ToListAsync());
+
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -79,11 +80,9 @@ namespace PortaleBiblioteca.Server.Controllers
                     throw new Exception("Error updating the book");
                 }
             }
-
-            return NoContent();
         }
 
-        // POST: api/Books
+        // POST: /Books
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [Authorize(Roles = UserRole.FromLibrarianToUp)]
         [HttpPost("add")]
@@ -106,10 +105,12 @@ namespace PortaleBiblioteca.Server.Controllers
             _context.Books.Add(book);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetBook", new { id = book.IdBook }, book);
+            // return the updated booklist with code 201 (created)
+            return StatusCode(201, await _context.Books.ToListAsync());
+
         }
 
-        // DELETE: api/Books/5
+        // DELETE: /Books/5
         [Authorize(Roles = UserRole.FromLibrarianToUp)]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBook(int id)
@@ -123,7 +124,8 @@ namespace PortaleBiblioteca.Server.Controllers
             _context.Books.Remove(book);
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            // ritorna la lista dei libri aggiornata
+            return Ok(await _context.Books.ToListAsync());
         }
 
         private bool BookExists(int id)

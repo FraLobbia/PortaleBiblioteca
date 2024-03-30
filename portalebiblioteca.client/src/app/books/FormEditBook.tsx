@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../functions/hooks";
 import { useEffect, useState } from "react";
 import {
@@ -6,9 +6,10 @@ import {
 	fetchBookDelete,
 	fetchBookEdit,
 } from "../../api/books/bookFetches";
-import { Button, Container, Form, Modal } from "react-bootstrap";
+import { Button, Container, Form } from "react-bootstrap";
 import { BookToEdit } from "../../interfaces/book.interface";
 import BackButton from "../_miscellaneousComponent/reusable/BackButton";
+import Swal from "sweetalert2";
 
 const FormEditBook = () => {
 	const book = useAppSelector((state) => state.bookState.currentBook);
@@ -22,7 +23,7 @@ const FormEditBook = () => {
 	const [dataPubblicazione, setDataPubblicazione] = useState<Date>();
 	const [isbn, setIsbn] = useState<string>("");
 	const [immagineCopertina, setImmagineCopertina] = useState<string>("");
-	const [showModal, setShowModal] = useState<boolean>(false);
+	const navigate = useNavigate();
 
 	// Function to handle form submission
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -40,12 +41,34 @@ const FormEditBook = () => {
 			coverImage: immagineCopertina,
 		};
 		dispatch(fetchBookEdit(editedBook));
+		navigate("/catalogo");
 	};
 
 	// function to handle delete button click
-	const handleDelete = (id: string) => {
-		setShowModal(false);
-		dispatch(fetchBookDelete(id));
+	// const handleDeleteOLD = (id: string) => {
+	// 	setShowModal(false);
+	// 	dispatch(fetchBookDelete(id), navigate);
+	// 	navigate("/catalogo");
+	// };
+
+	const handleDelete = (id: string | undefined) => {
+		Swal.fire({
+			title: "Sei sicuro di voler cancellare questo elemento?",
+			text: "Non potrai tornare indietro!",
+			icon: "warning",
+			showCancelButton: true,
+			cancelButtonText: "No, annulla!",
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "Sì, cancellalo!",
+			showLoaderOnConfirm: true,
+			preConfirm: () => {},
+			allowOutsideClick: () => !Swal.isLoading(),
+		}).then((result) => {
+			if (result.isConfirmed) {
+				dispatch(fetchBookDelete(id || "", navigate));
+			}
+		});
 	};
 
 	// Fetch book by id when component mounts
@@ -71,7 +94,7 @@ const FormEditBook = () => {
 			<BackButton path="/catalogo" />
 			<div className="d-flex justify-content-between">
 				<h1>Modifica libro</h1>
-				<Button variant="danger" onClick={() => setShowModal(true)}>
+				<Button variant="danger" onClick={() => handleDelete(id)}>
 					Vuoi invece eliminarlo?
 				</Button>
 			</div>
@@ -180,7 +203,7 @@ const FormEditBook = () => {
 						</Button>
 					</Form>
 
-					<Modal show={showModal} onHide={() => setShowModal(false)}>
+					{/* <Modal show={showModal} onHide={() => setShowModal(false)}>
 						<Modal.Header closeButton>
 							<Modal.Title>Elimina Libro</Modal.Title>
 						</Modal.Header>
@@ -196,12 +219,12 @@ const FormEditBook = () => {
 							<Button
 								variant="danger"
 								onClick={() =>
-									handleDelete(book.idBook.toString())
+									handleDeleteOLD(book.idBook.toString())
 								}>
 								Elimina
 							</Button>
 						</Modal.Footer>
-					</Modal>
+					</Modal> */}
 				</>
 			)}
 		</Container>
