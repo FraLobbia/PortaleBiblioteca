@@ -7,10 +7,10 @@ import {
 } from "../../interfaces/profile.interface";
 import { AppDispatch, RootState, store } from "../../redux/store/store";
 import { fetchWithAuth } from "../interceptor";
-
+import { Toast } from "../../functions/utility";
 // fetch per ottenere il token di autenticazione
 export const fetchLogin =
-	(loginObj: LoginModel) => async (dispatch: AppDispatch) => {
+	(loginObj: LoginModel, navigate?: any) => async (dispatch: AppDispatch) => {
 		try {
 			const response = await fetch(url + "Auth/token", {
 				method: "POST",
@@ -20,16 +20,26 @@ export const fetchLogin =
 				body: JSON.stringify(loginObj),
 			});
 
-			if (response.ok) {
-				const dataProfileEtoken = await response.json();
-				console.log(dataProfileEtoken);
-				dispatch(setLoggedProfile(dataProfileEtoken));
+			if (!response.ok) {
+				response.json().then((err) => {
+					Toast.fire({
+						icon: "error",
+						title: `${err.message}`,
+					});
+				});
 			} else {
-				throw new Error("Errore nel recupero dei risultati");
+				const loggedProfileData = await response.json();
+				console.info("Accesso effettuato", loggedProfileData.user);
+				dispatch(setLoggedProfile(loggedProfileData));
+				Toast.fire({
+					icon: "success",
+					title: "Accesso effettuato!",
+				});
+				navigate("/catalogo");
 			}
 		} catch (error) {
 			// Puoi gestire gli errori qui, se necessario
-			console.error("Errore nel fetch:");
+			console.error("Errore nel fetch:", error);
 		}
 	};
 
@@ -44,15 +54,19 @@ export const fetchCreateUser =
 				body: JSON.stringify(user),
 			});
 
-			if (response.ok) {
-				const dataProfile = await response.json();
-				console.log(dataProfile);
-
+			if (!response.ok) {
+				response.json().then((err) => {
+					Toast.fire({
+						icon: "error",
+						title: `${err.message}`,
+					});
+				});
+			} else {
+				const createdUserData = await response.json();
+				console.info("Utente creato: ", createdUserData);
 				dispatch(
 					fetchLogin({ email: user.Email, password: user.Password })
 				);
-			} else {
-				throw new Error("Errore nel recupero dei risultati");
 			}
 		} catch (error) {
 			// Puoi gestire gli errori qui, se necessario
@@ -64,14 +78,17 @@ export const fetchEditUser =
 	(user: UserToEdit, id?: string) => async (dispatch: AppDispatch) => {
 		try {
 			const state = store.getState() as RootState;
-			const loggedUser = state.profileState.loggedProfile.user;
+			const loggedUserData = state.profileState.loggedProfile.user;
 
 			let endpoint;
 
-			if (loggedUser?.role === "admin") {
+			if (
+				loggedUserData?.role === "admin" &&
+				id === user.idUser.toString()
+			) {
 				endpoint = "Users/editWithRole/" + id;
 			} else {
-				endpoint = "Users/" + loggedUser?.idUser;
+				endpoint = "Users/" + loggedUserData?.idUser;
 			}
 
 			const response = await fetchWithAuth(url + endpoint, {
@@ -82,12 +99,21 @@ export const fetchEditUser =
 				body: JSON.stringify(user),
 			});
 
-			if (response.ok) {
-				const dataProfile = await response.json();
-				console.log(dataProfile);
-				dispatch(setLoggedProfile(dataProfile));
+			if (!response.ok) {
+				response.json().then((err) => {
+					Toast.fire({
+						icon: "error",
+						title: `${err.message}`,
+					});
+				});
 			} else {
-				throw new Error("Errore nel recupero dei risultati");
+				const editedProfileData = await response.json();
+				console.info("Utente modificato: ", editedProfileData.user);
+				dispatch(setLoggedProfile(editedProfileData));
+				Toast.fire({
+					icon: "success",
+					title: "Profilo modificato!",
+				});
 			}
 		} catch (error) {
 			// Puoi gestire gli errori qui, se necessario

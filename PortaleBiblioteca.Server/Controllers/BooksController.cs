@@ -53,6 +53,12 @@ namespace PortaleBiblioteca.Server.Controllers
 
             // get the book from the database
             Book book = _context.Books.Find(id);
+
+            if (book == null)
+            {
+                return NotFound(new { message = "Sembra che il libro non sia stato trovato!" });
+            }
+
             try
             {
                 book.Author = formBook.Author;
@@ -118,7 +124,7 @@ namespace PortaleBiblioteca.Server.Controllers
             var book = await _context.Books.FindAsync(id);
             if (book == null)
             {
-                return NotFound();
+                return NotFound(new { message = "Sembra che il libro non sia stato trovato oppure sia stato già cancellato!" });
             }
 
             _context.Books.Remove(book);

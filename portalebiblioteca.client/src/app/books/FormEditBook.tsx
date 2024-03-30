@@ -40,16 +40,9 @@ const FormEditBook = () => {
 			isbn: isbn,
 			coverImage: immagineCopertina,
 		};
-		dispatch(fetchBookEdit(editedBook));
-		navigate("/catalogo");
+		dispatch(fetchBookEdit(editedBook, navigate));
+		//navigate("/catalogo");
 	};
-
-	// function to handle delete button click
-	// const handleDeleteOLD = (id: string) => {
-	// 	setShowModal(false);
-	// 	dispatch(fetchBookDelete(id), navigate);
-	// 	navigate("/catalogo");
-	// };
 
 	const handleDelete = (id: string | undefined) => {
 		Swal.fire({
@@ -199,32 +192,9 @@ const FormEditBook = () => {
 						</Form.Group>
 
 						<Button variant="success" type="submit">
-							Submit
+							Salva modifica
 						</Button>
 					</Form>
-
-					{/* <Modal show={showModal} onHide={() => setShowModal(false)}>
-						<Modal.Header closeButton>
-							<Modal.Title>Elimina Libro</Modal.Title>
-						</Modal.Header>
-						<Modal.Body>
-							<p>Sei sicuro di eliminare questo libro?</p>
-						</Modal.Body>
-						<Modal.Footer>
-							<Button
-								variant="secondary"
-								onClick={() => setShowModal(false)}>
-								Annulla
-							</Button>
-							<Button
-								variant="danger"
-								onClick={() =>
-									handleDeleteOLD(book.idBook.toString())
-								}>
-								Elimina
-							</Button>
-						</Modal.Footer>
-					</Modal> */}
 				</>
 			)}
 		</Container>

@@ -1,3 +1,5 @@
+import Swal from "sweetalert2";
+
 export const formatData = (data: string) => {
 	const dateParts = data.split("-");
 	const year = parseInt(dateParts[0]);
@@ -15,3 +17,15 @@ export const formatData = (data: string) => {
 
 	return date.toLocaleDateString("it-IT", options);
 };
+
+export const Toast = Swal.mixin({
+	toast: true,
+	position: "top-end",
+	showConfirmButton: false,
+	timer: 2000,
+	timerProgressBar: true,
+	didOpen: (toast) => {
+		toast.onmouseenter = Swal.stopTimer;
+		toast.onmouseleave = Swal.resumeTimer;
+	},
+});

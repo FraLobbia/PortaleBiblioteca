@@ -79,7 +79,8 @@ export const fetchBookCreate =
 	};
 
 export const fetchBookEdit =
-	(editedBook: BookToEdit) => async (dispatch: AppDispatch) => {
+	(editedBook: BookToEdit, navigate: any) =>
+	async (dispatch: AppDispatch) => {
 		try {
 			const response = await fetchWithAuth(
 				url + "Books/" + editedBook.idBook,
@@ -91,17 +92,27 @@ export const fetchBookEdit =
 					body: JSON.stringify(editedBook),
 				}
 			);
-
-			if (response.ok) {
-				const booksList = await response.json();
+			if (!response.ok) {
+				response.json().then((err) => {
+					Swal.fire({
+						title: "Si è verificato un problema!",
+						text: `Errore ${response.status}: ${err.message}`,
+						icon: "error",
+					});
+				});
+			} else {
+				const booksList: Book[] = await response.json();
 				console.log("Lista aggiornata: ", booksList);
 				dispatch(setBooks(booksList));
-			} else {
-				throw new Error("Errore nel recupero dei risultati");
+				Swal.fire({
+					title: "Modificato!",
+					text: "Il file è stato modificato con successo.",
+					icon: "success",
+					timer: 1500,
+				});
 			}
-		} catch (error) {
-			// Handle errors here, if necessary
-			console.error("Errore nel fetch:", error);
+		} finally {
+			navigate("/catalogo");
 		}
 	};
 
@@ -114,30 +125,25 @@ export const fetchBookDelete =
 					"Content-Type": "application/json",
 				},
 			});
-			const booksList: Book[] = await response.json();
-			console.log("Cancellato libro: ", booksList);
-			dispatch(setBooks(booksList));
-			if (response.ok) {
-				Swal.fire({
-					title: "Cancellato!",
-					text: "Il file è stato cancellato.",
-					icon: "success",
-				}).then(() => {
-					navigate("/catalogo");
+			if (!response.ok) {
+				response.json().then((err) => {
+					Swal.fire({
+						title: "Si è verificato un problema!",
+						text: `Errore ${response.status}: ${err.message}`,
+						icon: "error",
+					});
 				});
 			} else {
-				throw new Error(response.status.toString());
+				const booksList: Book[] = await response.json();
+				console.log("Lista aggiornata: ", booksList);
+				dispatch(setBooks(booksList));
+				Swal.fire({
+					title: "Eliminato!",
+					text: "Il file è stato eliminato con successo.",
+					icon: "success",
+				});
 			}
-		} catch (error) {
-			dispatch(fetchBookList());
-			// Handle errors here, if necessary
-			console.error("Errore nella fetch:", error);
-			Swal.fire({
-				title: "Si è verificato un problema!",
-				text: `${error}`,
-				icon: "error",
-			}).then(() => {
-				navigate("/catalogo");
-			});
+		} finally {
+			navigate("/catalogo");
 		}
 	};

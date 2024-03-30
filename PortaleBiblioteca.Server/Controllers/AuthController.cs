@@ -43,7 +43,7 @@ namespace PortaleBiblioteca.Server.Controllers
                 );
             }
 
-            return Unauthorized();
+            return Unauthorized(new { message = "Email o password non validi" });
         }
 
         // private string BuildToken(User user)
