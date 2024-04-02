@@ -12,7 +12,6 @@ namespace PortaleBiblioteca
         public string Description { get; set; }
         public string Genre { get; set; }
         public int AvailableQuantity { get; set; }
-        public int LoanQuantity { get; set; }
         public DateTime PublicationDate { get; set; }
         public string ISBN { get; set; }
         public string CoverImage { get; set; }
