@@ -102,7 +102,6 @@ namespace PortaleBiblioteca.Server.Controllers
                 Description = formBook.Description,
                 Genre = formBook.Genre,
                 AvailableQuantity = 0,
-                LoanQuantity = 0,
                 PublicationDate = formBook.PublicationDate,
                 ISBN = formBook.ISBN,
                 CoverImage = formBook.CoverImage
@@ -112,7 +111,7 @@ namespace PortaleBiblioteca.Server.Controllers
             await _context.SaveChangesAsync();
 
             // return the updated booklist with code 201 (created)
-            return StatusCode(201, await _context.Books.ToListAsync());
+            return CreatedAtAction("GetBooks", new { id = book.IdBook }, await _context.Books.ToListAsync());
 
         }
 

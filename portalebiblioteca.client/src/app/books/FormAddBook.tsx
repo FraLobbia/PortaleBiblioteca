@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Button, Container, Form } from "react-bootstrap";
 import { BookCreateForm } from "../../interfaces/book.interface";
-import { fetchBookCreate } from "../../api/books/bookFetches";
+import { fetchBookCreate } from "../../api/books/bookCRUDFetches";
 import { useAppDispatch, useAppSelector } from "../../functions/hooks";
-import BackButton from "../_miscellaneousComponent/reusable/BackButton";
+import BackButton from "../_miscellaneous/reusable/BackButton";
 import { useNavigate } from "react-router-dom";
 
 const FormAddBook = () => {

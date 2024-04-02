@@ -14,5 +14,9 @@ namespace PortaleBiblioteca.Server.Data.Models
         [ForeignKey("Book")]
         public int IdBook { get; set; }
         public int Quantity { get; set; }
+
+        public Shelf Shelf { get; set; }
+        public Book Book { get; set; }
+
     }
 }

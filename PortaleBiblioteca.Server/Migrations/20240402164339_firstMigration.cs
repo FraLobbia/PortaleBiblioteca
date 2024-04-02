@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -27,21 +28,20 @@ namespace PortaleBiblioteca.Server.Migrations
                 name: "Books",
                 columns: table => new
                 {
-                    IdBooks = table.Column<int>(type: "int", nullable: false)
+                    IdBook = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Author = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Genre = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Author = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Genre = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AvailableQuantity = table.Column<int>(type: "int", nullable: false),
-                    LoanQuantity = table.Column<int>(type: "int", nullable: false),
                     PublicationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ISBN = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CoverImage = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    ISBN = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CoverImage = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Books", x => x.IdBooks);
+                    table.PrimaryKey("PK_Books", x => x.IdBook);
                 });
 
             migrationBuilder.CreateTable(
@@ -53,7 +53,7 @@ namespace PortaleBiblioteca.Server.Migrations
                     EventName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     EventDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EventDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EventImage = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EventImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     EventType = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     EventPrice = table.Column<double>(type: "float", nullable: false)
                 },
@@ -68,12 +68,12 @@ namespace PortaleBiblioteca.Server.Migrations
                 {
                     IdUser = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Role = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserImage = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Role = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserImage = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -88,17 +88,17 @@ namespace PortaleBiblioteca.Server.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ShelfHeight = table.Column<int>(type: "int", nullable: false),
                     ShelfBay = table.Column<int>(type: "int", nullable: false),
-                    IdAisle = table.Column<int>(type: "int", nullable: false),
-                    AisleIdAisle = table.Column<int>(type: "int", nullable: true)
+                    IdAisle = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Shelfs", x => x.IdShelf);
                     table.ForeignKey(
-                        name: "FK_Shelfs_Aisles_AisleIdAisle",
-                        column: x => x.AisleIdAisle,
+                        name: "FK_Shelfs_Aisles_IdAisle",
+                        column: x => x.IdAisle,
                         principalTable: "Aisles",
-                        principalColumn: "IdAisle");
+                        principalColumn: "IdAisle",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -108,23 +108,23 @@ namespace PortaleBiblioteca.Server.Migrations
                     IdAttendance = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     IdEvent = table.Column<int>(type: "int", nullable: false),
-                    IdUser = table.Column<int>(type: "int", nullable: false),
-                    EventIdEvent = table.Column<int>(type: "int", nullable: true),
-                    UserIdUser = table.Column<int>(type: "int", nullable: true)
+                    IdUser = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Attendances", x => x.IdAttendance);
                     table.ForeignKey(
-                        name: "FK_Attendances_Events_EventIdEvent",
-                        column: x => x.EventIdEvent,
+                        name: "FK_Attendances_Events_IdEvent",
+                        column: x => x.IdEvent,
                         principalTable: "Events",
-                        principalColumn: "IdEvent");
+                        principalColumn: "IdEvent",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Attendances_Users_UserIdUser",
-                        column: x => x.UserIdUser,
+                        name: "FK_Attendances_Users_IdUser",
+                        column: x => x.IdUser,
                         principalTable: "Users",
-                        principalColumn: "IdUser");
+                        principalColumn: "IdUser",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -136,22 +136,24 @@ namespace PortaleBiblioteca.Server.Migrations
                     LoanDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IdUser = table.Column<int>(type: "int", nullable: false),
                     IdBook = table.Column<int>(type: "int", nullable: false),
-                    BookIdBooks = table.Column<int>(type: "int", nullable: true),
-                    UserIdUser = table.Column<int>(type: "int", nullable: true)
+                    Returned = table.Column<bool>(type: "bit", nullable: false),
+                    ReturnDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Loans", x => x.IdLoan);
                     table.ForeignKey(
-                        name: "FK_Loans_Books_BookIdBooks",
-                        column: x => x.BookIdBooks,
+                        name: "FK_Loans_Books_IdBook",
+                        column: x => x.IdBook,
                         principalTable: "Books",
-                        principalColumn: "IdBooks");
+                        principalColumn: "IdBook",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Loans_Users_UserIdUser",
-                        column: x => x.UserIdUser,
+                        name: "FK_Loans_Users_IdUser",
+                        column: x => x.IdUser,
                         principalTable: "Users",
-                        principalColumn: "IdUser");
+                        principalColumn: "IdUser",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -163,23 +165,23 @@ namespace PortaleBiblioteca.Server.Migrations
                     IdBook = table.Column<int>(type: "int", nullable: false),
                     IdUser = table.Column<int>(type: "int", nullable: false),
                     ReviewTitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ReviewBody = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    BookIdBooks = table.Column<int>(type: "int", nullable: true),
-                    UserIdUser = table.Column<int>(type: "int", nullable: true)
+                    ReviewBody = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Reviews", x => x.IdReview);
                     table.ForeignKey(
-                        name: "FK_Reviews_Books_BookIdBooks",
-                        column: x => x.BookIdBooks,
+                        name: "FK_Reviews_Books_IdBook",
+                        column: x => x.IdBook,
                         principalTable: "Books",
-                        principalColumn: "IdBooks");
+                        principalColumn: "IdBook",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Reviews_Users_UserIdUser",
-                        column: x => x.UserIdUser,
+                        name: "FK_Reviews_Users_IdUser",
+                        column: x => x.IdUser,
                         principalTable: "Users",
-                        principalColumn: "IdUser");
+                        principalColumn: "IdUser",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -190,69 +192,69 @@ namespace PortaleBiblioteca.Server.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     IdShelf = table.Column<int>(type: "int", nullable: false),
                     IdBook = table.Column<int>(type: "int", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false),
-                    BookIdBooks = table.Column<int>(type: "int", nullable: true),
-                    ShelfIdShelf = table.Column<int>(type: "int", nullable: true)
+                    Quantity = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Locations", x => x.IdLocation);
                     table.ForeignKey(
-                        name: "FK_Locations_Books_BookIdBooks",
-                        column: x => x.BookIdBooks,
+                        name: "FK_Locations_Books_IdBook",
+                        column: x => x.IdBook,
                         principalTable: "Books",
-                        principalColumn: "IdBooks");
+                        principalColumn: "IdBook",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Locations_Shelfs_ShelfIdShelf",
-                        column: x => x.ShelfIdShelf,
+                        name: "FK_Locations_Shelfs_IdShelf",
+                        column: x => x.IdShelf,
                         principalTable: "Shelfs",
-                        principalColumn: "IdShelf");
+                        principalColumn: "IdShelf",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Attendances_EventIdEvent",
+                name: "IX_Attendances_IdEvent",
                 table: "Attendances",
-                column: "EventIdEvent");
+                column: "IdEvent");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Attendances_UserIdUser",
+                name: "IX_Attendances_IdUser",
                 table: "Attendances",
-                column: "UserIdUser");
+                column: "IdUser");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Loans_BookIdBooks",
+                name: "IX_Loans_IdBook",
                 table: "Loans",
-                column: "BookIdBooks");
+                column: "IdBook");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Loans_UserIdUser",
+                name: "IX_Loans_IdUser",
                 table: "Loans",
-                column: "UserIdUser");
+                column: "IdUser");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Locations_BookIdBooks",
+                name: "IX_Locations_IdBook",
                 table: "Locations",
-                column: "BookIdBooks");
+                column: "IdBook");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Locations_ShelfIdShelf",
+                name: "IX_Locations_IdShelf",
                 table: "Locations",
-                column: "ShelfIdShelf");
+                column: "IdShelf");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reviews_BookIdBooks",
+                name: "IX_Reviews_IdBook",
                 table: "Reviews",
-                column: "BookIdBooks");
+                column: "IdBook");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reviews_UserIdUser",
+                name: "IX_Reviews_IdUser",
                 table: "Reviews",
-                column: "UserIdUser");
+                column: "IdUser");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Shelfs_AisleIdAisle",
+                name: "IX_Shelfs_IdAisle",
                 table: "Shelfs",
-                column: "AisleIdAisle");
+                column: "IdAisle");
         }
 
         /// <inheritdoc />

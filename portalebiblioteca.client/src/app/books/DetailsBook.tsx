@@ -1,10 +1,10 @@
 import { useEffect } from "react";
-import { fetchBookById } from "../../api/books/bookFetches";
+import { fetchBookById } from "../../api/books/bookCRUDFetches";
 import { useAppDispatch, useAppSelector } from "../../functions/hooks";
 import { Link, useParams } from "react-router-dom";
 import { Col, Container, Row } from "react-bootstrap";
 import { formatData } from "../../functions/utility";
-import BackButton from "../_miscellaneousComponent/reusable/BackButton";
+import BackButton from "../_miscellaneous/reusable/BackButton";
 
 const DetailBook = () => {
 	const dispatch = useAppDispatch();

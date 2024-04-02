@@ -3,7 +3,7 @@ import { UserState } from "../../interfaces/profile.interface";
 //=================================================================================
 
 const initialState: UserState = {
-	users: [],
+	//users: [],
 	loggedProfile: {
 		token: "",
 		permissionsToEdit: false,
@@ -12,7 +12,7 @@ const initialState: UserState = {
 };
 //=================================================================================
 const userSlice = createSlice({
-	name: "users",
+	name: "user",
 	initialState,
 	reducers: {
 		logout(state) {

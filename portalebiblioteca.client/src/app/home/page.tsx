@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 const Home = () => {
 	return (
 		<div>
-			<h1 className="text-center">
+			<h1 className="text-center my-3">
 				Benvenuti alla biblioteca civica di Quinto Vercellese
 			</h1>
 			<img

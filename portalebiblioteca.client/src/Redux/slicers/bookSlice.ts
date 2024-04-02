@@ -1,10 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Book, BookState } from "../../interfaces/book.interface";
+import { Loan } from "../../interfaces/loans.interface";
 //=================================================================================
 
 const initialState: BookState = {
 	books: [],
 	currentBook: null,
+	loansCurrentUser: [],
 };
 //=================================================================================
 const bookSlice = createSlice({
@@ -17,8 +19,15 @@ const bookSlice = createSlice({
 		setCurrentBook(state, action: { payload: Book }) {
 			state.currentBook = action.payload;
 		},
+		setLoansByUserID(state, action: { payload: Loan[] }) {
+			state.loansCurrentUser = action.payload;
+		},
+		DEBUG_emptyBooks(state) {
+			state.books = [];
+		},
 	},
 });
 //=================================================================================
-export const { setBooks, setCurrentBook } = bookSlice.actions;
+export const { setBooks, setCurrentBook, setLoansByUserID, DEBUG_emptyBooks } =
+	bookSlice.actions;
 export default bookSlice.reducer;

@@ -8,7 +8,7 @@ export interface User {
 }
 
 export interface UserState {
-	users: User[];
+	//users: User[];
 	loggedProfile: loggedProfile;
 }
 

@@ -5,10 +5,10 @@ import {
 	fetchBookById,
 	fetchBookDelete,
 	fetchBookEdit,
-} from "../../api/books/bookFetches";
+} from "../../api/books/bookCRUDFetches";
 import { Button, Container, Form } from "react-bootstrap";
 import { BookToEdit } from "../../interfaces/book.interface";
-import BackButton from "../_miscellaneousComponent/reusable/BackButton";
+import BackButton from "../_miscellaneous/reusable/BackButton";
 import Swal from "sweetalert2";
 
 const FormEditBook = () => {
@@ -35,7 +35,7 @@ const FormEditBook = () => {
 			title: titolo,
 			description: descrizione,
 			genre: genere,
-			availableQuantity: 0,
+			availableQuantity: quantitaDisponibile,
 			publicationDate: dataPubblicazione,
 			isbn: isbn,
 			coverImage: immagineCopertina,

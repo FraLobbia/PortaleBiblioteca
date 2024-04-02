@@ -1,14 +1,17 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.scss";
 import Home from "./app/home/page";
-import MyNavbar from "./app/_miscellaneousComponent/myNavbar";
-import ElencoLibri from "./app/books/ElencoLibri";
+import MyNavbar from "./app/_miscellaneous/myNavbar";
+import IndexBooks from "./app/books/IndexBooks";
 import FormAddBook from "./app/books/FormAddBook";
 import DetailBook from "./app/books/DetailsBook";
 import FormEditBook from "./app/books/FormEditBook";
 import SignUpPage from "./app/user/SignUpPage";
 import LoginPage from "./app/user/LoginPage";
 import EditProfile from "./app/user/EditProfile";
+import ElencoPrestiti from "./app/prestiti/IndexLoans";
+import NotFound_404 from "./app/_miscellaneous/NotFound_404";
+import FormAddLoan from "./app/prestiti/FormAddLoan";
 
 function App() {
 	return (
@@ -18,7 +21,7 @@ function App() {
 				<Route path="/" element={<Home />} />
 
 				<Route path="/catalogo">
-					<Route index element={<ElencoLibri />} />
+					<Route index element={<IndexBooks />} />
 					<Route path="add" element={<FormAddBook />} />
 					<Route path="details/:id" element={<DetailBook />} />
 					<Route path="edit/:id" element={<FormEditBook />} />
@@ -29,6 +32,13 @@ function App() {
 					<Route path="signup" element={<SignUpPage />} />
 					<Route path="edit" element={<EditProfile />} />
 				</Route>
+
+				<Route path="/prestiti">
+					<Route index element={<ElencoPrestiti />} />
+					<Route path="add/:id" element={<FormAddLoan />} />
+				</Route>
+
+				<Route path="*" element={<NotFound_404 />} />
 			</Routes>
 		</BrowserRouter>
 	);

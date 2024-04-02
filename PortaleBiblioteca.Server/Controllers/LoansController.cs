@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PortaleBiblioteca.Server.Data;
 using PortaleBiblioteca.Server.Data.Models;
@@ -42,6 +37,44 @@ namespace PortaleBiblioteca.Server.Controllers
             return loan;
         }
 
+        // GET: api/Loans/user/5
+        [HttpGet("user/{id}")]
+        public async Task<ActionResult<IEnumerable<Loan>>> GetLoansByUser(int id)
+        {
+            // check if the user exists
+            var user = await _context.Users.FindAsync(id);
+            if (user == null)
+            {
+                return NotFound(new { message = "Id utente non presente" });
+            }
+
+
+            return Ok(await _context.Loans
+                    .Where(loan => loan.IdUser == id)
+                    .Select(loan => new
+                    {
+                        loan.IdLoan,
+                        loan.LoanDate,
+                        loan.Returned,
+                        loan.ReturnDate,
+                        Book = new
+                        {
+                            loan.Book.IdBook,
+                            loan.Book.Author,
+                            loan.Book.Title,
+                            loan.Book.Description,
+                            loan.Book.Genre,
+                            loan.Book.PublicationDate,
+                            loan.Book.ISBN,
+                            loan.Book.CoverImage,
+                        }
+                    })
+                    .ToListAsync()
+
+            );
+
+        }
+
         // PUT: api/Loans/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -73,11 +106,21 @@ namespace PortaleBiblioteca.Server.Controllers
             return NoContent();
         }
 
-        // POST: api/Loans
+        // POST: api/Loans/add
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Loan>> PostLoan(Loan loan)
+        [HttpPost("add")]
+        public async Task<ActionResult<Loan>> PostLoan(LoanFormCreate formLoan)
         {
+            Loan loan = new Loan
+            {
+                IdBook = formLoan.IdBook,
+                IdUser = formLoan.IdUser,
+                LoanDate = DateTime.Now,
+                Returned = false,
+                ReturnDate = null
+            };
+
+
             _context.Loans.Add(loan);
             await _context.SaveChangesAsync();
 

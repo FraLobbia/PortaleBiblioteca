@@ -24,46 +24,37 @@ namespace PortaleBiblioteca.Server.Migrations
 
             modelBuilder.Entity("PortaleBiblioteca.Book", b =>
                 {
-                    b.Property<int>("IdBooks")
+                    b.Property<int>("IdBook")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdBooks"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdBook"));
 
                     b.Property<string>("Author")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("AvailableQuantity")
                         .HasColumnType("int");
 
                     b.Property<string>("CoverImage")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Genre")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ISBN")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("LoanQuantity")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("PublicationDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("IdBooks");
+                    b.HasKey("IdBook");
 
                     b.ToTable("Books");
                 });
@@ -92,23 +83,17 @@ namespace PortaleBiblioteca.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdAttendance"));
 
-                    b.Property<int?>("EventIdEvent")
-                        .HasColumnType("int");
-
                     b.Property<int>("IdEvent")
                         .HasColumnType("int");
 
                     b.Property<int>("IdUser")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UserIdUser")
-                        .HasColumnType("int");
-
                     b.HasKey("IdAttendance");
 
-                    b.HasIndex("EventIdEvent");
+                    b.HasIndex("IdEvent");
 
-                    b.HasIndex("UserIdUser");
+                    b.HasIndex("IdUser");
 
                     b.ToTable("Attendances");
                 });
@@ -129,7 +114,6 @@ namespace PortaleBiblioteca.Server.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("EventImage")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("EventName")
@@ -156,9 +140,6 @@ namespace PortaleBiblioteca.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdLoan"));
 
-                    b.Property<int?>("BookIdBooks")
-                        .HasColumnType("int");
-
                     b.Property<int>("IdBook")
                         .HasColumnType("int");
 
@@ -168,14 +149,17 @@ namespace PortaleBiblioteca.Server.Migrations
                     b.Property<DateTime>("LoanDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("UserIdUser")
-                        .HasColumnType("int");
+                    b.Property<DateTime?>("ReturnDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Returned")
+                        .HasColumnType("bit");
 
                     b.HasKey("IdLoan");
 
-                    b.HasIndex("BookIdBooks");
+                    b.HasIndex("IdBook");
 
-                    b.HasIndex("UserIdUser");
+                    b.HasIndex("IdUser");
 
                     b.ToTable("Loans");
                 });
@@ -188,9 +172,6 @@ namespace PortaleBiblioteca.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdLocation"));
 
-                    b.Property<int?>("BookIdBooks")
-                        .HasColumnType("int");
-
                     b.Property<int>("IdBook")
                         .HasColumnType("int");
 
@@ -200,14 +181,11 @@ namespace PortaleBiblioteca.Server.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ShelfIdShelf")
-                        .HasColumnType("int");
-
                     b.HasKey("IdLocation");
 
-                    b.HasIndex("BookIdBooks");
+                    b.HasIndex("IdBook");
 
-                    b.HasIndex("ShelfIdShelf");
+                    b.HasIndex("IdShelf");
 
                     b.ToTable("Locations");
                 });
@@ -219,9 +197,6 @@ namespace PortaleBiblioteca.Server.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdReview"));
-
-                    b.Property<int?>("BookIdBooks")
-                        .HasColumnType("int");
 
                     b.Property<int>("IdBook")
                         .HasColumnType("int");
@@ -237,14 +212,11 @@ namespace PortaleBiblioteca.Server.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UserIdUser")
-                        .HasColumnType("int");
-
                     b.HasKey("IdReview");
 
-                    b.HasIndex("BookIdBooks");
+                    b.HasIndex("IdBook");
 
-                    b.HasIndex("UserIdUser");
+                    b.HasIndex("IdUser");
 
                     b.ToTable("Reviews");
                 });
@@ -257,9 +229,6 @@ namespace PortaleBiblioteca.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdShelf"));
 
-                    b.Property<int?>("AisleIdAisle")
-                        .HasColumnType("int");
-
                     b.Property<int>("IdAisle")
                         .HasColumnType("int");
 
@@ -271,7 +240,7 @@ namespace PortaleBiblioteca.Server.Migrations
 
                     b.HasKey("IdShelf");
 
-                    b.HasIndex("AisleIdAisle");
+                    b.HasIndex("IdAisle");
 
                     b.ToTable("Shelfs");
                 });
@@ -285,27 +254,21 @@ namespace PortaleBiblioteca.Server.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdUser"));
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Role")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserImage")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("IdUser");
@@ -315,53 +278,89 @@ namespace PortaleBiblioteca.Server.Migrations
 
             modelBuilder.Entity("PortaleBiblioteca.Server.Data.Models.Attendance", b =>
                 {
-                    b.HasOne("PortaleBiblioteca.Server.Data.Models.Event", null)
+                    b.HasOne("PortaleBiblioteca.Server.Data.Models.Event", "Event")
                         .WithMany("Participants")
-                        .HasForeignKey("EventIdEvent");
+                        .HasForeignKey("IdEvent")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("PortaleBiblioteca.Server.Data.Models.User", null)
+                    b.HasOne("PortaleBiblioteca.Server.Data.Models.User", "User")
                         .WithMany("Attendances")
-                        .HasForeignKey("UserIdUser");
+                        .HasForeignKey("IdUser")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Event");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("PortaleBiblioteca.Server.Data.Models.Loan", b =>
                 {
-                    b.HasOne("PortaleBiblioteca.Book", null)
+                    b.HasOne("PortaleBiblioteca.Book", "Book")
                         .WithMany("Loans")
-                        .HasForeignKey("BookIdBooks");
+                        .HasForeignKey("IdBook")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("PortaleBiblioteca.Server.Data.Models.User", null)
-                        .WithMany("Prestiti")
-                        .HasForeignKey("UserIdUser");
+                    b.HasOne("PortaleBiblioteca.Server.Data.Models.User", "User")
+                        .WithMany("Loans")
+                        .HasForeignKey("IdUser")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("PortaleBiblioteca.Server.Data.Models.Location", b =>
                 {
-                    b.HasOne("PortaleBiblioteca.Book", null)
+                    b.HasOne("PortaleBiblioteca.Book", "Book")
                         .WithMany("Locations")
-                        .HasForeignKey("BookIdBooks");
+                        .HasForeignKey("IdBook")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("PortaleBiblioteca.Server.Data.Models.Shelf", null)
+                    b.HasOne("PortaleBiblioteca.Server.Data.Models.Shelf", "Shelf")
                         .WithMany("Locations")
-                        .HasForeignKey("ShelfIdShelf");
+                        .HasForeignKey("IdShelf")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+
+                    b.Navigation("Shelf");
                 });
 
             modelBuilder.Entity("PortaleBiblioteca.Server.Data.Models.Review", b =>
                 {
-                    b.HasOne("PortaleBiblioteca.Book", null)
+                    b.HasOne("PortaleBiblioteca.Book", "Book")
                         .WithMany("Reviews")
-                        .HasForeignKey("BookIdBooks");
+                        .HasForeignKey("IdBook")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("PortaleBiblioteca.Server.Data.Models.User", null)
-                        .WithMany("Recensioni")
-                        .HasForeignKey("UserIdUser");
+                    b.HasOne("PortaleBiblioteca.Server.Data.Models.User", "User")
+                        .WithMany("Reviews")
+                        .HasForeignKey("IdUser")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("PortaleBiblioteca.Server.Data.Models.Shelf", b =>
                 {
-                    b.HasOne("PortaleBiblioteca.Server.Data.Models.Aisle", null)
+                    b.HasOne("PortaleBiblioteca.Server.Data.Models.Aisle", "Aisle")
                         .WithMany("Shelves")
-                        .HasForeignKey("AisleIdAisle");
+                        .HasForeignKey("IdAisle")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Aisle");
                 });
 
             modelBuilder.Entity("PortaleBiblioteca.Book", b =>
@@ -392,9 +391,9 @@ namespace PortaleBiblioteca.Server.Migrations
                 {
                     b.Navigation("Attendances");
 
-                    b.Navigation("Prestiti");
+                    b.Navigation("Loans");
 
-                    b.Navigation("Recensioni");
+                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }

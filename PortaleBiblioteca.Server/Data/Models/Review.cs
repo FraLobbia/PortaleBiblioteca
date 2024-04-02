@@ -17,5 +17,8 @@ namespace PortaleBiblioteca.Server.Data.Models
         public string ReviewTitle { get; set; }
         [Required]
         public string ReviewBody { get; set; }
+
+        public Book Book { get; set; }
+        public User User { get; set; }
     }
 }

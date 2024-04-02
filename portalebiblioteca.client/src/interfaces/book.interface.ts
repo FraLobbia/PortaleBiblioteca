@@ -1,6 +1,9 @@
+import { Loan } from "./loans.interface";
+
 export interface BookState {
 	books: Book[];
 	currentBook: Book | null;
+	loansCurrentUser: Loan[];
 }
 
 export interface Book {

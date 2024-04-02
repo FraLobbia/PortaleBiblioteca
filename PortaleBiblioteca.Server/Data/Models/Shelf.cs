@@ -14,5 +14,7 @@ namespace PortaleBiblioteca.Server.Data.Models
 
         public virtual ICollection<Location> Locations { get; set; }
 
+        public Aisle Aisle { get; set; }
+
     }
 }
