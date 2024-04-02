@@ -15,7 +15,7 @@ export const formatData = (data: string) => {
 		day: "numeric" as const,
 	};
 
-	return date.toLocaleDateString("it-IT", options);
+	return capitalizeFirstLetter(date.toLocaleDateString("it-IT", options));
 };
 
 export const Toast = Swal.mixin({
@@ -29,3 +29,17 @@ export const Toast = Swal.mixin({
 		toast.onmouseleave = Swal.resumeTimer;
 	},
 });
+
+export function capitalizeFirstLetter(str: string) {
+	return str.replace(/\b\w/g, function (char) {
+		return char.toUpperCase();
+	});
+}
+
+export const howManyDaysAgo = (date: string) => {
+	const today = new Date();
+	const dateToCheck = new Date(date);
+	const diffTime = Math.abs(today.getTime() - dateToCheck.getTime());
+	const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+	return diffDays;
+};

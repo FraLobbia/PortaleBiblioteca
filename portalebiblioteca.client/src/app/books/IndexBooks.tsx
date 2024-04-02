@@ -32,14 +32,15 @@ const IndexBooks = () => {
 			isbn: "isbn",
 			coverImage: "immagineCopertina",
 		};
-		dispatch(fetchBookCreate(newBook));
-		navigate("/catalogo");
+		dispatch(fetchBookCreate(newBook)).then(() => {
+			navigate("/catalogo");
+		});
 	};
 
 	return (
 		<Container>
 			<h1 className="text-center mt-3">Elenco Libri</h1>
-			<Button className=" todo" onClick={aggiungilibroTEST}>
+			<Button className="d-none todo" onClick={aggiungilibroTEST}>
 				Aggiungi un libro di DEBUG
 			</Button>
 			<Row className="gy-2 justify-content-center">
@@ -65,17 +66,7 @@ const IndexBooks = () => {
 										{book.author}
 									</Card.Subtitle>
 									<Card.Text>{book.description}</Card.Text>
-									<div className="d-flex gap-3">
-										<Link
-											className="btn btn-info"
-											to={"details/" + book.idBook}>
-											Dettagli libro
-										</Link>
-										<Link
-											className="btn btn-primary"
-											to={"/prestiti/add/" + book.idBook}>
-											Prendi in prestito
-										</Link>
+									<div className="d-flex gap-3 justify-content-end mt-3">
 										{permissionsToEdit && (
 											<Link
 												className="btn btn-warning"
@@ -83,6 +74,11 @@ const IndexBooks = () => {
 												Modifica libro
 											</Link>
 										)}
+										<Link
+											className="btn btn-success"
+											to={"details/" + book.idBook}>
+											Vedi dettagli e prendi in prestito!
+										</Link>
 									</div>
 								</Card.Body>
 							</Card>

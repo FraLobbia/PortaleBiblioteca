@@ -111,6 +111,15 @@ namespace PortaleBiblioteca.Server.Controllers
         [HttpPost("add")]
         public async Task<ActionResult<Loan>> PostLoan(LoanFormCreate formLoan)
         {
+            var alreadyLoaned = await _context.Loans
+                .Where(loan => loan.IdBook == formLoan.IdBook && loan.IdUser == formLoan.IdUser && !loan.Returned)
+                .FirstOrDefaultAsync();
+
+            if (alreadyLoaned != null)
+            {
+                return BadRequest(new { message = "Libro già in prestito" });
+            }
+
             Loan loan = new Loan
             {
                 IdBook = formLoan.IdBook,

@@ -1,15 +1,18 @@
 import { useEffect } from "react";
 import { fetchBookById } from "../../api/books/bookCRUDFetches";
 import { useAppDispatch, useAppSelector } from "../../functions/hooks";
-import { Link, useParams } from "react-router-dom";
-import { Col, Container, Row } from "react-bootstrap";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { Button, Col, Container, Row } from "react-bootstrap";
 import { formatData } from "../../functions/utility";
 import BackButton from "../_miscellaneous/reusable/BackButton";
+import { addLoanToUser } from "../../api/books/bookLOANSFetches";
+import { loanObjForm } from "../../interfaces/loans.interface";
 
-const DetailBook = () => {
+const DetailsBook = () => {
+	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	const book = useAppSelector((state) => state.bookState.currentBook);
-	const { permissionsToEdit } = useAppSelector(
+	const { permissionsToEdit, user } = useAppSelector(
 		(state) => state.profileState.loggedProfile
 	);
 	const { id } = useParams<{ id: string }>();
@@ -17,21 +20,56 @@ const DetailBook = () => {
 		if (id) dispatch(fetchBookById(id));
 	}, []);
 
+	const createLoan = () => {
+		if (!book || !user) return;
+		const idBook = book.idBook;
+		const idUser = user.idUser;
+
+		const loanObJ: loanObjForm = {
+			idBook: idBook.toString(),
+			IdUser: idUser.toString(),
+		};
+
+		dispatch(addLoanToUser(loanObJ)).then(() => navigate("/prestiti"));
+	};
+
 	return (
 		<Container>
+			<BackButton path="/catalogo" />
+			<h1>Dettagli libro</h1>
+
 			<Row className="justify-content-center">
-				<Col>
-					<BackButton path="/catalogo" />
-					<h1>Dettagli libro</h1>
-					{book && (
-						<div>
+				{book && (
+					<>
+						<Col xs={8} md={3}>
 							<img
 								className="img-fluid border border-dark rounded"
-								style={{ height: "300px", width: "200px" }}
+								style={{
+									objectFit: "cover",
+								}}
 								src={book.coverImage}
 								alt={book.title}
 							/>
+							<dt>Quantità in prestito:</dt>
+							<dd>{book.loanQuantity}</dd>
+							<dt>Quantità disponibile:</dt>
+							<dd>{book.availableQuantity}</dd>
 
+							<Button
+								onClick={createLoan}
+								variant="primary"
+								className="my-2">
+								Prendi in prestito
+							</Button>
+							{permissionsToEdit && (
+								<Link
+									to={"/catalogo/edit/" + book.idBook}
+									className="btn btn-warning">
+									Modifica dettagli
+								</Link>
+							)}
+						</Col>
+						<Col xs={9}>
 							<dt>Autore:</dt>
 							<dd>{book.author}</dd>
 							<dt>Titolo:</dt>
@@ -44,23 +82,12 @@ const DetailBook = () => {
 							<dd>{formatData(book.publicationDate)}</dd>
 							<dt>ISBN:</dt>
 							<dd>{book.isbn}</dd>
-							<dt>Quantità disponibile:</dt>
-							<dd>{book.availableQuantity}</dd>
-							<dt>Quantità in prestito:</dt>
-							<dd>{book.loanQuantity}</dd>
-							{permissionsToEdit && (
-								<Link
-									to={"/catalogo/edit/" + book.idBook}
-									className="btn btn-warning">
-									Modifica dettagli
-								</Link>
-							)}
-						</div>
-					)}
-				</Col>
+						</Col>
+					</>
+				)}
 			</Row>
 		</Container>
 	);
 };
 
-export default DetailBook;
+export default DetailsBook;

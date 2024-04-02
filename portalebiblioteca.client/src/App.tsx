@@ -11,7 +11,6 @@ import LoginPage from "./app/user/LoginPage";
 import EditProfile from "./app/user/EditProfile";
 import ElencoPrestiti from "./app/prestiti/IndexLoans";
 import NotFound_404 from "./app/_miscellaneous/NotFound_404";
-import FormAddLoan from "./app/prestiti/FormAddLoan";
 
 function App() {
 	return (
@@ -35,7 +34,6 @@ function App() {
 
 				<Route path="/prestiti">
 					<Route index element={<ElencoPrestiti />} />
-					<Route path="add/:id" element={<FormAddLoan />} />
 				</Route>
 
 				<Route path="*" element={<NotFound_404 />} />
