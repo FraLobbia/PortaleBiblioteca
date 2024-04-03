@@ -54,20 +54,21 @@ const DetailsBook = () => {
 							<dd>{book.loanQuantity}</dd>
 							<dt>Quantità disponibile:</dt>
 							<dd>{book.availableQuantity}</dd>
-
-							<Button
-								onClick={createLoan}
-								variant="primary"
-								className="my-2">
-								Prendi in prestito
-							</Button>
-							{permissionsToEdit && (
-								<Link
-									to={"/catalogo/edit/" + book.idBook}
-									className="btn btn-warning">
-									Modifica dettagli
-								</Link>
-							)}
+							<div className="d-flex flex-column">
+								<Button
+									onClick={createLoan}
+									variant="primary"
+									className="my-2">
+									Prendi in prestito
+								</Button>
+								{permissionsToEdit && (
+									<Link
+										to={"/catalogo/edit/" + book.idBook}
+										className="btn btn-warning">
+										Modifica dettagli
+									</Link>
+								)}
+							</div>
 						</Col>
 						<Col xs={9}>
 							<dt>Autore:</dt>

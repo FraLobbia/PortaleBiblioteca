@@ -118,7 +118,7 @@ const FormEditBook = () => {
 							<Form.Label>Descrizione</Form.Label>
 							<Form.Control
 								id="descrizioneField"
-								type="textarea"
+								as="textarea"
 								placeholder="Inserisci la descrizione"
 								value={descrizione}
 								onChange={(e) => setDescrizione(e.target.value)}

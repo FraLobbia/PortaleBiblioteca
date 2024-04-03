@@ -9,6 +9,7 @@ public class ApplicationDbContext : DbContext
 
     // Aggiungi le tabelle con DbSet
     public DbSet<Book> Books { get; set; }
+    public DbSet<Genre> Genres { get; set; }
     public DbSet<Aisle> Aisles { get; set; }
     public DbSet<Shelf> Shelfs { get; set; }
     public DbSet<Location> Locations { get; set; }

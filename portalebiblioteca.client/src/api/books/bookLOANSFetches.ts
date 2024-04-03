@@ -31,7 +31,8 @@ export const addLoanToUser = (loanObj: loanObjForm) => async () => {
 				timer: 1500,
 			});
 		}
-	} finally {
+	} catch (error) {
+		console.error(error);
 	}
 };
 

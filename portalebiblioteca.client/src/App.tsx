@@ -11,6 +11,8 @@ import LoginPage from "./app/user/LoginPage";
 import EditProfile from "./app/user/EditProfile";
 import ElencoPrestiti from "./app/prestiti/IndexLoans";
 import NotFound_404 from "./app/_miscellaneous/NotFound_404";
+import FormAddGenres from "./app/genres/FormAddGenres";
+import IndexGenres from "./app/genres/IndexGenres";
 
 function App() {
 	return (
@@ -24,6 +26,11 @@ function App() {
 					<Route path="add" element={<FormAddBook />} />
 					<Route path="details/:id" element={<DetailBook />} />
 					<Route path="edit/:id" element={<FormEditBook />} />
+				</Route>
+
+				<Route path="/generi">
+					<Route index element={<IndexGenres />} />
+					<Route path="add" element={<FormAddGenres />} />
 				</Route>
 
 				<Route path="/user">

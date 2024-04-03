@@ -118,6 +118,8 @@ export const fetchBookEdit =
 					timer: 1500,
 				});
 			}
+		} catch (error) {
+			console.error(error);
 		} finally {
 			navigate("/catalogo");
 		}
@@ -151,6 +153,8 @@ export const fetchBookDelete =
 					icon: "success",
 				});
 			}
+		} catch (error) {
+			console.error(error);
 		} finally {
 			navigate("/catalogo");
 		}

@@ -13,6 +13,8 @@ const ElencoPrestiti = () => {
 	);
 	const [ShowAlsoReturned, setShowAlsoReturned] = useState<boolean>(false);
 	const [barcodeScanChoice, setBarcodeScanChoice] = useState<boolean>(false);
+	const [returnedBookLoanID, setReturnedBookLoanID] = useState<string>("");
+	const [returnedBookISBN, setReturnedBookISBN] = useState<string>("");
 	const { loansCurrentUser } = useAppSelector((state) => state.bookState);
 	const dispatch = useAppDispatch();
 
@@ -29,7 +31,23 @@ const ElencoPrestiti = () => {
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		console.log(event.target);
+
+		let loanToReturn: Loan | undefined;
+
+		if (barcodeScanChoice) {
+			loanToReturn = activeLoans.find(
+				(loan: Loan) => loan.book.isbn === returnedBookISBN
+			);
+		} else {
+			loanToReturn = activeLoans.find(
+				(loan: Loan) => loan.idLoan.toString() === returnedBookLoanID
+			);
+		}
+
+		if (loanToReturn) {
+			console.log(loanToReturn);
+			// dispatch(returnLoan(loanToReturn.idLoan));
+		}
 	};
 
 	return (
@@ -47,6 +65,9 @@ const ElencoPrestiti = () => {
 						<Form.Control
 							type="text"
 							id="isbnField"
+							onChange={(e) =>
+								setReturnedBookISBN(e.target.value)
+							}
 							placeholder="Scansiona il barcode del libro"
 						/>
 					</Form.Group>
@@ -55,6 +76,9 @@ const ElencoPrestiti = () => {
 						<Form.Label>Titolo del libro da restituire</Form.Label>
 						<Form.Select
 							id="bookChoiceField"
+							onChange={(e) =>
+								setReturnedBookLoanID(e.target.value)
+							}
 							aria-label="Scelta del titolo da restituire">
 							<option className="text-muted">
 								Scegli un titolo tra i tuoi libri in prestito

@@ -63,7 +63,7 @@ namespace PortaleBiblioteca.Server.Controllers
                             loan.Book.Author,
                             loan.Book.Title,
                             loan.Book.Description,
-                            loan.Book.Genre,
+                            loan.Book.IdGenre,
                             loan.Book.PublicationDate,
                             loan.Book.ISBN,
                             loan.Book.CoverImage,

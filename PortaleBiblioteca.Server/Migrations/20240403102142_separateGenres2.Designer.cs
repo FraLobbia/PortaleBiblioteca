@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PortaleBiblioteca.Server.Data;
 
@@ -11,9 +12,11 @@ using PortaleBiblioteca.Server.Data;
 namespace PortaleBiblioteca.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240403102142_separateGenres2")]
+    partial class separateGenres2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,6 +45,9 @@ namespace PortaleBiblioteca.Server.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("GenreIdGenre")
+                        .HasColumnType("int");
+
                     b.Property<string>("ISBN")
                         .HasColumnType("nvarchar(max)");
 
@@ -56,7 +62,7 @@ namespace PortaleBiblioteca.Server.Migrations
 
                     b.HasKey("IdBook");
 
-                    b.HasIndex("IdGenre");
+                    b.HasIndex("GenreIdGenre");
 
                     b.ToTable("Books");
                 });
@@ -299,13 +305,9 @@ namespace PortaleBiblioteca.Server.Migrations
 
             modelBuilder.Entity("PortaleBiblioteca.Book", b =>
                 {
-                    b.HasOne("PortaleBiblioteca.Genre", "Genre")
+                    b.HasOne("PortaleBiblioteca.Genre", null)
                         .WithMany("Books")
-                        .HasForeignKey("IdGenre")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Genre");
+                        .HasForeignKey("GenreIdGenre");
                 });
 
             modelBuilder.Entity("PortaleBiblioteca.Server.Data.Models.Attendance", b =>

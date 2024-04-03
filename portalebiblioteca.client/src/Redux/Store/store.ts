@@ -5,7 +5,8 @@ import { persistReducer, persistStore } from "redux-persist";
 import userSlice from "../slicers/userSlice";
 import storage from "redux-persist/lib/storage";
 import expireReducer from "redux-persist-expire";
-import bookSlicer from "../slicers/bookSlice";
+import bookSlice from "../slicers/bookSlice";
+import genreSlice from "../slicers/genreSlice";
 
 const persistConfig = {
 	key: "root",
@@ -26,7 +27,8 @@ const persistConfig = {
 // their `reducerPath`s, therefore we no longer need to call `combineReducers`.
 const rootReducer = combineSlices({
 	profileState: userSlice,
-	bookState: bookSlicer,
+	bookState: bookSlice,
+	genreState: genreSlice,
 });
 //2) =================================================================================
 // Infer the `RootState` type from the root reducer

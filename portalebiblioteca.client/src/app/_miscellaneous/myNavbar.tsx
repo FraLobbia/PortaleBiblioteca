@@ -45,11 +45,22 @@ function MyNavbar() {
 								Elenco libri
 							</NavDropdown.Item>
 							{permissionsToEdit && (
-								<NavDropdown.Item
-									as={NavLink}
-									to="/catalogo/add">
-									Aggiungi nuovo libro
-								</NavDropdown.Item>
+								<>
+									<NavDropdown.Item
+										as={NavLink}
+										to="/catalogo/add">
+										Aggiungi nuovo libro
+									</NavDropdown.Item>
+									<NavDropdown.Divider />
+									<NavDropdown.Item as={NavLink} to="/generi">
+										Elenco generi
+									</NavDropdown.Item>
+									<NavDropdown.Item
+										as={NavLink}
+										to="/generi/add">
+										Aggiungi nuovo genere
+									</NavDropdown.Item>
+								</>
 							)}
 							{/* <NavDropdown.Divider />
 							<NavDropdown.Item>Separated link</NavDropdown.Item> */}
