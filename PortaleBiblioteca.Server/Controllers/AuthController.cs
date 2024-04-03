@@ -38,28 +38,6 @@ namespace PortaleBiblioteca.Server.Controllers
                 user.Email,
                 user.Role,
                 user.UserImage,
-                // ottieni i prestiti non restituiti dell'utente
-                // Loans = _db.Loans
-                //         .Where(loan => loan.IdUser == user.IdUser && !loan.Returned)
-                //         .Select(loan => new
-                //         {
-                //           loan.IdLoan,
-                //           loan.LoanDate,
-                //           loan.Returned,
-                //           loan.ReturnDate,
-                //           Book = new
-                //           {
-                //             loan.Book.IdBook,
-                //             loan.Book.Author,
-                //             loan.Book.Title,
-                //             loan.Book.Description,
-                //             loan.Book.Genre,
-                //             loan.Book.PublicationDate,
-                //             loan.Book.ISBN,
-                //             loan.Book.CoverImage,
-                //           }
-                //         })
-
               }
             }
         );

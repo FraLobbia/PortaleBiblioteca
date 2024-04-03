@@ -8,7 +8,7 @@ const initialState: GenreState = {
 };
 //=================================================================================
 const genreSlice = createSlice({
-	name: "books",
+	name: "genre",
 	initialState,
 	reducers: {
 		setGenres(state, action: { payload: Genre[] }) {

@@ -35,7 +35,7 @@ const DetailsBook = () => {
 
 	return (
 		<Container>
-			<BackButton path="/catalogo" />
+			<BackButton />
 			<h1>Dettagli libro</h1>
 
 			<Row className="justify-content-center">
@@ -78,7 +78,7 @@ const DetailsBook = () => {
 							<dt>Descrizione:</dt>
 							<dd>{book.description}</dd>
 							<dt>Genere:</dt>
-							<dd>{book.genre}</dd>
+							<dd>{book.idGenre}</dd>
 							<dt>Data di pubblicazione:</dt>
 							<dd>{formatData(book.publicationDate)}</dd>
 							<dt>ISBN:</dt>

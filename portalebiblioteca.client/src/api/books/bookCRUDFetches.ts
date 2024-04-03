@@ -46,7 +46,7 @@ export const fetchBookById = (id: string) => async (dispatch: AppDispatch) => {
 		});
 
 		if (response.ok) {
-			const book = await response.json();
+			const book: Book = await response.json();
 			console.log("fetchBookById", book);
 			dispatch(setCurrentBook(book));
 		} else {

@@ -10,11 +10,9 @@ import {
 import { AppDispatch, RootState, store } from "../../redux/store/store";
 import { fetchWithAuth } from "../interceptor";
 import { Toast } from "../../functions/utility";
-import { NavigateFunction } from "react-router-dom";
 // fetch per ottenere il token di autenticazione
 export const fetchLogin =
-	(loginObj: LoginModel, navigate?: NavigateFunction) =>
-	async (dispatch: AppDispatch) => {
+	(loginObj: LoginModel) => async (dispatch: AppDispatch) => {
 		try {
 			const response = await fetch(url + "Auth/token", {
 				method: "POST",
@@ -39,7 +37,6 @@ export const fetchLogin =
 					icon: "success",
 					title: "Accesso effettuato!",
 				});
-				navigate();
 			}
 		} catch (error) {
 			// Puoi gestire gli errori qui, se necessario

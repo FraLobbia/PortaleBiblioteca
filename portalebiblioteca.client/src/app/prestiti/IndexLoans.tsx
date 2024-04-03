@@ -52,7 +52,7 @@ const ElencoPrestiti = () => {
 
 	return (
 		<Container>
-			<BackButton path="/catalogo" />
+			<BackButton />
 			<h2>Vuoi restituire un libro?</h2>
 			<p>
 				Se hai finito di leggere un libro, puoi restituirlo in questa

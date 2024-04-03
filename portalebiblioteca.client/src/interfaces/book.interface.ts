@@ -1,3 +1,4 @@
+import { Genre } from "./genre.interface";
 import { Loan } from "./loans.interface";
 
 export interface BookState {
@@ -11,7 +12,8 @@ export interface Book {
 	author: string;
 	title: string;
 	description?: string;
-	genre?: string;
+	idGenre?: number;
+	genre?: Genre;
 	availableQuantity?: number;
 	loanQuantity?: number;
 	publicationDate?: Date;
@@ -27,7 +29,7 @@ export interface BookToEdit {
 	author: string;
 	title: string;
 	description?: string;
-	genre?: string;
+	idGenre?: number;
 	availableQuantity?: number;
 	publicationDate?: Date;
 	isbn?: string;
@@ -38,7 +40,7 @@ export interface BookCreateForm {
 	author: string;
 	title: string;
 	description?: string;
-	genre?: string;
+	idGenre?: number;
 	publicationDate?: Date;
 	isbn?: string;
 	coverImage?: string;

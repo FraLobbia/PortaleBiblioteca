@@ -1,12 +1,12 @@
-import { Link } from "react-router-dom";
-interface BackButtonProps {
-	path: string;
-}
-const BackButton = ({ path }: BackButtonProps) => {
+import { Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+
+const BackButton = () => {
+	const navigate = useNavigate();
 	return (
-		<Link className="btn btn-primary my-3" to={path}>
-			&lt;&lt; Torna al catalogo
-		</Link>
+		<Button onClick={() => navigate(-1)} className="btn btn-primary my-3">
+			&lt;&lt; Indietro
+		</Button>
 	);
 };
 

@@ -64,7 +64,7 @@ namespace PortaleBiblioteca.Server.Controllers
                 book.Author = formBook.Author;
                 book.Title = formBook.Title;
                 book.Description = formBook.Description;
-                book.IdGenre = Convert.ToInt32(formBook.Genre); // Convert genre to int
+                book.IdGenre = formBook.IdGenre;
                 book.AvailableQuantity = formBook.availableQuantity;
                 book.PublicationDate = formBook.PublicationDate;
                 book.ISBN = formBook.ISBN;
@@ -100,7 +100,7 @@ namespace PortaleBiblioteca.Server.Controllers
                 Author = formBook.Author,
                 Title = formBook.Title,
                 Description = formBook.Description,
-                IdGenre = Convert.ToInt32(formBook.Genre),
+                IdGenre = Convert.ToInt32(formBook.IdGenre),
                 AvailableQuantity = 0,
                 PublicationDate = formBook.PublicationDate,
                 ISBN = formBook.ISBN,

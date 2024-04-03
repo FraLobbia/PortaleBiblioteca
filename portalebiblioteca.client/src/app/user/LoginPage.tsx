@@ -19,8 +19,9 @@ const LoginPage = () => {
 			email,
 			password,
 		};
-		dispatch(fetchLogin(LoginObj, () => navigate(-1)));
-		//navigate("/");
+		dispatch(fetchLogin(LoginObj)).then(() => {
+			navigate(-1);
+		});
 	};
 
 	return (

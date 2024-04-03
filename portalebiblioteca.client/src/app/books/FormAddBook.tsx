@@ -4,14 +4,15 @@ import { BookCreateForm } from "../../interfaces/book.interface";
 import { fetchBookCreate } from "../../api/books/bookCRUDFetches";
 import { useAppDispatch, useAppSelector } from "../../functions/hooks";
 import BackButton from "../_miscellaneous/reusable/BackButton";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { fetchGenres } from "../../api/genres/genresCRUDFetches";
 
 const FormAddBook = () => {
 	const dispatch = useAppDispatch();
 	const [autore, setAutore] = useState<string>("");
 	const [titolo, setTitolo] = useState<string>("");
 	const [descrizione, setDescrizione] = useState<string>("");
-	const [genere, setGenere] = useState<string>("");
+	const [genere, setGenere] = useState<number>("");
 	const [dataPubblicazione, setDataPubblicazione] = useState<Date>();
 	const [isbn, setIsbn] = useState<string>("");
 	const [immagineCopertina, setImmagineCopertina] = useState<string>("");
@@ -19,6 +20,7 @@ const FormAddBook = () => {
 		(state) => state.profileState.loggedProfile
 	);
 	const navigate = useNavigate();
+	const { genres } = useAppSelector((state) => state.genreState);
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
@@ -26,7 +28,7 @@ const FormAddBook = () => {
 			author: autore,
 			title: titolo,
 			description: descrizione,
-			genre: genere,
+			idGenre: genere,
 			publicationDate: dataPubblicazione,
 			isbn: isbn,
 			coverImage: immagineCopertina,
@@ -38,12 +40,14 @@ const FormAddBook = () => {
 	useEffect(() => {
 		if (!permissionsToEdit) {
 			navigate("/catalogo");
+		} else {
+			dispatch(fetchGenres());
 		}
 	}, []);
 
 	return (
 		<Container>
-			<BackButton path="/catalogo" />
+			<BackButton />
 			<h1 className="text-center">Aggiungi un Libro</h1>
 			<Form onSubmit={handleSubmit}>
 				<Form.Group className="mb-3">
@@ -76,16 +80,24 @@ const FormAddBook = () => {
 						onChange={(e) => setDescrizione(e.target.value)}
 					/>
 				</Form.Group>
-				<Form.Group className="mb-3">
+
+				<Form.Group className="">
 					<Form.Label>Genere</Form.Label>
-					<Form.Control
+					<Form.Select
 						id="genereField"
-						type="text"
-						placeholder="Inserisci il genere"
 						value={genere}
-						onChange={(e) => setGenere(e.target.value)}
-					/>
+						onChange={(e) => setGenere(parseInt(e.target.value))}>
+						<option value="">Seleziona un genere</option>
+						{genres.map((genre) => (
+							<option key={genre.idGenre} value={genre.idGenre}>
+								{genre.name}
+							</option>
+						))}
+					</Form.Select>
 				</Form.Group>
+				<Link to="/generi/add" className="btn btn-link p-0 mb-3">
+					Genere non presente? Clicca qui per aggiungerlo
+				</Link>
 
 				<Form.Group className="mb-3">
 					<Form.Label>Data pubblicazione</Form.Label>

@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../functions/hooks";
 import { useEffect, useState } from "react";
 import {
@@ -10,6 +10,7 @@ import { Button, Container, Form } from "react-bootstrap";
 import { BookToEdit } from "../../interfaces/book.interface";
 import BackButton from "../_miscellaneous/reusable/BackButton";
 import Swal from "sweetalert2";
+import { fetchGenres } from "../../api/genres/genresCRUDFetches";
 
 const FormEditBook = () => {
 	const book = useAppSelector((state) => state.bookState.currentBook);
@@ -18,13 +19,13 @@ const FormEditBook = () => {
 	const [autore, setAutore] = useState<string>("");
 	const [titolo, setTitolo] = useState<string>("");
 	const [descrizione, setDescrizione] = useState<string>("");
-	const [genere, setGenere] = useState<string>("");
+	const [genere, setGenere] = useState<number>(0);
 	const [quantitaDisponibile, setQuantitaDisponibile] = useState<number>(0);
 	const [dataPubblicazione, setDataPubblicazione] = useState<Date>();
 	const [isbn, setIsbn] = useState<string>("");
 	const [immagineCopertina, setImmagineCopertina] = useState<string>("");
 	const navigate = useNavigate();
-
+	const { genres } = useAppSelector((state) => state.genreState);
 	// Function to handle form submission
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
@@ -34,7 +35,7 @@ const FormEditBook = () => {
 			author: autore,
 			title: titolo,
 			description: descrizione,
-			genre: genere,
+			idGenre: genere,
 			availableQuantity: quantitaDisponibile,
 			publicationDate: dataPubblicazione,
 			isbn: isbn,
@@ -67,6 +68,7 @@ const FormEditBook = () => {
 	// Fetch book by id when component mounts
 	useEffect(() => {
 		if (id) dispatch(fetchBookById(id));
+		dispatch(fetchGenres());
 	}, []);
 
 	useEffect(() => {
@@ -74,7 +76,7 @@ const FormEditBook = () => {
 			setAutore(book.author);
 			setTitolo(book.title);
 			setDescrizione(book.description || "");
-			setGenere(book.genre || "");
+			setGenere(book.idGenre || 0);
 			setQuantitaDisponibile(book.availableQuantity || 0);
 			//setDataPubblicazione(book.publicationDate || new Date());
 			setIsbn(book.isbn || "");
@@ -84,7 +86,7 @@ const FormEditBook = () => {
 
 	return (
 		<Container>
-			<BackButton path="/catalogo" />
+			<BackButton />
 			<div className="d-flex justify-content-between">
 				<h1>Modifica libro</h1>
 				<Button variant="danger" onClick={() => handleDelete(id)}>
@@ -124,16 +126,30 @@ const FormEditBook = () => {
 								onChange={(e) => setDescrizione(e.target.value)}
 							/>
 						</Form.Group>
-						<Form.Group className="mb-3">
+
+						<Form.Group className="">
 							<Form.Label>Genere</Form.Label>
-							<Form.Control
+							<Form.Select
 								id="genereField"
-								type="text"
-								placeholder="Inserisci il genere"
 								value={genere}
-								onChange={(e) => setGenere(e.target.value)}
-							/>
+								onChange={(e) =>
+									setGenere(parseInt(e.target.value))
+								}>
+								<option value="">Seleziona un genere</option>
+								{genres.map((genre) => (
+									<option
+										key={genre.idGenre}
+										value={genre.idGenre}>
+										{genre.name}
+									</option>
+								))}
+							</Form.Select>
 						</Form.Group>
+						<Link
+							to="/generi/add"
+							className="btn btn-link p-0 mb-3">
+							Genere non presente? Clicca qui per aggiungerlo
+						</Link>
 
 						<Form.Group className="mb-3">
 							<Form.Label>Quantità disponibile</Form.Label>
@@ -182,7 +198,7 @@ const FormEditBook = () => {
 							<Form.Label>Immagine copertina</Form.Label>
 							<Form.Control
 								id="immagineCopertinaField"
-								type="text"
+								as="textarea"
 								placeholder="Inserisci l'immagine di copertina"
 								value={immagineCopertina}
 								onChange={(e) =>

@@ -17,6 +17,7 @@ const IndexBooks = () => {
 	const { permissionsToEdit } = useAppSelector(
 		(state) => state.profileState.loggedProfile
 	);
+
 	const dispatch = useAppDispatch();
 	useEffect(() => {
 		dispatch(fetchBookList());

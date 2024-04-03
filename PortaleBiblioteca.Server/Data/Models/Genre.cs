@@ -10,5 +10,4 @@ namespace PortaleBiblioteca
         public string Description { get; set; }
         public virtual ICollection<Book> Books { get; set; }
     }
-
 }

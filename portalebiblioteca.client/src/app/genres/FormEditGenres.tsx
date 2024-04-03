@@ -1,25 +1,47 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Container, Form } from "react-bootstrap";
 import { Genre } from "../../interfaces/genre.interface";
-import { useNavigate } from "react-router-dom";
-import { createGenreFetch } from "../../api/genres/genresCRUDFetches";
+import { useNavigate, useParams } from "react-router-dom";
+import {
+	createGenreFetch,
+	editGenreFetch,
+	fetchGenreById,
+} from "../../api/genres/genresCRUDFetches";
 import BackButton from "../_miscellaneous/reusable/BackButton";
+import { useAppDispatch, useAppSelector } from "../../functions/hooks";
+import { parse } from "path";
 
-const FormAddGenres = () => {
-	const [name, setName] = useState("");
-	const [description, setDescription] = useState("");
+const FormEditGenres = () => {
+	const dispatch = useAppDispatch();
+	const { id } = useParams();
+	const [name, setName] = useState<string>("");
+	const [description = "", setDescription] = useState<string>("");
 	const navigate = useNavigate();
+	const genre = useAppSelector((state) => state.genreState.currentGenre);
 
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		const newGenreObj: Genre = {
-			name,
-			description,
+		if (!id) return;
+		const editedGenreObj: Genre = {
+			idGenre: parseInt(id),
+			name: name,
+			description: description,
 		};
-		createGenreFetch(newGenreObj).then(() => {
+		editGenreFetch(editedGenreObj).then(() => {
 			navigate("/generi");
 		});
 	};
+
+	useEffect(() => {
+		if (id) dispatch(fetchGenreById(id));
+	}, []);
+
+	useEffect(() => {
+		if (genre) {
+			setName(genre.name);
+			setDescription(genre.description);
+		}
+	}, [genre]);
 
 	return (
 		<Container>
@@ -54,4 +76,4 @@ const FormAddGenres = () => {
 	);
 };
 
-export default FormAddGenres;
+export default FormEditGenres;

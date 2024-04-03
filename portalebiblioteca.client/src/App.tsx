@@ -13,6 +13,7 @@ import ElencoPrestiti from "./app/prestiti/IndexLoans";
 import NotFound_404 from "./app/_miscellaneous/NotFound_404";
 import FormAddGenres from "./app/genres/FormAddGenres";
 import IndexGenres from "./app/genres/IndexGenres";
+import FormEditGenres from "./app/genres/FormEditGenres";
 
 function App() {
 	return (
@@ -31,6 +32,7 @@ function App() {
 				<Route path="/generi">
 					<Route index element={<IndexGenres />} />
 					<Route path="add" element={<FormAddGenres />} />
+					<Route path="edit/:id" element={<FormEditGenres />} />
 				</Route>
 
 				<Route path="/user">
