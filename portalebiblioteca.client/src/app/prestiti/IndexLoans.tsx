@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../functions/hooks";
-import { fetchLoansByUserId } from "../../api/books/bookLOANSFetches";
+import {
+	fetchLoansByUserId,
+	flagLoanAsReturned,
+} from "../../api/books/bookLOANSFetches";
 import { Loan } from "../../interfaces/loans.interface";
 import { formatData, howManyDaysAgo } from "../../functions/utility";
 import { Container, Form } from "react-bootstrap";
 import BackButton from "../_miscellaneous/reusable/BackButton";
 import { Link } from "react-router-dom";
 
-const ElencoPrestiti = () => {
+const IndexLoans = () => {
 	const { user } = useAppSelector(
 		(state) => state.profileState.loggedProfile
 	);
@@ -46,7 +49,7 @@ const ElencoPrestiti = () => {
 
 		if (loanToReturn) {
 			console.log(loanToReturn);
-			// dispatch(returnLoan(loanToReturn.idLoan));
+			dispatch(flagLoanAsReturned(loanToReturn.idLoan.toString()));
 		}
 	};
 
@@ -222,4 +225,4 @@ const ElencoPrestiti = () => {
 	);
 };
 
-export default ElencoPrestiti;
+export default IndexLoans;

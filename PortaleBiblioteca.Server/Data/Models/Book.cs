@@ -18,12 +18,10 @@ namespace PortaleBiblioteca
         public DateTime PublicationDate { get; set; }
         public string ISBN { get; set; }
         public string CoverImage { get; set; }
-
         public Genre Genre { get; set; }
         public virtual ICollection<Location> Locations { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }
         public virtual ICollection<Loan> Loans { get; set; }
-
     }
 
 }

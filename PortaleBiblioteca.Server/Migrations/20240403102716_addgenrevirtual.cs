@@ -5,6 +5,8 @@
 namespace PortaleBiblioteca.Server.Migrations
 {
     /// <inheritdoc />
+    /// 
+    //eslint-disable-next-line
     public partial class addgenrevirtual : Migration
     {
         /// <inheritdoc />

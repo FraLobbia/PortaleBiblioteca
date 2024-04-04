@@ -19,7 +19,7 @@ const bookSlice = createSlice({
 		setCurrentBook(state, action: { payload: Book }) {
 			state.currentBook = action.payload;
 		},
-		setLoansByUserID(state, action: { payload: Loan[] }) {
+		setLoansOfUser(state, action: { payload: Loan[] }) {
 			state.loansCurrentUser = action.payload;
 		},
 		DEBUG_emptyBooks(state) {
@@ -28,6 +28,6 @@ const bookSlice = createSlice({
 	},
 });
 //=================================================================================
-export const { setBooks, setCurrentBook, setLoansByUserID, DEBUG_emptyBooks } =
+export const { setBooks, setCurrentBook, setLoansOfUser, DEBUG_emptyBooks } =
 	bookSlice.actions;
 export default bookSlice.reducer;

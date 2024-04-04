@@ -57,6 +57,7 @@ namespace PortaleBiblioteca.Server.Controllers
                         loan.LoanDate,
                         loan.Returned,
                         loan.ReturnDate,
+                        loan.IdUser,
                         Book = new
                         {
                             loan.Book.IdBook,
@@ -70,20 +71,23 @@ namespace PortaleBiblioteca.Server.Controllers
                         }
                     })
                     .ToListAsync()
-
             );
 
         }
 
         // PUT: api/Loans/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutLoan(int id, Loan loan)
+        [HttpPut("return/{id}")]
+        public async Task<IActionResult> PutLoan(int id)
         {
-            if (id != loan.IdLoan)
+            var loan = await _context.Loans.FindAsync(id);
+
+            if (!LoanExists(id))
             {
-                return BadRequest();
+                return NotFound(new { message = "Prestito non trovato" });
             }
+
+            loan.Returned = true;
 
             _context.Entry(loan).State = EntityState.Modified;
 
@@ -95,7 +99,7 @@ namespace PortaleBiblioteca.Server.Controllers
             {
                 if (!LoanExists(id))
                 {
-                    return NotFound();
+                    return NotFound(new { message = "Prestito non trovato" });
                 }
                 else
                 {
@@ -103,7 +107,29 @@ namespace PortaleBiblioteca.Server.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok(await _context.Loans
+                    .Where(loan => loan.IdUser == id)
+                    .Select(loan => new
+                    {
+                        loan.IdLoan,
+                        loan.LoanDate,
+                        loan.Returned,
+                        loan.ReturnDate,
+                        loan.IdUser,
+                        Book = new
+                        {
+                            loan.Book.IdBook,
+                            loan.Book.Author,
+                            loan.Book.Title,
+                            loan.Book.Description,
+                            loan.Book.IdGenre,
+                            loan.Book.PublicationDate,
+                            loan.Book.ISBN,
+                            loan.Book.CoverImage,
+                        }
+                    })
+                    .ToListAsync()
+            );
         }
 
         // POST: api/Loans/add

@@ -10,7 +10,7 @@ export interface Loan {
 	idLoan: number;
 	loanDate: Date;
 	returned: boolean;
-	returnDate: Date;
+	returnDate?: Date;
 	idBook: number;
 	idUser: number;
 	book: Book;
