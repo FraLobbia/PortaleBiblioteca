@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PortaleBiblioteca
 {
-    public class BookFormEdit : BookFormCreate
+    public class BookEditDTO : BookCreateDTO
     {
         public int IdBook { get; set; }
         [Required]

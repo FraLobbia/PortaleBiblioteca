@@ -45,7 +45,7 @@ namespace PortaleBiblioteca.Server.Controllers
         // PUT: /Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, UserEditForm formUser)
+        public async Task<IActionResult> PutUser(int id, UserEditDTO formUser)
         {
             if (id != formUser.IdUser)
             {
@@ -94,7 +94,7 @@ namespace PortaleBiblioteca.Server.Controllers
 
 
         [HttpPost("signup")]
-        public async Task<ActionResult<User>> PostUser(SignUpFormModel userForm)
+        public async Task<ActionResult<User>> PostUser(SignUpDTO userForm)
         {
             User user = new User
             {

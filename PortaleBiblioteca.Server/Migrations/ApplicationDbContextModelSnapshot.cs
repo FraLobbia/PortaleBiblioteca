@@ -33,9 +33,6 @@ namespace PortaleBiblioteca.Server.Migrations
                     b.Property<string>("Author")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("AvailableQuantity")
-                        .HasColumnType("int");
-
                     b.Property<string>("CoverImage")
                         .HasColumnType("nvarchar(max)");
 
@@ -153,6 +150,35 @@ namespace PortaleBiblioteca.Server.Migrations
                     b.ToTable("Events");
                 });
 
+            modelBuilder.Entity("PortaleBiblioteca.Server.Data.Models.ItemsEntity", b =>
+                {
+                    b.Property<int>("IdItemsEntity")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdItemsEntity"));
+
+                    b.Property<int>("IdBook")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ShelfIdShelf")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("IdItemsEntity");
+
+                    b.HasIndex("IdBook");
+
+                    b.HasIndex("ShelfIdShelf");
+
+                    b.ToTable("Items");
+                });
+
             modelBuilder.Entity("PortaleBiblioteca.Server.Data.Models.Loan", b =>
                 {
                     b.Property<int>("IdLoan")
@@ -183,32 +209,6 @@ namespace PortaleBiblioteca.Server.Migrations
                     b.HasIndex("IdUser");
 
                     b.ToTable("Loans");
-                });
-
-            modelBuilder.Entity("PortaleBiblioteca.Server.Data.Models.Location", b =>
-                {
-                    b.Property<int>("IdLocation")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdLocation"));
-
-                    b.Property<int>("IdBook")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IdShelf")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.HasKey("IdLocation");
-
-                    b.HasIndex("IdBook");
-
-                    b.HasIndex("IdShelf");
-
-                    b.ToTable("Locations");
                 });
 
             modelBuilder.Entity("PortaleBiblioteca.Server.Data.Models.Review", b =>
@@ -263,7 +263,7 @@ namespace PortaleBiblioteca.Server.Migrations
 
                     b.HasIndex("IdAisle");
 
-                    b.ToTable("Shelfs");
+                    b.ToTable("Shelves");
                 });
 
             modelBuilder.Entity("PortaleBiblioteca.Server.Data.Models.User", b =>
@@ -275,18 +275,23 @@ namespace PortaleBiblioteca.Server.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdUser"));
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Role")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserImage")
@@ -327,6 +332,21 @@ namespace PortaleBiblioteca.Server.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("PortaleBiblioteca.Server.Data.Models.ItemsEntity", b =>
+                {
+                    b.HasOne("PortaleBiblioteca.Book", "Book")
+                        .WithMany("Items")
+                        .HasForeignKey("IdBook")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PortaleBiblioteca.Server.Data.Models.Shelf", null)
+                        .WithMany("Items")
+                        .HasForeignKey("ShelfIdShelf");
+
+                    b.Navigation("Book");
+                });
+
             modelBuilder.Entity("PortaleBiblioteca.Server.Data.Models.Loan", b =>
                 {
                     b.HasOne("PortaleBiblioteca.Book", "Book")
@@ -344,25 +364,6 @@ namespace PortaleBiblioteca.Server.Migrations
                     b.Navigation("Book");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("PortaleBiblioteca.Server.Data.Models.Location", b =>
-                {
-                    b.HasOne("PortaleBiblioteca.Book", "Book")
-                        .WithMany("Locations")
-                        .HasForeignKey("IdBook")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PortaleBiblioteca.Server.Data.Models.Shelf", "Shelf")
-                        .WithMany("Locations")
-                        .HasForeignKey("IdShelf")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Book");
-
-                    b.Navigation("Shelf");
                 });
 
             modelBuilder.Entity("PortaleBiblioteca.Server.Data.Models.Review", b =>
@@ -397,9 +398,9 @@ namespace PortaleBiblioteca.Server.Migrations
 
             modelBuilder.Entity("PortaleBiblioteca.Book", b =>
                 {
-                    b.Navigation("Loans");
+                    b.Navigation("Items");
 
-                    b.Navigation("Locations");
+                    b.Navigation("Loans");
 
                     b.Navigation("Reviews");
                 });
@@ -421,7 +422,7 @@ namespace PortaleBiblioteca.Server.Migrations
 
             modelBuilder.Entity("PortaleBiblioteca.Server.Data.Models.Shelf", b =>
                 {
-                    b.Navigation("Locations");
+                    b.Navigation("Items");
                 });
 
             modelBuilder.Entity("PortaleBiblioteca.Server.Data.Models.User", b =>

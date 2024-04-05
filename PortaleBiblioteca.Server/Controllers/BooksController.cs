@@ -44,7 +44,7 @@ namespace PortaleBiblioteca.Server.Controllers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         [Authorize(Roles = UserRole.FromLibrarianToUp)]
-        public async Task<IActionResult> PutBook(int id, BookFormEdit formBook)
+        public async Task<IActionResult> PutBook(int id, BookEditDTO formBook)
         {
             if (id != formBook.IdBook)
             {
@@ -65,7 +65,7 @@ namespace PortaleBiblioteca.Server.Controllers
                 book.Title = formBook.Title;
                 book.Description = formBook.Description;
                 book.IdGenre = formBook.IdGenre;
-                book.AvailableQuantity = formBook.availableQuantity;
+
                 book.PublicationDate = formBook.PublicationDate;
                 book.ISBN = formBook.ISBN;
                 book.CoverImage = formBook.CoverImage;
@@ -92,7 +92,7 @@ namespace PortaleBiblioteca.Server.Controllers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [Authorize(Roles = UserRole.FromLibrarianToUp)]
         [HttpPost("add")]
-        public async Task<ActionResult<Book>> PostBook(BookFormCreate formBook)
+        public async Task<ActionResult<Book>> PostBook(BookCreateDTO formBook)
         {
 
             Book book = new Book
@@ -101,7 +101,6 @@ namespace PortaleBiblioteca.Server.Controllers
                 Title = formBook.Title,
                 Description = formBook.Description,
                 IdGenre = Convert.ToInt32(formBook.IdGenre),
-                AvailableQuantity = 0,
                 PublicationDate = formBook.PublicationDate,
                 ISBN = formBook.ISBN,
                 CoverImage = formBook.CoverImage

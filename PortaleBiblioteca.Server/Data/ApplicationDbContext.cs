@@ -11,8 +11,8 @@ public class ApplicationDbContext : DbContext
     public DbSet<Book> Books { get; set; }
     public DbSet<Genre> Genres { get; set; }
     public DbSet<Aisle> Aisles { get; set; }
-    public DbSet<Shelf> Shelfs { get; set; }
-    public DbSet<Location> Locations { get; set; }
+    public DbSet<Shelf> Shelves { get; set; }
+    public DbSet<ItemsEntity> Items { get; set; }
     public DbSet<Loan> Loans { get; set; }
     public DbSet<Review> Reviews { get; set; }
     public DbSet<User> Users { get; set; }
@@ -20,4 +20,3 @@ public class ApplicationDbContext : DbContext
     public DbSet<Event> Events { get; set; }
 
 }
-

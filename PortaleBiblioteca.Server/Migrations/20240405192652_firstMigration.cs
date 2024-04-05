@@ -25,26 +25,6 @@ namespace PortaleBiblioteca.Server.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Books",
-                columns: table => new
-                {
-                    IdBook = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Author = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Genre = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AvailableQuantity = table.Column<int>(type: "int", nullable: false),
-                    PublicationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ISBN = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CoverImage = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Books", x => x.IdBook);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Events",
                 columns: table => new
                 {
@@ -60,6 +40,20 @@ namespace PortaleBiblioteca.Server.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Events", x => x.IdEvent);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Genres",
+                columns: table => new
+                {
+                    IdGenre = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Genres", x => x.IdGenre);
                 });
 
             migrationBuilder.CreateTable(
@@ -81,23 +75,48 @@ namespace PortaleBiblioteca.Server.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Shelfs",
+                name: "Shelves",
                 columns: table => new
                 {
                     IdShelf = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    IdAisle = table.Column<int>(type: "int", nullable: false),
                     ShelfHeight = table.Column<int>(type: "int", nullable: false),
-                    ShelfBay = table.Column<int>(type: "int", nullable: false),
-                    IdAisle = table.Column<int>(type: "int", nullable: false)
+                    ShelfBay = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Shelfs", x => x.IdShelf);
+                    table.PrimaryKey("PK_Shelves", x => x.IdShelf);
                     table.ForeignKey(
-                        name: "FK_Shelfs_Aisles_IdAisle",
+                        name: "FK_Shelves_Aisles_IdAisle",
                         column: x => x.IdAisle,
                         principalTable: "Aisles",
                         principalColumn: "IdAisle",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Books",
+                columns: table => new
+                {
+                    IdBook = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Author = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IdGenre = table.Column<int>(type: "int", nullable: false),
+                    PublicationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ISBN = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CoverImage = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Books", x => x.IdBook);
+                    table.ForeignKey(
+                        name: "FK_Books_Genres_IdGenre",
+                        column: x => x.IdGenre,
+                        principalTable: "Genres",
+                        principalColumn: "IdGenre",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -125,6 +144,33 @@ namespace PortaleBiblioteca.Server.Migrations
                         principalTable: "Users",
                         principalColumn: "IdUser",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Items",
+                columns: table => new
+                {
+                    IdItemsEntity = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IdBook = table.Column<int>(type: "int", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    ShelfIdShelf = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Items", x => x.IdItemsEntity);
+                    table.ForeignKey(
+                        name: "FK_Items_Books_IdBook",
+                        column: x => x.IdBook,
+                        principalTable: "Books",
+                        principalColumn: "IdBook",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Items_Shelves_ShelfIdShelf",
+                        column: x => x.ShelfIdShelf,
+                        principalTable: "Shelves",
+                        principalColumn: "IdShelf");
                 });
 
             migrationBuilder.CreateTable(
@@ -184,33 +230,6 @@ namespace PortaleBiblioteca.Server.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Locations",
-                columns: table => new
-                {
-                    IdLocation = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    IdShelf = table.Column<int>(type: "int", nullable: false),
-                    IdBook = table.Column<int>(type: "int", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Locations", x => x.IdLocation);
-                    table.ForeignKey(
-                        name: "FK_Locations_Books_IdBook",
-                        column: x => x.IdBook,
-                        principalTable: "Books",
-                        principalColumn: "IdBook",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Locations_Shelfs_IdShelf",
-                        column: x => x.IdShelf,
-                        principalTable: "Shelfs",
-                        principalColumn: "IdShelf",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_Attendances_IdEvent",
                 table: "Attendances",
@@ -220,6 +239,21 @@ namespace PortaleBiblioteca.Server.Migrations
                 name: "IX_Attendances_IdUser",
                 table: "Attendances",
                 column: "IdUser");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Books_IdGenre",
+                table: "Books",
+                column: "IdGenre");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Items_IdBook",
+                table: "Items",
+                column: "IdBook");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Items_ShelfIdShelf",
+                table: "Items",
+                column: "ShelfIdShelf");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Loans_IdBook",
@@ -232,16 +266,6 @@ namespace PortaleBiblioteca.Server.Migrations
                 column: "IdUser");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Locations_IdBook",
-                table: "Locations",
-                column: "IdBook");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Locations_IdShelf",
-                table: "Locations",
-                column: "IdShelf");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Reviews_IdBook",
                 table: "Reviews",
                 column: "IdBook");
@@ -252,8 +276,8 @@ namespace PortaleBiblioteca.Server.Migrations
                 column: "IdUser");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Shelfs_IdAisle",
-                table: "Shelfs",
+                name: "IX_Shelves_IdAisle",
+                table: "Shelves",
                 column: "IdAisle");
         }
 
@@ -264,10 +288,10 @@ namespace PortaleBiblioteca.Server.Migrations
                 name: "Attendances");
 
             migrationBuilder.DropTable(
-                name: "Loans");
+                name: "Items");
 
             migrationBuilder.DropTable(
-                name: "Locations");
+                name: "Loans");
 
             migrationBuilder.DropTable(
                 name: "Reviews");
@@ -276,7 +300,7 @@ namespace PortaleBiblioteca.Server.Migrations
                 name: "Events");
 
             migrationBuilder.DropTable(
-                name: "Shelfs");
+                name: "Shelves");
 
             migrationBuilder.DropTable(
                 name: "Books");
@@ -286,6 +310,9 @@ namespace PortaleBiblioteca.Server.Migrations
 
             migrationBuilder.DropTable(
                 name: "Aisles");
+
+            migrationBuilder.DropTable(
+                name: "Genres");
         }
     }
 }

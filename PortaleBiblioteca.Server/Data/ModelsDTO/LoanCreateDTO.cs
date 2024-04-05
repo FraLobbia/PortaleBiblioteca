@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PortaleBiblioteca.Server.Data.Models
 {
-  public class LoanFormCreate
+  public class LoanCreateDTO
   {
     [Key]
     public int IdLoan { get; set; }

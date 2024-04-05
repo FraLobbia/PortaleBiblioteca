@@ -142,7 +142,7 @@ namespace PortaleBiblioteca.Server.Controllers
         // POST: api/Loans/add
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost("add")]
-        public async Task<ActionResult<Loan>> PostLoan(LoanFormCreate formLoan)
+        public async Task<ActionResult<Loan>> PostLoan(LoanCreateDTO formLoan)
         {
             var alreadyLoaned = await _context.Loans
                 .Where(loan => loan.IdBook == formLoan.IdBook && loan.IdUser == formLoan.IdUser && !loan.Returned)
@@ -150,7 +150,7 @@ namespace PortaleBiblioteca.Server.Controllers
 
             if (alreadyLoaned != null)
             {
-                return BadRequest(new { message = "Libro già in prestito" });
+                return BadRequest(new { message = "Hai già preso in prestito questo libro!" });
             }
 
             Loan loan = new Loan

@@ -6,15 +6,74 @@ namespace PortaleBiblioteca.Server.Data.Models
     {
         [Key]
         public int IdShelf { get; set; }
-        public int ShelfHeight { get; set; }
-        public int ShelfBay { get; set; }
         [Required]
         [ForeignKey("Aisle")]
         public int IdAisle { get; set; }
 
-        public virtual ICollection<Location> Locations { get; set; }
+        [Required]
+        [EnumDataType(typeof(Height))]
+        public Height ShelfHeight { get; set; } // A, B, C, D, E
 
+        [Required]
+        [Range(1, 100)]
+        public int ShelfBay { get; set; }
+
+        public string ShelfName
+        {
+            get
+            {   // something like 1-A1 or 6-C3
+                return Aisle.AisleNumber + "-" + ShelfHeight + ShelfBay;
+            }
+        }
+
+        [Required]
+        [EnumDataType(typeof(Type))]
+        public Type ShelfType
+        {
+            set
+            {
+                if (Aisle.AisleNumber < 200)
+                {
+                    switch (Aisle.AisleNumber)
+                    {
+                        case 110:
+                            ShelfType = Type.LibrarianDesk;
+                            break;
+                        case 120:
+                            ShelfType = Type.Virtual;
+                            break;
+                        default:
+                            ShelfType = Type.Physical;
+                            break;
+                    }
+                }
+                else
+                {
+                    ShelfType = Type.Warehouse;
+                }
+
+            }
+        }
+
+
+        public virtual ICollection<ItemsEntity> Items { get; set; }
         public Aisle Aisle { get; set; }
 
+        public enum Type
+        {
+            LibrarianDesk, // 0 nel db
+            Warehouse, // 1
+            Virtual, // 2
+            Physical // 3
+        }
+
+        public enum Height
+        {
+            A, // 0 nel db
+            B, // 1 
+            C, // 2
+            D, // 3
+            E, // 4
+        }
     }
 }

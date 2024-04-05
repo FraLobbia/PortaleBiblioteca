@@ -1,6 +1,6 @@
 ﻿namespace PortaleBiblioteca.Server.Data.ModelsForms
 {
-    public class SignUpFormModel
+    public class SignUpDTO
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }

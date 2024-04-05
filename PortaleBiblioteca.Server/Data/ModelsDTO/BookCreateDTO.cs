@@ -1,9 +1,8 @@
-using PortaleBiblioteca.Server.Data.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace PortaleBiblioteca
 {
-    public class BookFormCreate
+    public class BookCreateDTO
     {
         [Key]
         public int IdBooks { get; set; }
