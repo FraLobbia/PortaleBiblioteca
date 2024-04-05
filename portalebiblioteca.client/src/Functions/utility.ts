@@ -37,9 +37,27 @@ export function capitalizeFirstLetter(str: string) {
 }
 
 export const howManyDaysAgo = (date: string) => {
+	// 2024-04-05 12:04:59.9108221
 	const today = new Date();
 	const dateToCheck = new Date(date);
 	const diffTime = Math.abs(today.getTime() - dateToCheck.getTime());
-	const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-	return diffDays;
+	const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) - 1;
+	switch (diffDays) {
+		case 0:
+			return (
+				"Oggi alle " +
+				dateToCheck.toLocaleTimeString("it-IT").slice(0, 5)
+			);
+		case 1:
+			return (
+				"Ieri alle " +
+				dateToCheck.toLocaleTimeString("it-IT").slice(0, 5)
+			);
+		default:
+			return (
+				diffDays +
+				" giorni fa alle " +
+				dateToCheck.toLocaleTimeString("it-IT").slice(0, 5)
+			);
+	}
 };

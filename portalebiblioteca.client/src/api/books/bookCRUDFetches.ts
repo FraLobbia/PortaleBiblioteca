@@ -47,7 +47,7 @@ export const fetchBookById = (id: string) => async (dispatch: AppDispatch) => {
 
 		if (response.ok) {
 			const book: Book = await response.json();
-			console.log("fetchBookById", book);
+			console.info("Dettagli del libro", book);
 			dispatch(setCurrentBook(book));
 		} else {
 			throw new Error("Errore nel recupero dei risultati");

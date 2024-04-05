@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using PortaleBiblioteca.Server.Data;
 using PortaleBiblioteca.Server.Data.Models;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace PortaleBiblioteca.Server.Controllers
 {
@@ -80,19 +81,25 @@ namespace PortaleBiblioteca.Server.Controllers
         [HttpPut("return/{id}")]
         public async Task<IActionResult> PutLoan(int id)
         {
-            var loan = await _context.Loans.FindAsync(id);
-
-            if (!LoanExists(id))
+            User user = GetUserByToken();
+            if (user == null)
             {
-                return NotFound(new { message = "Prestito non trovato" });
+                return Unauthorized(new { message = "Utente non autorizzato" });
             }
-
-            loan.Returned = true;
-
-            _context.Entry(loan).State = EntityState.Modified;
-
             try
             {
+                var loan = await _context.Loans.FindAsync(id);
+                if (loan.IdUser != user.IdUser)
+                {
+                    if (user.Role != "admin" && user.Role != "librarian")
+                    {
+                        return Unauthorized(new { message = "Non autorizzato. Per modificare un prestito di un altro utente è necessario avere ruoli 'librarian' o 'admin'" });
+                    }
+                }
+
+                loan.Returned = true;
+                loan.ReturnDate = DateTime.Now;
+                _context.Entry(loan).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
@@ -108,7 +115,7 @@ namespace PortaleBiblioteca.Server.Controllers
             }
 
             return Ok(await _context.Loans
-                    .Where(loan => loan.IdUser == id)
+                    .Where(loan => loan.IdUser == user.IdUser)
                     .Select(loan => new
                     {
                         loan.IdLoan,
@@ -159,8 +166,32 @@ namespace PortaleBiblioteca.Server.Controllers
             _context.Loans.Add(loan);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetLoan", new { id = loan.IdLoan }, loan);
+            return CreatedAtAction("GetLoansByUser", new { id = formLoan.IdUser }, await _context.Loans
+                    .Where(loan => loan.IdUser == formLoan.IdUser)
+                    .Select(loan => new
+                    {
+                        loan.IdLoan,
+                        loan.LoanDate,
+                        loan.Returned,
+                        loan.ReturnDate,
+                        loan.IdUser,
+                        Book = new
+                        {
+                            loan.Book.IdBook,
+                            loan.Book.Author,
+                            loan.Book.Title,
+                            loan.Book.Description,
+                            loan.Book.IdGenre,
+                            loan.Book.PublicationDate,
+                            loan.Book.ISBN,
+                            loan.Book.CoverImage,
+                        }
+                    })
+                    .ToListAsync()
+            );
+
         }
+
 
         // DELETE: api/Loans/5
         [HttpDelete("{id}")]
@@ -181,6 +212,22 @@ namespace PortaleBiblioteca.Server.Controllers
         private bool LoanExists(int id)
         {
             return _context.Loans.Any(e => e.IdLoan == id);
+        }
+
+        private User GetUserByToken()
+        {
+            try
+            {
+                var token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+                var handler = new JwtSecurityTokenHandler();
+                var jsonToken = handler.ReadToken(token) as JwtSecurityToken;
+                var idUser = jsonToken.Claims.First(claim => claim.Type == JwtRegisteredClaimNames.Jti).Value;
+                return _context.Users.Find(int.Parse(idUser));
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 }

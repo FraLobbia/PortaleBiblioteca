@@ -74,6 +74,10 @@ export const flagLoanAsReturned =
 			);
 			if (response.ok) {
 				const UpdatedLoanList: Loan[] = await response.json();
+				console.info(
+					"Lista aggiornata con libro restituito: ",
+					UpdatedLoanList
+				);
 				dispatch(setLoansOfUser(UpdatedLoanList));
 				Swal.fire({
 					title: "Libro restituito con successo!",
