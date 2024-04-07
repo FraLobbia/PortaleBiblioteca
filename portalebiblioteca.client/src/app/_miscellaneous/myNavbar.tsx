@@ -40,31 +40,40 @@ function MyNavbar() {
 						<NavLink className={"nav-link"} to="/">
 							Home
 						</NavLink>
-						<NavDropdown title="Catalogo" id="basic-nav-dropdown">
-							<NavDropdown.Item as={NavLink} to="/catalogo">
-								Elenco libri
-							</NavDropdown.Item>
-							{permissionsToEdit && (
-								<>
-									<NavDropdown.Item
-										as={NavLink}
-										to="/catalogo/add">
-										Aggiungi nuovo libro
-									</NavDropdown.Item>
-									<NavDropdown.Divider />
-									<NavDropdown.Item as={NavLink} to="/generi">
-										Elenco generi
-									</NavDropdown.Item>
-									<NavDropdown.Item
-										as={NavLink}
-										to="/generi/add">
-										Aggiungi nuovo genere
-									</NavDropdown.Item>
-								</>
-							)}
-							{/* <NavDropdown.Divider />
-							<NavDropdown.Item>Separated link</NavDropdown.Item> */}
-						</NavDropdown>
+						{permissionsToEdit ? (
+							<NavDropdown
+								title="Catalogo"
+								id="basic-nav-dropdown">
+								<NavDropdown.Item as={NavLink} to="/catalogo">
+									Elenco libri
+								</NavDropdown.Item>
+
+								<NavDropdown.Item
+									as={NavLink}
+									to="/catalogo/add">
+									Aggiungi nuovo libro
+								</NavDropdown.Item>
+								<NavDropdown.Divider />
+								<NavDropdown.Item as={NavLink} to="/generi">
+									Elenco generi
+								</NavDropdown.Item>
+								<NavDropdown.Item as={NavLink} to="/generi/add">
+									Aggiungi nuovo genere
+								</NavDropdown.Item>
+							</NavDropdown>
+						) : (
+							<NavLink className={"nav-link"} to="/catalogo">
+								Catalogo
+							</NavLink>
+						)}
+
+						{permissionsToEdit && (
+							<>
+								<NavLink className={"nav-link"} to="/warehouse">
+									Magazzino
+								</NavLink>
+							</>
+						)}
 					</Nav>
 					<Nav>
 						{user ? (

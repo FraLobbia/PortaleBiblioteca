@@ -2,10 +2,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PortaleBiblioteca
 {
-    public class BookCreateDTO
+    public class BookDTO
     {
         [Key]
-        public int IdBooks { get; set; }
+        public int IdBook { get; set; }
         [Required]
         public string Author { get; set; }
         [Required]

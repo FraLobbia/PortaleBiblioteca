@@ -2,10 +2,10 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.scss";
 import Home from "./app/home/page";
 import MyNavbar from "./app/_miscellaneous/myNavbar";
-import IndexBooks from "./app/books/IndexBooks";
-import FormAddBook from "./app/books/FormAddBook";
-import DetailBook from "./app/books/DetailsBook";
-import FormEditBook from "./app/books/FormEditBook";
+import IndexBooks from "./app/booksCatalog/IndexBooks";
+import FormAddBook from "./app/booksCatalog/FormAddBook";
+import DetailsBookPage from "./app/booksCatalog/DetailsBookPage";
+import FormEditBook from "./app/booksCatalog/FormEditBook";
 import SignUpPage from "./app/user/SignUpPage";
 import LoginPage from "./app/user/LoginPage";
 import EditProfile from "./app/user/EditProfile";
@@ -14,6 +14,7 @@ import NotFound_404 from "./app/_miscellaneous/NotFound_404";
 import FormAddGenres from "./app/genres/FormAddGenres";
 import IndexGenres from "./app/genres/IndexGenres";
 import FormEditGenres from "./app/genres/FormEditGenres";
+import ControlPanel from "./app/booksWarehouse/ControlPanel";
 
 function App() {
 	return (
@@ -25,8 +26,12 @@ function App() {
 				<Route path="/catalogo">
 					<Route index element={<IndexBooks />} />
 					<Route path="add" element={<FormAddBook />} />
-					<Route path="details/:id" element={<DetailBook />} />
+					<Route path="details/:id" element={<DetailsBookPage />} />
 					<Route path="edit/:id" element={<FormEditBook />} />
+				</Route>
+
+				<Route path="/warehouse">
+					<Route index element={<ControlPanel />} />
 				</Route>
 
 				<Route path="/generi">

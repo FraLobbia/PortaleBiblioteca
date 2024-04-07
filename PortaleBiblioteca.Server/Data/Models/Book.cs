@@ -1,7 +1,7 @@
 ﻿using PortaleBiblioteca.Server.Data.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
+using System.Text.Json.Serialization;
 namespace PortaleBiblioteca
 {
     public class Book
@@ -13,6 +13,8 @@ namespace PortaleBiblioteca
         public string Description { get; set; }
         [ForeignKey("Genre")]
         public int IdGenre { get; set; }
+
+
         public int AvailableQuantity
         {
             get
@@ -25,7 +27,7 @@ namespace PortaleBiblioteca
                     {
                         if (entity.Status == ItemsEntity.ItemsEntityStatus.Available)
                         {
-                            quantity++;
+                            quantity += entity.Quantity;
                         }
                     }
                 }
@@ -34,10 +36,12 @@ namespace PortaleBiblioteca
             }
         }
 
+
         public DateTime PublicationDate { get; set; }
         public string ISBN { get; set; }
         public string CoverImage { get; set; }
         public Genre Genre { get; set; }
+        [JsonIgnore]
         public virtual ICollection<ItemsEntity> Items { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }
         public virtual ICollection<Loan> Loans { get; set; }

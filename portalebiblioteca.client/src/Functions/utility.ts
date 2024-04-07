@@ -1,6 +1,7 @@
 import Swal from "sweetalert2";
 
-export const formatData = (data: string) => {
+export const formatData = (data: string | undefined) => {
+	if (data === undefined) return "";
 	const dateParts = data.split("-");
 	const year = parseInt(dateParts[0]);
 	const month = parseInt(dateParts[1]);

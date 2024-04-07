@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../functions/hooks";
-import { fetchLoansByUserId } from "../../api/books/bookLOANSFetches";
+import { fetchLoansByUserId } from "../../api/booksCatalog/bookLOANSFetches";
 import { Loan } from "../../interfaces/loans.interface";
 import { Container } from "react-bootstrap";
 import BackButton from "../_miscellaneous/reusable/BackButton";

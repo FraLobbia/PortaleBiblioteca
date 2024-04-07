@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PortaleBiblioteca.Server.Data;
 
@@ -11,9 +12,11 @@ using PortaleBiblioteca.Server.Data;
 namespace PortaleBiblioteca.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240407133038_rgvwerg")]
+    partial class rgvwerg
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -167,6 +170,9 @@ namespace PortaleBiblioteca.Server.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ShelfIdShelf")
+                        .HasColumnType("int");
+
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
@@ -174,7 +180,7 @@ namespace PortaleBiblioteca.Server.Migrations
 
                     b.HasIndex("IdBook");
 
-                    b.HasIndex("IdShelf");
+                    b.HasIndex("ShelfIdShelf");
 
                     b.ToTable("Items");
                 });
@@ -340,15 +346,11 @@ namespace PortaleBiblioteca.Server.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PortaleBiblioteca.Server.Data.Models.Shelf", "Shelf")
+                    b.HasOne("PortaleBiblioteca.Server.Data.Models.Shelf", null)
                         .WithMany("Items")
-                        .HasForeignKey("IdShelf")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ShelfIdShelf");
 
                     b.Navigation("Book");
-
-                    b.Navigation("Shelf");
                 });
 
             modelBuilder.Entity("PortaleBiblioteca.Server.Data.Models.Loan", b =>

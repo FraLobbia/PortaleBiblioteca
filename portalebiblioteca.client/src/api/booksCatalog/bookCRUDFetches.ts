@@ -1,10 +1,6 @@
 import Swal from "sweetalert2";
 import { url } from "../../functions/config";
-import {
-	Book,
-	BookCreateForm,
-	BookToEdit,
-} from "../../interfaces/book.interface";
+import { Book, BookDTO } from "../../interfaces/book.interface";
 import { setBooks, setCurrentBook } from "../../redux/slicers/bookSlice";
 import { AppDispatch } from "../../redux/store/store";
 import { fetchWithAuth } from "../interceptor";
@@ -59,7 +55,7 @@ export const fetchBookById = (id: string) => async (dispatch: AppDispatch) => {
 };
 
 export const fetchBookCreate =
-	(newBook: BookCreateForm) => async (dispatch: AppDispatch) => {
+	(newBook: BookDTO) => async (dispatch: AppDispatch) => {
 		try {
 			const response = await fetchWithAuth(url + "Books/add", {
 				method: "POST",
@@ -86,7 +82,7 @@ export const fetchBookCreate =
 	};
 
 export const fetchBookEdit =
-	(editedBook: BookToEdit, navigate: NavigateFunction) =>
+	(editedBook: BookDTO, navigate: NavigateFunction) =>
 	async (dispatch: AppDispatch) => {
 		try {
 			const response = await fetchWithAuth(

@@ -5,9 +5,9 @@ import {
 	fetchBookById,
 	fetchBookDelete,
 	fetchBookEdit,
-} from "../../api/books/bookCRUDFetches";
+} from "../../api/booksCatalog/bookCRUDFetches";
 import { Button, Container, Form } from "react-bootstrap";
-import { BookToEdit } from "../../interfaces/book.interface";
+import { BookDTO } from "../../interfaces/book.interface";
 import BackButton from "../_miscellaneous/reusable/BackButton";
 import Swal from "sweetalert2";
 import { fetchGenres } from "../../api/genres/genresCRUDFetches";
@@ -20,7 +20,6 @@ const FormEditBook = () => {
 	const [titolo, setTitolo] = useState<string>("");
 	const [descrizione, setDescrizione] = useState<string>("");
 	const [genere, setGenere] = useState<number>(0);
-	const [quantitaDisponibile, setQuantitaDisponibile] = useState<number>(0);
 	const [dataPubblicazione, setDataPubblicazione] = useState<Date>();
 	const [isbn, setIsbn] = useState<string>("");
 	const [immagineCopertina, setImmagineCopertina] = useState<string>("");
@@ -30,13 +29,12 @@ const FormEditBook = () => {
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		if (!id) return;
-		const editedBook: BookToEdit = {
+		const editedBook: BookDTO = {
 			idBook: parseInt(id),
 			author: autore,
 			title: titolo,
 			description: descrizione,
 			idGenre: genere,
-			availableQuantity: quantitaDisponibile,
 			publicationDate: dataPubblicazione,
 			isbn: isbn,
 			coverImage: immagineCopertina,
@@ -77,7 +75,6 @@ const FormEditBook = () => {
 			setTitolo(book.title);
 			setDescrizione(book.description || "");
 			setGenere(book.idGenre || 0);
-			setQuantitaDisponibile(book.availableQuantity || 0);
 			//setDataPubblicazione(book.publicationDate || new Date());
 			setIsbn(book.isbn || "");
 			setImmagineCopertina(book.coverImage || "");
@@ -150,20 +147,6 @@ const FormEditBook = () => {
 							className="btn btn-link p-0 mb-3">
 							Genere non presente? Clicca qui per aggiungerlo
 						</Link>
-
-						<Form.Group className="mb-3">
-							<Form.Label>Quantità disponibile</Form.Label>
-							<Form.Control
-								id="QuantitàField"
-								type="number"
-								value={quantitaDisponibile}
-								onChange={(e) =>
-									setQuantitaDisponibile(
-										parseInt(e.target.value)
-									)
-								}
-							/>
-						</Form.Group>
 
 						<Form.Group className="mb-3">
 							<Form.Label>Data pubblicazione</Form.Label>

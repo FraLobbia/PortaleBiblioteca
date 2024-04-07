@@ -2,8 +2,8 @@ import { useEffect } from "react";
 import {
 	fetchBookCreate,
 	fetchBookList,
-} from "../../api/books/bookCRUDFetches";
-import { Book, BookCreateForm } from "../../interfaces/book.interface";
+} from "../../api/booksCatalog/bookCRUDFetches";
+import { Book, BookDTO } from "../../interfaces/book.interface";
 import { useAppDispatch, useAppSelector } from "../../functions/hooks";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import Card from "react-bootstrap/Card";
@@ -12,23 +12,28 @@ import { useNavigate } from "react-router-dom";
 import { SyncLoader } from "react-spinners";
 
 const IndexBooks = () => {
+	// define hooks
 	const navigate = useNavigate();
+	const dispatch = useAppDispatch();
+
+	// store variables
 	const books: Book[] = useAppSelector((state) => state.bookState.books);
 	const { permissionsToEdit } = useAppSelector(
 		(state) => state.profileState.loggedProfile
 	);
 
-	const dispatch = useAppDispatch();
+	// what appens when the component is mounted
 	useEffect(() => {
 		dispatch(fetchBookList());
 	}, []);
 
+	// function to add a book for DEBUG
 	const aggiungilibroTEST = () => {
-		const newBook: BookCreateForm = {
-			author: "autore",
+		const newBook: BookDTO = {
+			author: "Libro di DEBUG",
 			title: new Date().toLocaleTimeString(),
-			description: "descrizione",
-			genre: "genere",
+			description: "Libro di DEBUG",
+			idGenre: 1,
 			publicationDate: new Date(),
 			isbn: "isbn",
 			coverImage: "immagineCopertina",
@@ -41,7 +46,7 @@ const IndexBooks = () => {
 	return (
 		<Container>
 			<h1 className="text-center mt-3">Elenco Libri</h1>
-			<Button className="d-none todo" onClick={aggiungilibroTEST}>
+			<Button className=" todo" onClick={aggiungilibroTEST}>
 				Aggiungi un libro di DEBUG
 			</Button>
 			<Row className="gy-2 justify-content-center">

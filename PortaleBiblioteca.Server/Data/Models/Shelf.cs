@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Generic;
+using System.Text.Json.Serialization;
 namespace PortaleBiblioteca.Server.Data.Models
 {
     public class Shelf
@@ -22,7 +24,7 @@ namespace PortaleBiblioteca.Server.Data.Models
         {
             get
             {   // something like 1-A1 or 6-C3
-                return Aisle.AisleNumber + "-" + ShelfHeight + ShelfBay;
+                return "Aisle.AisleNumber" + "-" + ShelfHeight + ShelfBay;
             }
         }
 
@@ -30,32 +32,27 @@ namespace PortaleBiblioteca.Server.Data.Models
         [EnumDataType(typeof(Type))]
         public Type ShelfType
         {
-            set
+            get
             {
                 if (Aisle.AisleNumber < 200)
                 {
                     switch (Aisle.AisleNumber)
                     {
                         case 110:
-                            ShelfType = Type.LibrarianDesk;
-                            break;
+                            return Type.LibrarianDesk;
                         case 120:
-                            ShelfType = Type.Virtual;
-                            break;
+                            return Type.Virtual;
                         default:
-                            ShelfType = Type.Physical;
-                            break;
+                            return Type.Physical;
                     }
                 }
                 else
                 {
-                    ShelfType = Type.Warehouse;
+                    return Type.Warehouse;
                 }
 
             }
         }
-
-
         public virtual ICollection<ItemsEntity> Items { get; set; }
         public Aisle Aisle { get; set; }
 

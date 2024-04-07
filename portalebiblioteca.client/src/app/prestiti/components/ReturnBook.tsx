@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAppDispatch } from "../../../functions/hooks";
 import { Loan } from "../../../interfaces/loans.interface";
-import { flagLoanAsReturned } from "../../../api/books/bookLOANSFetches";
+import { flagLoanAsReturned } from "../../../api/booksCatalog/bookLOANSFetches";
 import { Form } from "react-bootstrap";
 
 interface ReturnBookFormProps {

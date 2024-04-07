@@ -24,24 +24,24 @@ export interface Book {
 	loans?: null;
 }
 
-export interface BookToEdit {
-	idBook: number;
+export interface BookDTO {
+	idBook?: number;
 	author: string;
 	title: string;
-	description?: string;
-	idGenre?: number;
-	availableQuantity?: number;
+	description: string;
+	idGenre: number;
 	publicationDate?: Date;
-	isbn?: string;
-	coverImage?: string;
+	isbn: string;
+	coverImage: string;
 }
 
-export interface BookCreateForm {
-	author: string;
-	title: string;
-	description?: string;
-	idGenre?: number;
-	publicationDate?: Date;
-	isbn?: string;
-	coverImage?: string;
-}
+// export interface BookCreateForm {
+// 	author: string;
+// 	title: string;
+// 	description?: string;
+// 	idGenre?: number;
+// 	genre: Genre;
+// 	publicationDate?: Date;
+// 	isbn?: string;
+// 	coverImage?: string;
+// }

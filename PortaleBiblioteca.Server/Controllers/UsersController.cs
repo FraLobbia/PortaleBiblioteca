@@ -45,7 +45,7 @@ namespace PortaleBiblioteca.Server.Controllers
         // PUT: /Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, UserEditDTO formUser)
+        public async Task<IActionResult> PutUser(int id, UserDTO formUser)
         {
             if (id != formUser.IdUser)
             {
@@ -67,7 +67,7 @@ namespace PortaleBiblioteca.Server.Controllers
 
                 await _db.SaveChangesAsync();
                 var tokenString = TokenHandler.BuildToken(userToUpdate, _configuration);
-                
+
                 return Ok(new
                 {
                     token = tokenString,

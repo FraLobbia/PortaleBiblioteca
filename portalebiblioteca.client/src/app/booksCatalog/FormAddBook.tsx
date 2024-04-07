@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
 import { Button, Container, Form } from "react-bootstrap";
-import { BookCreateForm } from "../../interfaces/book.interface";
-import { fetchBookCreate } from "../../api/books/bookCRUDFetches";
+import { fetchBookCreate } from "../../api/booksCatalog/bookCRUDFetches";
 import { useAppDispatch, useAppSelector } from "../../functions/hooks";
 import BackButton from "../_miscellaneous/reusable/BackButton";
 import { Link, useNavigate } from "react-router-dom";
 import { fetchGenres } from "../../api/genres/genresCRUDFetches";
+import { BookDTO } from "../../interfaces/book.interface";
 
 const FormAddBook = () => {
 	const dispatch = useAppDispatch();
 	const [autore, setAutore] = useState<string>("");
 	const [titolo, setTitolo] = useState<string>("");
 	const [descrizione, setDescrizione] = useState<string>("");
-	const [genere, setGenere] = useState<number>("");
+	const [genere, setGenere] = useState<number>(0);
 	const [dataPubblicazione, setDataPubblicazione] = useState<Date>();
 	const [isbn, setIsbn] = useState<string>("");
 	const [immagineCopertina, setImmagineCopertina] = useState<string>("");
@@ -24,7 +24,7 @@ const FormAddBook = () => {
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		const newBook: BookCreateForm = {
+		const newBook: BookDTO = {
 			author: autore,
 			title: titolo,
 			description: descrizione,

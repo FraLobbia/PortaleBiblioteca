@@ -30,12 +30,18 @@ namespace PortaleBiblioteca.Server.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Book>> GetBook(int id)
         {
-            var book = await _context.Books.FindAsync(id);
+
+            // get the items with quantity
+            Book book = await _context.Books
+                .Include(b => b.Items)
+                .FirstOrDefaultAsync(b => b.IdBook == id);
+
 
             if (book == null)
             {
                 return NotFound();
             }
+
 
             return book;
         }
@@ -44,7 +50,7 @@ namespace PortaleBiblioteca.Server.Controllers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         [Authorize(Roles = UserRole.FromLibrarianToUp)]
-        public async Task<IActionResult> PutBook(int id, BookEditDTO formBook)
+        public async Task<IActionResult> PutBook(int id, BookDTO formBook)
         {
             if (id != formBook.IdBook)
             {
@@ -65,7 +71,6 @@ namespace PortaleBiblioteca.Server.Controllers
                 book.Title = formBook.Title;
                 book.Description = formBook.Description;
                 book.IdGenre = formBook.IdGenre;
-
                 book.PublicationDate = formBook.PublicationDate;
                 book.ISBN = formBook.ISBN;
                 book.CoverImage = formBook.CoverImage;
@@ -92,7 +97,7 @@ namespace PortaleBiblioteca.Server.Controllers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [Authorize(Roles = UserRole.FromLibrarianToUp)]
         [HttpPost("add")]
-        public async Task<ActionResult<Book>> PostBook(BookCreateDTO formBook)
+        public async Task<ActionResult<Book>> PostBook(BookDTO formBook)
         {
 
             Book book = new Book

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
+using System.Text.Json.Serialization;
 
 namespace PortaleBiblioteca.Server.Data.Models
 {
@@ -8,7 +8,6 @@ namespace PortaleBiblioteca.Server.Data.Models
     {
         [Key]
         public int IdItemsEntity { get; set; }
-
 
         [ForeignKey("Book")]
         public int IdBook { get; set; }
@@ -19,9 +18,12 @@ namespace PortaleBiblioteca.Server.Data.Models
         [Required]
         [EnumDataType(typeof(ItemsEntityStatus))]
         public ItemsEntityStatus Status { get; set; }
-
-
-        public Book Book { get; set; }
+        [Required]
+        [ForeignKey("Shelf")]
+        public int IdShelf { get; set; }
+        [JsonIgnore]
+        public virtual Book Book { get; set; }
+        public virtual Shelf Shelf { get; set; }
 
         public enum ItemsEntityStatus
         {
