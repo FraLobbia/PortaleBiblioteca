@@ -7,6 +7,7 @@ import storage from "redux-persist/lib/storage";
 import expireReducer from "redux-persist-expire";
 import bookSlice from "../slicers/bookSlice";
 import genreSlice from "../slicers/genreSlice";
+import warehouseSlice from "../slicers/warehouseSlice";
 
 const persistConfig = {
 	key: "root",
@@ -29,6 +30,7 @@ const rootReducer = combineSlices({
 	profileState: userSlice,
 	bookState: bookSlice,
 	genreState: genreSlice,
+	warehouseState: warehouseSlice,
 });
 //2) =================================================================================
 // Infer the `RootState` type from the root reducer

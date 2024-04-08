@@ -1,9 +1,9 @@
-import { Button, Form, Table } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import DetailsBook from "../booksCatalog/components/DetailsBook";
 import { useState } from "react";
 import { addToWarehouse } from "../../api/warehouse/warehouseFetches";
 import { Book } from "../../interfaces/book.interface";
-import { Link } from "react-router-dom";
+import InventoryWarehouseTable from "./components/InventoryWarehouseTable";
 
 interface CheckInNewBookProps {
 	book: Book | null;
@@ -46,38 +46,13 @@ const CheckInNewBook = ({ book }: CheckInNewBookProps) => {
 					</Button>
 				</Form.Group>
 			</Form>
-			<hr />
-			<h3>Inventario</h3>
-			<Table striped bordered hover>
-				<thead>
-					<tr>
-						<th>Magazzino</th>
-						<th>Titolo</th>
-						<th>In magazzino</th>
-						<th>Disponibile sugli scaffali</th>
-						<th></th>
-					</tr>
-				</thead>
-				<tbody
-				// style={{ overflowY: "scroll", height: "300px" }}
-				>
-					<tr>
-						<td>200-A1</td>
-						<td>{book?.title}</td>
-						<td>{book?.warehouseQuantity}</td>
-						<td>{book?.availableQuantity}</td>
-						<td>
-							<Link
-								to={"move/" + book?.idBook}
-								className="btn btn-primary">
-								Sposta
-							</Link>
-						</td>
-					</tr>
-				</tbody>
-			</Table>
 
 			<hr />
+
+			<InventoryWarehouseTable book={book} />
+
+			<hr />
+
 			<h3>Dettagli</h3>
 			<h3 className="my-3  alert alert-info">
 				!! Prima di aggiungere controlla che i dati corrispondano al

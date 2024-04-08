@@ -94,7 +94,15 @@ namespace PortaleBiblioteca.Server.Controllers
       return Ok(itemsEntities);
     }
 
+    // GET: api/Warehouse/aisle
+    [HttpGet("aisle")]
+    public async Task<ActionResult<IEnumerable<Aisle>>> GetAisle()
+    {
+      return await _context.Aisles.ToListAsync();
+    }
 
   }
+
+
 }
 

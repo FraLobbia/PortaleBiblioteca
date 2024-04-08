@@ -6,7 +6,6 @@ import { loanObjForm } from "../../../interfaces/loans.interface";
 import { addLoanToUser } from "../../../api/booksCatalog/bookLOANSFetches";
 import { Link, useNavigate } from "react-router-dom";
 import { formatData } from "../../../functions/utility";
-import { Book } from "../../../interfaces/book.interface";
 interface DetailsBookProps {
 	idBook: string | undefined;
 }
