@@ -31,6 +31,7 @@ namespace PortaleBiblioteca.Server.Data.Models
             NotAvailable,
             ReservedToBePicked,
             AtLibrarianDesk,
+            AtWarehouse,
             CheckedOutForLoan,
         }
     }

@@ -24,7 +24,7 @@ namespace PortaleBiblioteca.Server.Data.Models
         {
             get
             {   // something like 1-A1 or 6-C3
-                return "Aisle.AisleNumber" + "-" + ShelfHeight + ShelfBay;
+                return Aisle.AisleNumber + "-" + ShelfHeight + ShelfBay;
             }
         }
 

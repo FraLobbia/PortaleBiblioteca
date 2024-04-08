@@ -19,7 +19,6 @@ namespace PortaleBiblioteca
         {
             get
             {
-
                 int quantity = 0;
                 if (Items != null)
                 {
@@ -31,11 +30,104 @@ namespace PortaleBiblioteca
                         }
                     }
                 }
-
                 return quantity;
             }
         }
 
+        public int WarehouseQuantity
+        {
+            get
+            {
+                int quantity = 0;
+                if (Items != null)
+                {
+                    foreach (var entity in Items)
+                    {
+                        if (entity.Status == ItemsEntity.ItemsEntityStatus.AtWarehouse)
+                        {
+                            quantity += entity.Quantity;
+                        }
+                    }
+                }
+                return quantity;
+            }
+        }
+
+        public int NotAvailableQuantity
+        {
+            get
+            {
+                int quantity = 0;
+                if (Items != null)
+                {
+                    foreach (var entity in Items)
+                    {
+                        if (entity.Status == ItemsEntity.ItemsEntityStatus.NotAvailable)
+                        {
+                            quantity += entity.Quantity;
+                        }
+                    }
+                }
+                return quantity;
+            }
+        }
+
+        public int ReservedToBePickedQuantity
+        {
+            get
+            {
+                int quantity = 0;
+                if (Items != null)
+                {
+                    foreach (var entity in Items)
+                    {
+                        if (entity.Status == ItemsEntity.ItemsEntityStatus.ReservedToBePicked)
+                        {
+                            quantity += entity.Quantity;
+                        }
+                    }
+                }
+                return quantity;
+            }
+        }
+
+        public int AtLibrarianDeskPickedQuantity
+        {
+            get
+            {
+                int quantity = 0;
+                if (Items != null)
+                {
+                    foreach (var entity in Items)
+                    {
+                        if (entity.Status == ItemsEntity.ItemsEntityStatus.AtLibrarianDesk)
+                        {
+                            quantity += entity.Quantity;
+                        }
+                    }
+                }
+                return quantity;
+            }
+        }
+
+        public int CheckedOutForLoanQuantity
+        {
+            get
+            {
+                int quantity = 0;
+                if (Items != null)
+                {
+                    foreach (var entity in Items)
+                    {
+                        if (entity.Status == ItemsEntity.ItemsEntityStatus.CheckedOutForLoan)
+                        {
+                            quantity += entity.Quantity;
+                        }
+                    }
+                }
+                return quantity;
+            }
+        }
 
         public DateTime PublicationDate { get; set; }
         public string ISBN { get; set; }

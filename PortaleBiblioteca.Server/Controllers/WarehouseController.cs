@@ -41,13 +41,13 @@ namespace PortaleBiblioteca.Server.Controllers
       item.Book = book;
       item.Status = ItemsEntity.ItemsEntityStatus.Available;
       item.Quantity = data.Quantity;
-      item.IdShelf = 103; // this is the shelf for the warehouse
+      item.IdShelf = 50003; // this is the shelf for the warehouse
       _context.Items.Add(item);
 
 
       await _context.SaveChangesAsync();
 
-      return Ok();
+      return CreatedAtAction("GetItemsEntity", new { IdBook = item.IdBook }, item);
     }
 
 
@@ -58,19 +58,20 @@ namespace PortaleBiblioteca.Server.Controllers
       //var itemsEntities = await _context.Items.Where(i => i.IdBook == IdBook).ToListAsync();
       // include the book and the shelf
       var itemsEntities = await _context.Items
+          .Include(i => i.Shelf.Aisle)
           .Where(i => i.IdBook == IdBook)
           .Select(i => new
           {
             i.IdItemsEntity,
             i.Quantity,
-            i.Status,
+            Status = i.Status.ToString(),
             Shelf = new
             {
               i.Shelf.IdShelf,
-              i.Shelf.ShelfHeight,
+              ShelfHeight = i.Shelf.ShelfHeight.ToString(),
               i.Shelf.ShelfBay,
               i.Shelf.ShelfName,
-              //i.Shelf.ShelfType
+              ShelfType = i.Shelf.ShelfType.ToString(),
             },
             Book = new
             {

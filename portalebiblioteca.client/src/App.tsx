@@ -15,6 +15,7 @@ import FormAddGenres from "./app/genres/FormAddGenres";
 import IndexGenres from "./app/genres/IndexGenres";
 import FormEditGenres from "./app/genres/FormEditGenres";
 import ControlPanel from "./app/booksWarehouse/ControlPanel";
+import MoveItems from "./app/booksWarehouse/MoveItems";
 
 function App() {
 	return (
@@ -32,6 +33,7 @@ function App() {
 
 				<Route path="/warehouse">
 					<Route index element={<ControlPanel />} />
+					<Route path="move/:id" element={<MoveItems />} />
 				</Route>
 
 				<Route path="/generi">

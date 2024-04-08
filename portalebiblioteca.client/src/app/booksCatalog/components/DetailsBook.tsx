@@ -6,8 +6,9 @@ import { loanObjForm } from "../../../interfaces/loans.interface";
 import { addLoanToUser } from "../../../api/booksCatalog/bookLOANSFetches";
 import { Link, useNavigate } from "react-router-dom";
 import { formatData } from "../../../functions/utility";
+import { Book } from "../../../interfaces/book.interface";
 interface DetailsBookProps {
-	idBook: string;
+	idBook: string | undefined;
 }
 
 const DetailsBook = ({ idBook }: DetailsBookProps) => {
@@ -54,11 +55,11 @@ const DetailsBook = ({ idBook }: DetailsBookProps) => {
 							src={book.coverImage}
 							alt={book.title}
 						/>
-						<dt>Quantità in prestito:</dt>
-						<dd>{book.loanQuantity}</dd>
-						<dt>Quantità disponibile:</dt>
+						<dt>In prestito:</dt>
+						<dd>{book.checkedOutForLoanQuantity}</dd>
+						<dt>Disponibile:</dt>
 						<dd>{book.availableQuantity}</dd>
-						{!isWarehouse && (
+						{!isWarehouse ? (
 							<div className="d-flex flex-column">
 								<Button
 									onClick={createLoan}
@@ -74,6 +75,13 @@ const DetailsBook = ({ idBook }: DetailsBookProps) => {
 									</Link>
 								)}
 							</div>
+						) : (
+							<>
+								<dt>In magazzino:</dt>
+								<dd>{book.warehouseQuantity}</dd>
+								<dt>Al banco del bibliotecario:</dt>
+								<dd>{book.atLibrarianDeskPickedQuantity}</dd>
+							</>
 						)}
 					</Col>
 					<Col xs={9}>

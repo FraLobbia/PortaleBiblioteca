@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
-import { Button, Container, Form } from "react-bootstrap";
+import { Container, Form } from "react-bootstrap";
 import { Book } from "../../interfaces/book.interface";
 import { useAppDispatch, useAppSelector } from "../../functions/hooks";
 import CheckInNewBook from "./CheckInNewBook";
 import { fetchBookList } from "../../api/booksCatalog/bookCRUDFetches";
-import { fetchAllWarehouse } from "../../api/warehouse/warehouseFetches";
 
 const ControlPanel = () => {
 	// define hooks
@@ -14,7 +13,7 @@ const ControlPanel = () => {
 	const { books } = useAppSelector((state) => state.bookState);
 
 	// variables
-	const [idBookChoosen, setIdBookChoosen] = useState<string>("");
+	const [choosenBook, setChoosenBook] = useState<Book | null>(null);
 
 	// what appens when the component is mounted
 	useEffect(() => {
@@ -23,16 +22,19 @@ const ControlPanel = () => {
 	return (
 		<Container>
 			<h1 className="my-3">Pannello di controllo magazzino</h1>
-			<Button onClick={() => fetchAllWarehouse()}>rgwegs</Button>
 			<Form.Group className="mt-3">
-				<Form.Label>
-					Titolo del libro da aggiungere in magazzino
-				</Form.Label>
 				<Form.Select
 					id="bookChoiceField"
-					onChange={(e) => setIdBookChoosen(e.target.value)}
+					onChange={(e) =>
+						setChoosenBook(
+							books.find(
+								(book) =>
+									book.idBook === parseInt(e.target.value)
+							) ?? null
+						)
+					}
 					aria-label="Scelta del titolo da aggiungere in magazzino">
-					<option className="text-muted">
+					<option className="text-muted" value={""}>
 						Scegli un titolo tra quelli a catalogo
 					</option>
 					{books.map((book: Book) => (
@@ -42,8 +44,7 @@ const ControlPanel = () => {
 					))}
 				</Form.Select>
 			</Form.Group>
-
-			{idBookChoosen && <CheckInNewBook idBook={idBookChoosen} />}
+			{choosenBook && <CheckInNewBook book={choosenBook} />}
 		</Container>
 	);
 };

@@ -22,7 +22,7 @@ namespace PortaleBiblioteca.Server.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<Book>>> GetBooks()
         {
-            return await _context.Books.ToListAsync();
+            return await _context.Books.Include(b => b.Items).ToListAsync();
         }
 
         // GET: /Books/5
@@ -35,7 +35,6 @@ namespace PortaleBiblioteca.Server.Controllers
             Book book = await _context.Books
                 .Include(b => b.Items)
                 .FirstOrDefaultAsync(b => b.IdBook == id);
-
 
             if (book == null)
             {

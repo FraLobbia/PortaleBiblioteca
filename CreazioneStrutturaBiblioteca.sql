@@ -51,6 +51,8 @@
 --values( 101,0,1) -- librarian
 --insert into Shelves (IdAisle, ShelfHeight, ShelfBay)
 --values (102,0,1) -- virtual
+--insert into Shelves (IdAisle, ShelfHeight, ShelfBay)
+--values (103,0,1) -- warehouse 
 
 ---- insert utente admin !!!!! ricorda di cambiare la password
 --insert into Users (FirstName,LastName,Email,Password,Role)
