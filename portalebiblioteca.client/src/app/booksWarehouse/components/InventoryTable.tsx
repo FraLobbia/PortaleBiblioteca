@@ -47,7 +47,7 @@ const InventoryTable = ({ book }: InventoryTableProps) => {
 									{item.shelf.shelfName}
 								</td>
 
-								<td className="col-4">{item.quantity}</td>
+								<td>{item.quantity}</td>
 								<td className="col-4">
 									{item.book.warehouseQuantity}
 								</td>

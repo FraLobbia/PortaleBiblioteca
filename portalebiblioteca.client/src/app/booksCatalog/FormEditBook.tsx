@@ -11,6 +11,8 @@ import { BookDTO } from "../../interfaces/book.interface";
 import BackButton from "../_miscellaneous/reusable/BackButton";
 import Swal from "sweetalert2";
 import { fetchGenres } from "../../api/genres/genresCRUDFetches";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 
 const FormEditBook = () => {
 	const book = useAppSelector((state) => state.bookState.currentBook);
@@ -84,10 +86,14 @@ const FormEditBook = () => {
 	return (
 		<Container>
 			<BackButton />
-			<div className="d-flex justify-content-between">
-				<h1>Modifica libro</h1>
-				<Button variant="danger" onClick={() => handleDelete(id)}>
-					Vuoi invece eliminarlo?
+			<div className="d-flex justify-content-between align-items-center">
+				<h1>Modifica dettagli del libro</h1>
+				<Button
+					className="d-flex align-items-center gap-2"
+					variant="danger"
+					onClick={() => handleDelete(id)}>
+					<FontAwesomeIcon icon={faTrashCan} />
+					<span>Vuoi invece eliminarlo?</span>
 				</Button>
 			</div>
 			{book && (
@@ -190,7 +196,11 @@ const FormEditBook = () => {
 							/>
 						</Form.Group>
 
-						<Button variant="success" type="submit">
+						<Button
+							className="d-flex align-items-center gap-2"
+							variant="success"
+							type="submit">
+							<FontAwesomeIcon icon={faCheck} />
 							Salva modifica
 						</Button>
 					</Form>

@@ -12,6 +12,12 @@ import { useNavigate } from "react-router-dom";
 import { SyncLoader } from "react-spinners";
 import { truncateText } from "../../functions/utility";
 import Sidebar from "./components/Sidebar";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+	faBookOpen,
+	faFeather,
+	faSliders,
+} from "@fortawesome/free-solid-svg-icons";
 
 const IndexBooks = () => {
 	// define hooks
@@ -50,7 +56,7 @@ const IndexBooks = () => {
 
 	return (
 		<Container>
-			<h1 className="text-center mt-3">Libri a catalogo</h1>
+			<h1 className="text-center mt-3">I Libri del nostro catalogo</h1>
 			<Row>
 				<Col lg={3} className="d-flex justify-content-between">
 					<Sidebar />
@@ -109,22 +115,48 @@ const IndexBooks = () => {
 												<div className="d-flex gap-3 justify-content-end mt-3">
 													{permissionsToEdit && (
 														<Link
-															className="btn btn-warning"
+															className="btn btn-warning d-flex align-items-center gap-2"
 															to={
 																"edit/" +
 																book.idBook
 															}>
-															Modifica libro
+															<FontAwesomeIcon
+																icon={faSliders}
+															/>
+															<span>
+																Modifica libro
+															</span>
 														</Link>
 													)}
 													<Link
-														className="btn btn-success"
+														to={
+															"review/" +
+															book.idBook
+														}>
+														<Button
+															variant="primary"
+															className="d-flex align-items-center gap-2">
+															<FontAwesomeIcon
+																icon={faFeather}
+															/>
+															<span>
+																Recensioni
+															</span>
+														</Button>
+													</Link>
+													<Link
+														className="btn btn-success d-flex align-items-center gap-2"
 														to={
 															"details/" +
 															book.idBook
 														}>
-														Vedi dettagli e prendi
-														in prestito!
+														<FontAwesomeIcon
+															icon={faBookOpen}
+														/>
+														<span>
+															Vedi dettagli e
+															prendi in prestito!
+														</span>
 													</Link>
 												</div>
 											</Card.Body>

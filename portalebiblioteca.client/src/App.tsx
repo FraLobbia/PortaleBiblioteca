@@ -18,6 +18,7 @@ import ControlPanel from "./app/booksWarehouse/ControlPanel";
 import MoveItems from "./app/booksWarehouse/MoveItems";
 import { setDarkMode } from "./functions/utility";
 import BackButton from "./app/_miscellaneous/reusable/BackButton";
+import MyFooter from "./app/_miscellaneous/myFooter";
 
 function App() {
 	const selectedTheme = localStorage.getItem("selectedTheme");
@@ -61,6 +62,7 @@ function App() {
 
 				<Route path="*" element={<NotFound_404 />} />
 			</Routes>
+			<MyFooter />
 		</BrowserRouter>
 	);
 }
