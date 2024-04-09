@@ -12,8 +12,8 @@ using PortaleBiblioteca.Server.Data;
 namespace PortaleBiblioteca.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240408100650_rgwerUYGYH")]
-    partial class rgwerUYGYH
+    [Migration("20240409103916_initialMigr")]
+    partial class initialMigr
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { Container, Form } from "react-bootstrap";
 import { Book } from "../../interfaces/book.interface";
 import { useAppDispatch, useAppSelector } from "../../functions/hooks";
-import CheckInNewBook from "./CheckInNewBook";
+import ReceiveNewBook from "./ReceiveNewBook";
 import { fetchBookList } from "../../api/booksCatalog/bookCRUDFetches";
+import BackButton from "../_miscellaneous/reusable/BackButton";
 
 const ControlPanel = () => {
 	// define hooks
@@ -14,13 +15,13 @@ const ControlPanel = () => {
 
 	// variables
 	const [choosenBook, setChoosenBook] = useState<Book | null>(null);
-
 	// what appens when the component is mounted
 	useEffect(() => {
 		dispatch(fetchBookList());
 	}, []);
 	return (
 		<Container>
+			<BackButton />
 			<h1 className="my-3">Pannello di controllo magazzino</h1>
 			<Form.Group className="mt-3">
 				<Form.Select
@@ -44,7 +45,7 @@ const ControlPanel = () => {
 					))}
 				</Form.Select>
 			</Form.Group>
-			{choosenBook && <CheckInNewBook book={choosenBook} />}
+			{choosenBook && <ReceiveNewBook book={choosenBook} />}
 		</Container>
 	);
 };

@@ -5,15 +5,15 @@ import { addToWarehouse } from "../../api/warehouse/warehouseFetches";
 import { Book } from "../../interfaces/book.interface";
 import InventoryWarehouseTable from "./components/InventoryWarehouseTable";
 
-interface CheckInNewBookProps {
+interface ReceiveNewBookProps {
 	book: Book | null;
 }
 
-const CheckInNewBook = ({ book }: CheckInNewBookProps) => {
+const ReceiveNewBook = ({ book }: ReceiveNewBookProps) => {
 	// define hooks
 
 	//variables
-	const [quantity, setQuantity] = useState<number>(0);
+	const [quantity, setQuantity] = useState<number>(1);
 
 	//functions
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -24,7 +24,7 @@ const CheckInNewBook = ({ book }: CheckInNewBookProps) => {
 
 	return (
 		<>
-			<h1 className="my-3">Aggiungi quantità in magazzino</h1>
+			<h1 className="my-3">Ricezione libri</h1>
 			<Form onSubmit={handleSubmit}>
 				<Form.Group>
 					<Form.Label>
@@ -33,6 +33,8 @@ const CheckInNewBook = ({ book }: CheckInNewBookProps) => {
 						nelle corsie aperte al pubblico{" "}
 					</Form.Label>
 					<Form.Control
+						placeholder="Inserisci quantità"
+						value={quantity}
 						onChange={(e) => setQuantity(parseInt(e.target.value))}
 						type="number"
 					/>
@@ -62,4 +64,4 @@ const CheckInNewBook = ({ book }: CheckInNewBookProps) => {
 		</>
 	);
 };
-export default CheckInNewBook;
+export default ReceiveNewBook;

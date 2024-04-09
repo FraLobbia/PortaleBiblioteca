@@ -7,18 +7,26 @@ import { useAppDispatch, useAppSelector } from "../../functions/hooks";
 import { logout } from "../../redux/slicers/userSlice";
 import logo from "../../assets/images/logo.png";
 import userTemplateImage from "../../assets/images/userTemplateImage.jpg";
-function MyNavbar() {
+import DarkMode from "./DarkMode";
+
+const MyNavbar = () => {
+	// define hooks
 	const dispatch = useAppDispatch();
+
+	//store variables
 	const { permissionsToEdit, user } = useAppSelector(
 		(state) => state.profileState.loggedProfile
 	);
 
+	// variables
+
+	//functions to handle the logout
 	const handleLogout = () => {
 		dispatch(logout());
 	};
 
 	return (
-		<Navbar expand="md" className="bg-body-tertiary">
+		<Navbar expand="md">
 			<Container>
 				<Navbar.Brand>
 					<Link to="/" className="nav-link">
@@ -108,7 +116,11 @@ function MyNavbar() {
 								<NavDropdown.Item as={NavLink} to="/prestiti">
 									I tuoi libri in prestito
 								</NavDropdown.Item>
+
 								<NavDropdown.Divider />
+
+								<DarkMode />
+
 								<NavDropdown.Item>
 									<Link to="/user/edit" className="nav-link">
 										Modifica il tuo profilo
@@ -133,6 +145,6 @@ function MyNavbar() {
 			</Container>
 		</Navbar>
 	);
-}
+};
 
 export default MyNavbar;

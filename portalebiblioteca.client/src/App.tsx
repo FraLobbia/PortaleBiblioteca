@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.scss";
-import Home from "./app/home/page";
+import HomePage from "./app/home/HomePage";
 import MyNavbar from "./app/_miscellaneous/myNavbar";
 import IndexBooks from "./app/booksCatalog/IndexBooks";
 import FormAddBook from "./app/booksCatalog/FormAddBook";
@@ -16,13 +16,20 @@ import IndexGenres from "./app/genres/IndexGenres";
 import FormEditGenres from "./app/genres/FormEditGenres";
 import ControlPanel from "./app/booksWarehouse/ControlPanel";
 import MoveItems from "./app/booksWarehouse/MoveItems";
+import { setDarkMode } from "./functions/utility";
 
 function App() {
+	const selectedTheme = localStorage.getItem("selectedTheme");
+
+	if (selectedTheme === "dark") {
+		setDarkMode();
+	}
 	return (
 		<BrowserRouter>
 			<MyNavbar />
+
 			<Routes>
-				<Route path="/" element={<Home />} />
+				<Route path="/" element={<HomePage />} />
 
 				<Route path="/catalogo">
 					<Route index element={<IndexBooks />} />

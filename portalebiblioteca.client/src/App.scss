@@ -1,9 +1,37 @@
 ﻿@import "./assets/_bootstrapOverrides.scss";
-
+@import "./app/booksWarehouse/_warehouse.scss";
+@import "./assets/DarkMode.scss";
 p {
 	margin: 0;
 }
 
 h1 {
 	margin-block: 1.5rem;
+}
+
+:root {
+	--body_background: #f5f5f5;
+	--body_color: #5d4848;
+	--link_color: #007bff;
+}
+
+[data-theme="dark"] {
+	--bs-body-bg: #333;
+	--bs-body-color: #f5f5f5;
+	--bs-secondary-color: #6c757d;
+	--bs-link-color: #ffcc89;
+	--bs-emphasis-color: #f5f5f5;
+	--bs-border-color-translucent: white;
+	--bs-navbar-color: red;
+	--bs-emphasis-color-rgb: 245, 245, 245;
+}
+
+[data-theme="light"] {
+	--bs-body-bg: #f5f5f5;
+	--bs-body-color: #333;
+	--bs-link-color: #007bff;
+}
+
+body {
+	transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
 }

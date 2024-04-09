@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PortaleBiblioteca.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class firstMigration : Migration
+    public partial class initialMigr : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -62,11 +62,11 @@ namespace PortaleBiblioteca.Server.Migrations
                 {
                     IdUser = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Role = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Role = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserImage = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -155,7 +155,7 @@ namespace PortaleBiblioteca.Server.Migrations
                     IdBook = table.Column<int>(type: "int", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
-                    ShelfIdShelf = table.Column<int>(type: "int", nullable: true)
+                    IdShelf = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -167,10 +167,11 @@ namespace PortaleBiblioteca.Server.Migrations
                         principalColumn: "IdBook",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Items_Shelves_ShelfIdShelf",
-                        column: x => x.ShelfIdShelf,
+                        name: "FK_Items_Shelves_IdShelf",
+                        column: x => x.IdShelf,
                         principalTable: "Shelves",
-                        principalColumn: "IdShelf");
+                        principalColumn: "IdShelf",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -251,9 +252,9 @@ namespace PortaleBiblioteca.Server.Migrations
                 column: "IdBook");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Items_ShelfIdShelf",
+                name: "IX_Items_IdShelf",
                 table: "Items",
-                column: "ShelfIdShelf");
+                column: "IdShelf");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Loans_IdBook",

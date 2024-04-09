@@ -4,19 +4,16 @@ import { fetchWithAuth } from "../interceptor";
 
 export const addToWarehouse = async (quantity: number, idBook: number) => {
 	try {
-		const response = await fetchWithAuth(
-			url + "api/Warehouse/addToWarehouse",
-			{
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					quantity,
-					idBook,
-				}),
-			}
-		);
+		const response = await fetchWithAuth(url + "api/Warehouse/receive", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				quantity,
+				idBook,
+			}),
+		});
 
 		if (!response.ok) {
 			response.json().then((err) => {

@@ -21,9 +21,7 @@ const InventoryTable = ({ book }: InventoryTableProps) => {
 						<th>Disponibile sugli scaffali</th>
 					</tr>
 				</thead>
-				<tbody
-				// style={{ overflowY: "scroll", height: "300px" }}
-				>
+				<tbody>
 					<tr>
 						<td>200-A1</td>
 						<td>{book?.title}</td>
