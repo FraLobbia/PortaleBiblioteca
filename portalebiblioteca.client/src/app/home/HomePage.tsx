@@ -27,14 +27,15 @@ const HomePage = () => {
 						<h2 className="mt-4">Le nostre collezioni</h2>
 						<p className="pb-1">
 							Esplora le nostre collezioni di libri, suddivise per
-							genere e argomento.
+							genere e autore. Oppure leggi le recensioni dei
+							nostri utenti.
 						</p>
 						<div className="d-flex gap-2 flex-wrap">
 							<Link to="/catalogo" className="btn btn-mattone">
 								<FontAwesomeIcon icon={faBook} />
 								<span className="ms-2">Vai al catalogo</span>
 							</Link>
-							<Link to="/catalogo" className="btn btn-primary">
+							<Link to="/reviews" className="btn btn-primary">
 								<FontAwesomeIcon icon={faFeather} />
 								<span className="ms-2">
 									Leggi le recensioni
@@ -45,8 +46,8 @@ const HomePage = () => {
 					<section className="section events">
 						<h2 className="mt-4">Eventi e attività</h2>
 						<p className="pb-1">
-							Partecipa ai nostri eventi culturali e alle attività
-							organizzate nella biblioteca.
+							Esplore le ricchezze della biblioteca: dal prestito
+							dei libri alle recensioni più appassionanti.
 						</p>
 						<Link to="/events" className="btn btn-mattone">
 							<FontAwesomeIcon icon={faCalendarDay} />
@@ -58,8 +59,9 @@ const HomePage = () => {
 					<section className="section services">
 						<h2 className="mt-4">I nostri servizi</h2>
 						<p className="pb-1">
-							Scopri i servizi offerti dalla biblioteca, come il
-							prestito libri e le sale studio.
+							Esplore le ricchezze della biblioteca: dal prestito
+							dei libri alle recensioni più appassionanti. Scopri
+							un mondo di conoscenza e avventura letteraria!
 						</p>
 						<Link to="/events" className="btn btn-mattone">
 							<FontAwesomeIcon icon={faCalendarDay} />

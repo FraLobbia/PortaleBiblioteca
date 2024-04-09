@@ -81,26 +81,7 @@ const MyFooter = () => {
 							</li>
 						</ul>
 					</Col>
-					<Col className="footer-section">
-						<h3>Link utili</h3>
-						<ul>
-							<li>
-								<a href="https://www.universita.it">
-									Università
-								</a>
-							</li>
-							<li>
-								<a href="https://www.archivio-digitale.com">
-									Archivi digitali
-								</a>
-							</li>
-							<li>
-								<a href="https://www.dizionario-online.it">
-									Dizionario online
-								</a>
-							</li>
-						</ul>
-					</Col>
+
 					<Col className="footer-section">
 						<h3>Politiche e normative</h3>
 						<ul>

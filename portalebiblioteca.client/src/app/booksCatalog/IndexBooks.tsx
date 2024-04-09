@@ -145,7 +145,7 @@ const IndexBooks = () => {
 														</Button>
 													</Link>
 													<Link
-														className="btn btn-success d-flex align-items-center gap-2"
+														className="btn btn-mattone d-flex align-items-center gap-2"
 														to={
 															"details/" +
 															book.idBook

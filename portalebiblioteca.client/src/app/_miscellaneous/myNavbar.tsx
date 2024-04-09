@@ -26,7 +26,12 @@ const MyNavbar = () => {
 	};
 
 	return (
-		<Navbar expand="md">
+		<Navbar
+			style={{ height: "40px" }}
+			variant="dark"
+			className="bg-mattone"
+			fixed="top"
+			expand="md">
 			<Container>
 				<Navbar.Brand>
 					<Link to="/" className="nav-link">

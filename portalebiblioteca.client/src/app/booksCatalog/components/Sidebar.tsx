@@ -71,7 +71,9 @@ const Sidebar = () => {
 
 			<Offcanvas show={show} onHide={handleClose} responsive="lg">
 				<Offcanvas.Header closeButton>
-					<Offcanvas.Title>Filtri</Offcanvas.Title>
+					<Offcanvas.Title className="text-mattone fw-bold">
+						Filtri
+					</Offcanvas.Title>
 				</Offcanvas.Header>
 				<Offcanvas.Body className="d-flex flex-column gap-2 mt-5">
 					<h3 className="mt-5">Generi</h3>

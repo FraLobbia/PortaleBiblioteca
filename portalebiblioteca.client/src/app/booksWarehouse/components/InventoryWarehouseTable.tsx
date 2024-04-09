@@ -8,6 +8,16 @@ interface InventoryTableProps {
 
 const InventoryWarehouseTable = ({ booksEntities }: InventoryTableProps) => {
 	// variables
+	const warehousequantity = booksEntities
+		.filter((item: ItemsEntity) =>
+			item.shelf.shelfName.includes("Magazzino")
+		)
+		.reduce((acc: number, item: ItemsEntity) => acc + item.quantity, 0);
+	const totalQuantity =
+		booksEntities.reduce(
+			(acc: number, item: ItemsEntity) => acc + item.quantity,
+			0
+		) - warehousequantity;
 
 	return (
 		<>
@@ -33,9 +43,7 @@ const InventoryWarehouseTable = ({ booksEntities }: InventoryTableProps) => {
 								</td>
 
 								<td className="col-3">{item.quantity}</td>
-								<td className="col-3">
-									{item.book.warehouseQuantity}
-								</td>
+								<td className="col-3">{totalQuantity}</td>
 								<td className="col-3">
 									<Link
 										to={"move/" + item.book?.idBook}
