@@ -36,7 +36,7 @@ const LoansHistory = ({ activeLoans, loansCurrentUser }: LoansHistoryProps) => {
 							}
 						/>
 					</div>
-					<table className="table table-light text-center">
+					<table className="table text-center">
 						<thead>
 							<tr>
 								<th className="text-start">Titolo del libro</th>

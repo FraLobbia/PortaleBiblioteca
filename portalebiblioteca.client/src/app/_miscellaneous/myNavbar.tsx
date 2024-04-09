@@ -108,11 +108,6 @@ const MyNavbar = () => {
 									</span>
 								}
 								id="basic-nav-dropdown">
-								<NavDropdown.Item
-									as={NavLink}
-									to="/catalogo/osservati">
-									Libri osservati
-								</NavDropdown.Item>
 								<NavDropdown.Item as={NavLink} to="/prestiti">
 									I tuoi libri in prestito
 								</NavDropdown.Item>

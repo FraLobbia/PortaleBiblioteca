@@ -3,12 +3,13 @@ import { Button, Offcanvas } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../../functions/hooks";
 import { Genre } from "../../../interfaces/genre.interface";
 import { fetchGenres } from "../../../api/genres/genresCRUDFetches";
-
 import { Book } from "../../../interfaces/book.interface";
 import {
 	setChoosenAuthors,
 	setChoosenGenresIDs,
 } from "../../../redux/slicers/preferencesSlice";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFilter } from "@fortawesome/free-solid-svg-icons";
 
 const Sidebar = () => {
 	// define hooks
@@ -62,10 +63,10 @@ const Sidebar = () => {
 	return (
 		<>
 			<Button
-				variant="secondary"
-				className="d-lg-none"
+				variant="outline-secondary"
+				className="d-lg-none mb-2"
 				onClick={handleShow}>
-				Filtri
+				<FontAwesomeIcon icon={faFilter} />
 			</Button>
 
 			<Offcanvas show={show} onHide={handleClose} responsive="lg">
@@ -78,7 +79,7 @@ const Sidebar = () => {
 						genres.map((genre: Genre) => (
 							<div key={genre.idGenre}>
 								<input
-									className="form-check-input me-2"
+									className="form-check-input bg-secondary border-0 me-2"
 									type="checkbox"
 									defaultChecked={true}
 									id={
@@ -120,7 +121,7 @@ const Sidebar = () => {
 							.map((book: Book) => (
 								<div key={book.idGenre}>
 									<input
-										className="form-check-input me-2"
+										className="form-check-input bg-secondary border-0 me-2"
 										type="checkbox"
 										defaultChecked={true}
 										id={book.author ? book.author : ""}

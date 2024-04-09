@@ -17,6 +17,7 @@ import FormEditGenres from "./app/genres/FormEditGenres";
 import ControlPanel from "./app/booksWarehouse/ControlPanel";
 import MoveItems from "./app/booksWarehouse/MoveItems";
 import { setDarkMode } from "./functions/utility";
+import BackButton from "./app/_miscellaneous/reusable/BackButton";
 
 function App() {
 	const selectedTheme = localStorage.getItem("selectedTheme");
@@ -27,7 +28,6 @@ function App() {
 	return (
 		<BrowserRouter>
 			<MyNavbar />
-
 			<Routes>
 				<Route path="/" element={<HomePage />} />
 

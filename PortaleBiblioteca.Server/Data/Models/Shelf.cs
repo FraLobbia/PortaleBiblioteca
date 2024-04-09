@@ -24,7 +24,15 @@ namespace PortaleBiblioteca.Server.Data.Models
         {
             get
             {   // something like 1-A1 or 6-C3
-                return Aisle.AisleNumber + "-" + ShelfHeight + ShelfBay;
+                if (Aisle.AisleNumber >= 200)
+                {
+                    return "Magazzino " + Aisle.AisleNumber + " - " + ShelfHeight + ShelfBay;
+                }
+                else
+                {
+
+                    return "Corsia " + Aisle.AisleNumber + " - " + ShelfHeight + ShelfBay;
+                }
             }
         }
 

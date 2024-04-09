@@ -50,13 +50,13 @@ const IndexBooks = () => {
 
 	return (
 		<Container>
+			<h1 className="text-center mt-3">Libri a catalogo</h1>
 			<Row>
 				<Col lg={3} className="d-flex justify-content-between">
 					<Sidebar />
-					<div className="vr ms-2"></div>
+					<div className="vr d-none d-lg-block ms-2"></div>
 				</Col>
 				<Col xs={12} lg={9}>
-					<h1 className="text-center mt-3">Elenco Libri</h1>
 					<Button className="d-none todo" onClick={aggiungilibroTEST}>
 						Aggiungi un libro di DEBUG
 					</Button>
@@ -76,7 +76,7 @@ const IndexBooks = () => {
 										!notChoosenAuthors.includes(book.author)
 								)
 								.map((book: Book) => (
-									<Col md={10} key={"book-" + book.idBook}>
+									<Col md={12} key={"book-" + book.idBook}>
 										<Card className=" flex-lg-row align-items-center">
 											<Link to={"details/" + book.idBook}>
 												<Card.Img

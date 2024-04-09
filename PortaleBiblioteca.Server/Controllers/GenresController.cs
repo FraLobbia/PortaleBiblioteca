@@ -26,6 +26,7 @@ namespace PortaleBiblioteca.Server.Controllers
 
         // GET: api/Genres
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<Genre>>> GetGenres()
         {
             return await _context.Genres.ToListAsync();

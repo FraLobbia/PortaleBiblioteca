@@ -12,7 +12,8 @@ const DarkMode = () => {
 	const selectedTheme = localStorage.getItem("selectedTheme");
 
 	return (
-		<div className="dark_mode">
+		<div className="d-flex justify-content-center gap-3 mt-3">
+			<label htmlFor="darkmode-toggle">Tema</label>
 			<input
 				className="dark_mode_input"
 				type="checkbox"

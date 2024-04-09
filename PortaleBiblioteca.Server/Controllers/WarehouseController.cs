@@ -101,6 +101,48 @@ namespace PortaleBiblioteca.Server.Controllers
             return await _context.Aisles.ToListAsync();
         }
 
+        // get all itemsentity of a book
+        // GET: api/Warehouse/book/5
+        [HttpGet("book/{IdBook}")]
+        public async Task<IActionResult> GetItemsEntityByBook(int IdBook)
+        {
+            var itemsEntities = await _context.Items
+                .Include(i => i.Shelf.Aisle)
+                .Where(i => i.IdBook == IdBook)
+                .Select(i => new
+                {
+                    i.IdItemsEntity,
+                    i.Quantity,
+                    Status = i.Status.ToString(),
+                    Shelf = new
+                    {
+                        i.Shelf.IdShelf,
+                        ShelfHeight = i.Shelf.ShelfHeight.ToString(),
+                        i.Shelf.ShelfBay,
+                        i.Shelf.ShelfName,
+                        ShelfType = i.Shelf.ShelfType.ToString(),
+                    },
+                    Book = new
+                    {
+                        i.Book.IdBook,
+                        i.Book.Title,
+                        i.Book.Author,
+                        i.Book.ISBN,
+                        i.Book.Genre,
+                        i.Book.Description,
+                        i.Book.CoverImage
+                    }
+                })
+                .ToListAsync();
+
+            if (itemsEntities == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(itemsEntities);
+        }
+
     }
 
 

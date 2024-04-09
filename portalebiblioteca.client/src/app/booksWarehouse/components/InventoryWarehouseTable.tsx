@@ -1,44 +1,50 @@
 import { Table } from "react-bootstrap";
-import { Book } from "../../../interfaces/book.interface";
 import { Link } from "react-router-dom";
+import { ItemsEntity } from "../../../interfaces/warehouse.interface";
 
 interface InventoryTableProps {
-	book: Book | null;
+	booksEntities: ItemsEntity[];
 }
 
-const InventoryWarehouseTable = ({ book }: InventoryTableProps) => {
+const InventoryWarehouseTable = ({ booksEntities }: InventoryTableProps) => {
 	// variables
 
 	return (
 		<>
-			<h3>Inventario</h3>
 			<Table striped bordered hover>
-				<thead>
-					<tr>
-						<th>Magazzino</th>
-						<th>Titolo</th>
-						<th>In magazzino</th>
-						<th>Disponibile sugli scaffali</th>
-						<th></th>
+				<thead className="container text-center">
+					<tr className="row m-0">
+						<th className="col-3">Magazzino</th>
+
+						<th className="col-3">In magazzino</th>
+						<th className="col-3">Disponibile sugli scaffali</th>
+						<th className="col-3"></th>
 					</tr>
 				</thead>
-				<tbody
-				// style={{ overflowY: "scroll", height: "300px" }}
-				>
-					<tr>
-						<td>200-A1</td>
-						<td>{book?.title}</td>
-						<td>{book?.warehouseQuantity}</td>
-						<td>{book?.availableQuantity}</td>
+				<tbody className="text-center">
+					{booksEntities
+						.filter((item: ItemsEntity) =>
+							item.shelf.shelfName.includes("Magazzino")
+						)
+						.map((item: ItemsEntity) => (
+							<tr className="row m-0" key={item.idItemsEntity}>
+								<td className="col-3 text-start">
+									{item.shelf.shelfName}
+								</td>
 
-						<td>
-							<Link
-								to={"move/" + book?.idBook}
-								className="btn btn-primary">
-								Sposta
-							</Link>
-						</td>
-					</tr>
+								<td className="col-3">{item.quantity}</td>
+								<td className="col-3">
+									{item.book.warehouseQuantity}
+								</td>
+								<td className="col-3">
+									<Link
+										to={"move/" + item.book?.idBook}
+										className="btn btn-primary w-100 px-0">
+										Sposta
+									</Link>
+								</td>
+							</tr>
+						))}
 				</tbody>
 			</Table>
 		</>

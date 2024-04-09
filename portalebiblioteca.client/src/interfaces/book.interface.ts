@@ -30,14 +30,3 @@ export interface BookDTO {
 	isbn: string;
 	coverImage: string;
 }
-
-// export interface BookCreateForm {
-// 	author: string;
-// 	title: string;
-// 	description?: string;
-// 	idGenre?: number;
-// 	genre: Genre;
-// 	publicationDate?: Date;
-// 	isbn?: string;
-// 	coverImage?: string;
-// }
