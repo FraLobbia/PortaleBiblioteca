@@ -1,9 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { UserState } from "../../interfaces/profile.interface";
+import { loggedProfile } from "../../interfaces/profile.interface";
 //=================================================================================
 
+interface UserState {
+	loggedProfile: loggedProfile;
+}
+
 const initialState: UserState = {
-	//users: [],
 	loggedProfile: {
 		token: "",
 		permissionsToEdit: false,

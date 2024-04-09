@@ -1,9 +1,5 @@
 import { Book } from "./book.interface";
 
-export interface warehouseState {
-	aisles: Aisle[];
-}
-
 export interface Aisle {
 	idAisle: number;
 	aisleNumber: number;

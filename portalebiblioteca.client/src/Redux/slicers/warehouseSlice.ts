@@ -1,7 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Aisle, warehouseState } from "../../interfaces/warehouse.interface";
+import { Aisle } from "../../interfaces/warehouse.interface";
 
-//=================================================================================
+interface warehouseState {
+	aisles: Aisle[];
+}
 
 const initialState: warehouseState = {
 	aisles: [],

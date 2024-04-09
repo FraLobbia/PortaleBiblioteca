@@ -1,10 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Genre, GenreState } from "../../interfaces/genre.interface";
-//=================================================================================
+import { Genre } from "../../interfaces/genre.interface";
 
+interface GenreState {
+	genres: Genre[];
+	currentGenre: Genre | null;
+	notChoosenGenresIDs: number[];
+}
 const initialState: GenreState = {
 	genres: [],
 	currentGenre: null,
+	notChoosenGenresIDs: [],
 };
 //=================================================================================
 const genreSlice = createSlice({

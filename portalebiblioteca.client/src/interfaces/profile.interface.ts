@@ -7,11 +7,6 @@ export interface User {
 	userImage: string;
 }
 
-export interface UserState {
-	//users: User[];
-	loggedProfile: loggedProfile;
-}
-
 export interface loggedProfile {
 	token: string;
 	permissionsToEdit: boolean;

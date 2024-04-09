@@ -70,3 +70,10 @@ export const setLightMode = () => {
 	document.querySelector("body")?.setAttribute("data-theme", "light");
 	localStorage.setItem("selectedTheme", "light");
 };
+
+export const truncateText = (text: string, maxLength: number) => {
+	if (text.length <= maxLength) {
+		return text;
+	}
+	return text.slice(0, maxLength) + "...";
+};

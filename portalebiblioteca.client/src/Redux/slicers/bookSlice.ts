@@ -1,7 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Book, BookState } from "../../interfaces/book.interface";
+import { Book } from "../../interfaces/book.interface";
 import { Loan } from "../../interfaces/loans.interface";
-//=================================================================================
+
+interface BookState {
+	books: Book[];
+	currentBook: Book | null;
+	loansCurrentUser: Loan[];
+}
 
 const initialState: BookState = {
 	books: [],
