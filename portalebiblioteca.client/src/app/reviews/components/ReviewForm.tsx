@@ -1,16 +1,15 @@
 import { Container, Form } from "react-bootstrap";
-import { useAppDispatch, useAppSelector } from "../../../functions/hooks";
-import { Book } from "../../../interfaces/book.interface";
+import { useAppSelector } from "../../../functions/hooks";
 import { Review } from "../../../interfaces/review.interface";
 import { useState } from "react";
+import { createReviewFetch } from "../../../api/reviews/reviewsCRUDfetches";
 
 interface ReviewFormProps {
-	book: Book;
+	idBook: string | undefined;
 }
 
-const ReviewForm = ({ book }: ReviewFormProps) => {
+const ReviewForm = ({ idBook }: ReviewFormProps) => {
 	// define hooks
-	const dispatch = useAppDispatch();
 
 	// variables
 	const [reviewTitle, setReviewTitle] = useState<string>("");
@@ -25,18 +24,19 @@ const ReviewForm = ({ book }: ReviewFormProps) => {
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
 		if (!user) return;
+		if (!idBook) return;
 		const newReview: Review = {
-			idBook: book.idBook,
+			idBook: parseInt(idBook),
 			idUser: user.idUser,
 			reviewTitle,
 			reviewBody,
 		};
-		dispatch({ type: "reviews/addReview", payload: newReview });
+		createReviewFetch(newReview);
 		setReviewTitle("");
 		setReviewBody("");
 	};
 	return (
-		<Container fluid>
+		<Container fluid className="border border-3 border-mattone">
 			<h2>Scrivi una recensione</h2>
 			<Form onSubmit={handleSubmit}>
 				<Form.Group className="mb-3">

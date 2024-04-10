@@ -132,7 +132,7 @@ const IndexBooks = () => {
 													)}
 													<Link
 														to={
-															"review/" +
+															"/recensioni/" +
 															book.idBook
 														}>
 														<Button

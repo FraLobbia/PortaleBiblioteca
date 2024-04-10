@@ -54,13 +54,13 @@ function App() {
 
 					<Route path="/autori">
 						<Route index element={<IndexAuthors />} />
-						{/* <Route path="add" element={<FormAddGenres />} />
-						<Route path="edit/:id" element={<FormEditGenres />} /> */}
+						<Route path="add" element={<FormAddGenres />} />
+						<Route path="edit/:id" element={<FormEditGenres />} />
 					</Route>
 
 					<Route path="/recensioni">
 						<Route index element={<NewReview />} />
-						<Route path="add" element={<NewReview />} />
+						<Route path=":id" element={<NewReview />} />
 						<Route path="edit/:id" element={<FormEditGenres />} />
 					</Route>
 
