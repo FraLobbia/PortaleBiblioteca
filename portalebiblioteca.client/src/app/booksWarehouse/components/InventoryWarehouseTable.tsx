@@ -1,6 +1,7 @@
 import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { ItemsEntity } from "../../../interfaces/warehouse.interface";
+import { useEffect } from "react";
 
 interface InventoryTableProps {
 	booksEntities: ItemsEntity[];

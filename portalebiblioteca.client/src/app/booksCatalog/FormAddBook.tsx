@@ -6,10 +6,15 @@ import BackButton from "../_miscellaneous/reusable/BackButton";
 import { Link, useNavigate } from "react-router-dom";
 import { fetchGenres } from "../../api/genres/genresCRUDFetches";
 import { BookDTO } from "../../interfaces/book.interface";
+import { fetchAuthors } from "../../api/authors/authorsCRUDFetches";
 
 const FormAddBook = () => {
+	//define hooks
 	const dispatch = useAppDispatch();
-	const [autore, setAutore] = useState<string>("");
+	const navigate = useNavigate();
+
+	// variables
+	const [autoreID, setAutoreID] = useState<number>(0);
 	const [titolo, setTitolo] = useState<string>("");
 	const [descrizione, setDescrizione] = useState<string>("");
 	const [genere, setGenere] = useState<number>(0);
@@ -19,13 +24,16 @@ const FormAddBook = () => {
 	const { permissionsToEdit } = useAppSelector(
 		(state) => state.profileState.loggedProfile
 	);
-	const navigate = useNavigate();
-	const { genres } = useAppSelector((state) => state.genreState);
 
+	// store variables
+	const { genres } = useAppSelector((state) => state.genreState);
+	const { authors } = useAppSelector((state) => state.authorState);
+
+	// function to handle the submit of the form
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		const newBook: BookDTO = {
-			author: autore,
+			idAuthor: autoreID,
 			title: titolo,
 			description: descrizione,
 			idGenre: genere,
@@ -37,11 +45,13 @@ const FormAddBook = () => {
 		navigate("/catalogo");
 	};
 
+	// what appens when the component is mounted
 	useEffect(() => {
 		if (!permissionsToEdit) {
 			navigate("/catalogo");
 		} else {
 			dispatch(fetchGenres());
+			dispatch(fetchAuthors());
 		}
 	}, []);
 
@@ -50,16 +60,23 @@ const FormAddBook = () => {
 			<BackButton />
 			<h1 className="text-center">Aggiungi un Libro</h1>
 			<Form onSubmit={handleSubmit}>
-				<Form.Group className="mb-3">
+				<Form.Group className="">
 					<Form.Label>Autore</Form.Label>
-					<Form.Control
+					<Form.Select
 						id="autoreField"
-						type="text"
-						placeholder="Inserisci l'autore"
-						value={autore}
-						onChange={(e) => setAutore(e.target.value)}
-					/>
+						value={autoreID}
+						onChange={(e) => setAutoreID(parseInt(e.target.value))}>
+						<option value="">Seleziona un autore</option>
+						{authors.map((author) => (
+							<option
+								key={author.idAuthor}
+								value={author.idAuthor}>
+								{author.name}
+							</option>
+						))}
+					</Form.Select>
 				</Form.Group>
+
 				<Form.Group className="mb-3">
 					<Form.Label>Titolo</Form.Label>
 					<Form.Control

@@ -73,6 +73,13 @@ const MyNavbar = () => {
 								<NavDropdown.Item as={NavLink} to="/generi/add">
 									Aggiungi nuovo genere
 								</NavDropdown.Item>
+								<NavDropdown.Divider />
+								<NavDropdown.Item as={NavLink} to="/autori">
+									Elenco Autori
+								</NavDropdown.Item>
+								<NavDropdown.Item as={NavLink} to="/autori/add">
+									Aggiungi nuovo Autore
+								</NavDropdown.Item>
 							</NavDropdown>
 						) : (
 							<NavLink className={"nav-link"} to="/catalogo">

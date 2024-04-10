@@ -126,9 +126,13 @@ const Sidebar = () => {
 										className="form-check-input bg-secondary border-0 me-2"
 										type="checkbox"
 										defaultChecked={true}
-										id={book.author ? book.author : ""}
+										id={
+											book.author.name
+												? book.author.name
+												: ""
+										}
 										onChange={() =>
-											handleAuthorChoice(book.author)
+											handleAuthorChoice(book.author.name)
 										}
 									/>
 									<label
@@ -137,7 +141,7 @@ const Sidebar = () => {
 												? book.idGenre.toString()
 												: ""
 										}>
-										{book.author}
+										{book.author.name}
 									</label>
 								</div>
 							))}

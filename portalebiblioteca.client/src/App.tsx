@@ -19,6 +19,9 @@ import MoveItems from "./app/booksWarehouse/MoveItems";
 import { setDarkMode } from "./functions/utility";
 import BackButton from "./app/_miscellaneous/reusable/BackButton";
 import MyFooter from "./app/_miscellaneous/myFooter";
+import IndexAuthors from "./app/authors/IndexAuthors";
+import ReviewForm from "./app/reviews/components/ReviewForm";
+import NewReview from "./app/reviews/NewReview";
 
 function App() {
 	const selectedTheme = localStorage.getItem("selectedTheme");
@@ -43,14 +46,21 @@ function App() {
 						<Route path="edit/:id" element={<FormEditBook />} />
 					</Route>
 
-					<Route path="/warehouse">
-						<Route index element={<ControlPanel />} />
-						<Route path="move/:id" element={<MoveItems />} />
-					</Route>
-
 					<Route path="/generi">
 						<Route index element={<IndexGenres />} />
 						<Route path="add" element={<FormAddGenres />} />
+						<Route path="edit/:id" element={<FormEditGenres />} />
+					</Route>
+
+					<Route path="/autori">
+						<Route index element={<IndexAuthors />} />
+						{/* <Route path="add" element={<FormAddGenres />} />
+						<Route path="edit/:id" element={<FormEditGenres />} /> */}
+					</Route>
+
+					<Route path="/recensioni">
+						<Route index element={<NewReview />} />
+						<Route path="add" element={<NewReview />} />
 						<Route path="edit/:id" element={<FormEditGenres />} />
 					</Route>
 
@@ -62,6 +72,11 @@ function App() {
 
 					<Route path="/prestiti">
 						<Route index element={<ElencoPrestiti />} />
+					</Route>
+
+					<Route path="/warehouse">
+						<Route index element={<ControlPanel />} />
+						<Route path="move/:id" element={<MoveItems />} />
 					</Route>
 
 					<Route path="*" element={<NotFound_404 />} />

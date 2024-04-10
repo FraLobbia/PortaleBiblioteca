@@ -47,7 +47,8 @@ namespace PortaleBiblioteca.Server.Controllers
 
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetItemsEntity", new { IdBook = item.IdBook }, item);
+            // ritorna la lista aggiornata
+            return StatusCode(201, await _context.Items.ToListAsync());
         }
 
 

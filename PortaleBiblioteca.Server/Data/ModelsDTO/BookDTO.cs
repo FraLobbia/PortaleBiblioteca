@@ -7,7 +7,7 @@ namespace PortaleBiblioteca
         [Key]
         public int IdBook { get; set; }
         [Required]
-        public string Author { get; set; }
+        public int IdAuthor { get; set; }
         [Required]
         public string Title { get; set; }
         [Required]

@@ -41,7 +41,7 @@ const IndexBooks = () => {
 	// function to add a book for DEBUG
 	const aggiungilibroTEST = () => {
 		const newBook: BookDTO = {
-			author: "Libro di DEBUG",
+			idAuthor: 1,
 			title: new Date().toLocaleTimeString(),
 			description: "Libro di DEBUG",
 			idGenre: 1,
@@ -79,7 +79,9 @@ const IndexBooks = () => {
 								)
 								.filter(
 									(book) =>
-										!notChoosenAuthors.includes(book.author)
+										!notChoosenAuthors.includes(
+											book.author.name
+										)
 								)
 								.map((book: Book) => (
 									<Col md={12} key={"book-" + book.idBook}>
@@ -104,7 +106,7 @@ const IndexBooks = () => {
 													{book.title}
 												</Card.Title>
 												<Card.Subtitle className="mb-2 text-muted">
-													{book.author}
+													{book.author.name}
 												</Card.Subtitle>
 												<Card.Text>
 													{truncateText(

@@ -15,25 +15,31 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 
 const FormEditBook = () => {
-	const book = useAppSelector((state) => state.bookState.currentBook);
+	// define hooks
 	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
+
+	// variables
 	const { id } = useParams<{ id: string }>();
-	const [autore, setAutore] = useState<string>("");
+	const [autoreID, setAutoreID] = useState<number>(0);
 	const [titolo, setTitolo] = useState<string>("");
 	const [descrizione, setDescrizione] = useState<string>("");
 	const [genere, setGenere] = useState<number>(0);
 	const [dataPubblicazione, setDataPubblicazione] = useState<Date>();
 	const [isbn, setIsbn] = useState<string>("");
 	const [immagineCopertina, setImmagineCopertina] = useState<string>("");
-	const navigate = useNavigate();
+
+	// store variables
+	const book = useAppSelector((state) => state.bookState.currentBook);
 	const { genres } = useAppSelector((state) => state.genreState);
+	const { authors } = useAppSelector((state) => state.authorState);
 	// Function to handle form submission
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		if (!id) return;
 		const editedBook: BookDTO = {
 			idBook: parseInt(id),
-			author: autore,
+			idAuthor: autoreID,
 			title: titolo,
 			description: descrizione,
 			idGenre: genere,
@@ -45,6 +51,7 @@ const FormEditBook = () => {
 		//navigate("/catalogo");
 	};
 
+	// Function to handle book deletion
 	const handleDelete = (id: string | undefined) => {
 		Swal.fire({
 			title: "Sei sicuro di voler cancellare questo elemento?",
@@ -71,9 +78,10 @@ const FormEditBook = () => {
 		dispatch(fetchGenres());
 	}, []);
 
+	// what happens when the component is mount and every time the book changes
 	useEffect(() => {
 		if (book) {
-			setAutore(book.author);
+			setAutoreID(book.author.idAuthor);
 			setTitolo(book.title);
 			setDescrizione(book.description || "");
 			setGenere(book.idGenre || 0);
@@ -99,15 +107,23 @@ const FormEditBook = () => {
 			{book && (
 				<>
 					<Form onSubmit={handleSubmit}>
-						<Form.Group className="mb-3">
+						<Form.Group className="">
 							<Form.Label>Autore</Form.Label>
-							<Form.Control
+							<Form.Select
 								id="autoreField"
-								type="text"
-								placeholder="Inserisci l'autore"
-								value={autore}
-								onChange={(e) => setAutore(e.target.value)}
-							/>
+								value={autoreID}
+								onChange={(e) =>
+									setAutoreID(parseInt(e.target.value))
+								}>
+								<option value="">Seleziona un autore</option>
+								{authors.map((author) => (
+									<option
+										key={author.idAuthor}
+										value={author.idAuthor}>
+										{author.name}
+									</option>
+								))}
+							</Form.Select>
 						</Form.Group>
 						<Form.Group className="mb-3">
 							<Form.Label>Titolo</Form.Label>

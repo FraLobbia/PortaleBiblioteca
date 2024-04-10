@@ -12,13 +12,14 @@ const ControlPanel = () => {
 
 	// store variables
 	const { books } = useAppSelector((state) => state.bookState);
+	const { itemsEntities } = useAppSelector((state) => state.warehouseState);
 
 	// variables
 	const [choosenBook, setChoosenBook] = useState<Book | null>(null);
 	// what appens when the component is mounted
 	useEffect(() => {
 		dispatch(fetchBookList());
-	}, []);
+	}, [itemsEntities]);
 	return (
 		<Container>
 			<BackButton />
@@ -40,7 +41,7 @@ const ControlPanel = () => {
 					</option>
 					{books.map((book: Book) => (
 						<option key={book.idBook} value={book.idBook}>
-							{book.title} - {book.author}
+							{book.title} - {book.author.name}
 						</option>
 					))}
 				</Form.Select>

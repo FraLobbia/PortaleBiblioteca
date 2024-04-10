@@ -22,7 +22,11 @@ namespace PortaleBiblioteca.Server.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<Book>>> GetBooks()
         {
-            return await _context.Books.Include(b => b.Items).ToListAsync();
+            return await _context.Books
+                    .Include(b => b.Items)
+                    .Include(b => b.Author)
+                    .ToListAsync();
+
         }
 
         // GET: /Books/5
@@ -34,6 +38,7 @@ namespace PortaleBiblioteca.Server.Controllers
             // get the items with quantity
             Book book = await _context.Books
                 .Include(b => b.Items)
+                .Include(b => b.Author)
                 .FirstOrDefaultAsync(b => b.IdBook == id);
 
             if (book == null)
@@ -66,7 +71,7 @@ namespace PortaleBiblioteca.Server.Controllers
 
             try
             {
-                book.Author = formBook.Author;
+                book.IdAuthor = formBook.IdAuthor;
                 book.Title = formBook.Title;
                 book.Description = formBook.Description;
                 book.IdGenre = formBook.IdGenre;
@@ -76,7 +81,7 @@ namespace PortaleBiblioteca.Server.Controllers
                 _context.Entry(book).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
 
-                return Ok(await _context.Books.ToListAsync());
+                return Ok(await _context.Books.Include(b => b.Author).ToListAsync());
 
             }
             catch (DbUpdateConcurrencyException)
@@ -101,7 +106,7 @@ namespace PortaleBiblioteca.Server.Controllers
 
             Book book = new Book
             {
-                Author = formBook.Author,
+                IdAuthor = formBook.IdAuthor,
                 Title = formBook.Title,
                 Description = formBook.Description,
                 IdGenre = Convert.ToInt32(formBook.IdGenre),
@@ -114,7 +119,7 @@ namespace PortaleBiblioteca.Server.Controllers
             await _context.SaveChangesAsync();
 
             // return the updated booklist with code 201 (created)
-            return CreatedAtAction("GetBooks", new { id = book.IdBook }, await _context.Books.ToListAsync());
+            return CreatedAtAction("GetBooks", new { id = book.IdBook }, await _context.Books.Include(b => b.Author).ToListAsync());
 
         }
 
@@ -133,7 +138,7 @@ namespace PortaleBiblioteca.Server.Controllers
             await _context.SaveChangesAsync();
 
             // ritorna la lista dei libri aggiornata
-            return Ok(await _context.Books.ToListAsync());
+            return Ok(await _context.Books.Include(b => b.Author).ToListAsync());
         }
 
         private bool BookExists(int id)

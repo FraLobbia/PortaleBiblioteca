@@ -22,6 +22,29 @@ namespace PortaleBiblioteca.Server.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("PortaleBiblioteca.Author", b =>
+                {
+                    b.Property<int>("IdAuthor")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdAuthor"));
+
+                    b.Property<string>("Biography")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("IdAuthor");
+
+                    b.ToTable("Authors");
+                });
+
             modelBuilder.Entity("PortaleBiblioteca.Book", b =>
                 {
                     b.Property<int>("IdBook")
@@ -29,9 +52,6 @@ namespace PortaleBiblioteca.Server.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdBook"));
-
-                    b.Property<string>("Author")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CoverImage")
                         .HasColumnType("nvarchar(max)");
@@ -41,6 +61,9 @@ namespace PortaleBiblioteca.Server.Migrations
 
                     b.Property<string>("ISBN")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("IdAuthor")
+                        .HasColumnType("int");
 
                     b.Property<int>("IdGenre")
                         .HasColumnType("int");
@@ -52,6 +75,8 @@ namespace PortaleBiblioteca.Server.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("IdBook");
+
+                    b.HasIndex("IdAuthor");
 
                     b.HasIndex("IdGenre");
 
@@ -304,11 +329,19 @@ namespace PortaleBiblioteca.Server.Migrations
 
             modelBuilder.Entity("PortaleBiblioteca.Book", b =>
                 {
+                    b.HasOne("PortaleBiblioteca.Author", "Author")
+                        .WithMany("Books")
+                        .HasForeignKey("IdAuthor")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("PortaleBiblioteca.Genre", "Genre")
                         .WithMany("Books")
                         .HasForeignKey("IdGenre")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Author");
 
                     b.Navigation("Genre");
                 });
@@ -398,6 +431,11 @@ namespace PortaleBiblioteca.Server.Migrations
                         .IsRequired();
 
                     b.Navigation("Aisle");
+                });
+
+            modelBuilder.Entity("PortaleBiblioteca.Author", b =>
+                {
+                    b.Navigation("Books");
                 });
 
             modelBuilder.Entity("PortaleBiblioteca.Book", b =>

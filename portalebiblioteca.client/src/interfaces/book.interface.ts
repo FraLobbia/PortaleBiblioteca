@@ -1,8 +1,15 @@
 import { Genre } from "./genre.interface";
 
+export interface Author {
+	idAuthor: number;
+	name: string;
+	biography: string;
+	books?: Book[];
+}
 export interface Book {
 	idBook: number;
-	author: string;
+	idAuthor: number;
+	author: Author;
 	title: string;
 	description: string;
 	idGenre: number;
@@ -22,7 +29,7 @@ export interface Book {
 
 export interface BookDTO {
 	idBook?: number;
-	author: string;
+	idAuthor: number;
 	title: string;
 	description: string;
 	idGenre: number;

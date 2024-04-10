@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PortaleBiblioteca.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class initialMigr : Migration
+    public partial class rsifnhIUJHBNKJU : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -22,6 +22,21 @@ namespace PortaleBiblioteca.Server.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Aisles", x => x.IdAisle);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Authors",
+                columns: table => new
+                {
+                    IdAuthor = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Biography = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Authors", x => x.IdAuthor);
                 });
 
             migrationBuilder.CreateTable(
@@ -101,7 +116,7 @@ namespace PortaleBiblioteca.Server.Migrations
                 {
                     IdBook = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Author = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IdAuthor = table.Column<int>(type: "int", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IdGenre = table.Column<int>(type: "int", nullable: false),
@@ -112,6 +127,12 @@ namespace PortaleBiblioteca.Server.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Books", x => x.IdBook);
+                    table.ForeignKey(
+                        name: "FK_Books_Authors_IdAuthor",
+                        column: x => x.IdAuthor,
+                        principalTable: "Authors",
+                        principalColumn: "IdAuthor",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Books_Genres_IdGenre",
                         column: x => x.IdGenre,
@@ -242,6 +263,11 @@ namespace PortaleBiblioteca.Server.Migrations
                 column: "IdUser");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Books_IdAuthor",
+                table: "Books",
+                column: "IdAuthor");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Books_IdGenre",
                 table: "Books",
                 column: "IdGenre");
@@ -311,6 +337,9 @@ namespace PortaleBiblioteca.Server.Migrations
 
             migrationBuilder.DropTable(
                 name: "Aisles");
+
+            migrationBuilder.DropTable(
+                name: "Authors");
 
             migrationBuilder.DropTable(
                 name: "Genres");

@@ -85,7 +85,7 @@ const DetailsBook = ({ idBook }: DetailsBookProps) => {
 					</Col>
 					<Col xs={9}>
 						<dt>Autore:</dt>
-						<dd>{book.author}</dd>
+						<dd>{book.author.name}</dd>
 						<dt>Titolo:</dt>
 						<dd>{book.title}</dd>
 						<dt>Descrizione:</dt>

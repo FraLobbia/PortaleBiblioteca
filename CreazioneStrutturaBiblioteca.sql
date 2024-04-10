@@ -71,10 +71,24 @@ VALUES ('Fantasy', 'Libri di genere fantasy'),
        -- Aggiungi altri generi qui...
        ('Science Fiction', 'Libri di genere fantascientifico');
 
+-- inserimento degli authors
+INSERT INTO Authors (Name, Biography)
+VALUES ('J.R.R. Tolkien', 'John Ronald Reuel Tolkien, meglio conosciuto come J.R.R. Tolkien, è stato uno dei più grandi scrittori del ventesimo secolo, famoso principalmente per il suo lavoro nel campo della letteratura fantasy. Nato il 3 gennaio 1892 a Bloemfontein, nell('')attuale Sudafrica, da genitori inglesi, la sua famiglia tornò in Inghilterra quando era ancora giovane. Tolkien mostrò fin da piccolo un('')inclinazione per la lingua e la letteratura, sviluppando un amore per le lingue antiche e la mitologia.'),
+       ('Arthur Conan Doyle', 'Arthur Conan Doyle è stato uno scrittore scozzese, nato il 22 maggio 1859 a Edimburgo, Scozia. È principalmente noto per essere il creatore del celebre detective Sherlock Holmes, uno dei personaggi più iconici della letteratura mondiale.
+
+Conan Doyle studiò medicina presso l('')Università di Edimburgo e iniziò la sua carriera come medico. Tuttavia, fu la sua attività di scrittore a portargli fama e successo. La sua prima opera pubblicata, "A Study in Scarlet" (Un caso di identità), pubblicata nel 1887, introduceva per la prima volta il detective Sherlock Holmes e il suo fedele amico il dottor Watson.'),
+       ('Isaac Asimov', '
+Isaac Asimov è stato uno scrittore e biochimico americano, nato il 2 gennaio 1920 a Petrovichi, Russia, e emigrato negli Stati Uniti con la sua famiglia all('')età di tre anni. È noto principalmente per i suoi contributi alla fantascienza e per essere uno dei più prolifici autori del genere.
+
+Asimov era un uomo di vasta cultura, laureato in chimica presso la Columbia University e in biochimica presso l('')Università di Columbia. Ha insegnato biochimica presso la School of Medicine dell('')Università di Boston per molti anni.
+
+Tuttavia, è nel campo della scrittura che Asimov ha lasciato il segno più indelebile. È l('')autore di una vasta gamma di opere, tra cui romanzi, racconti brevi, saggi scientifici e divulgativi, e opere di critica letteraria. Le sue opere spaziano dalla fantascienza al mistero, passando per la storia e la religione.');
+
+
 -- Inserimento dei libri
-INSERT INTO Books (Author, Title, Description, PublicationDate, ISBN, IdGenre,CoverImage)
+INSERT INTO Books (IdAuthor, Title, Description, PublicationDate, ISBN, IdGenre,CoverImage)
 VALUES (	
-			'J.R.R. Tolkien',
+			1,
 			'Il Signore degli Anelli',
 			'"Il Signore degli Anelli" è una trilogia epica fantasy scritta da J.R.R. Tolkien. Ambientata in un mondo immaginario chiamato Terra di Mezzo, la storia segue le avventure di vari personaggi, in particolare un hobbit di nome Frodo Baggins. La trama principale ruota intorno all('')Anello del Potere, forgiato da Sauron, il Signore Oscuro, per governare su tutti gli altri anelli magici. Frodo, accompagnato dai suoi amici hobbit e da una compagnia di diversi alleati, intraprende un pericoloso viaggio per distruggere l('')Anello gettandolo nel Monte Fato, il luogo dove può essere distrutto. Lungo il cammino, affrontano numerosi pericoli, incluso il malevolo Gollum che desidera l('')Anello per sé. Nel frattempo, altre fazioni lottano per il controllo dell('')Anello e per il destino della Terra di Mezzo. La trilogia è ricca di avventure, intrighi politici, lotte tra il bene e il male e la lotta dei personaggi contro la corruzione. Alla fine, Frodo e i suoi compagni affrontano Sauron e la sua armata in una grande battaglia per il destino della Terra di Mezzo.',
 			'1954-07-29',
@@ -84,7 +98,7 @@ VALUES (
 		), 
 
        (
-		   'Arthur Conan Doyle',
+		   2,
 		   'Sherlock Holmes',
 		   '
 			"Sherlock Holmes" è una serie di racconti e romanzi scritti da Sir Arthur Conan Doyle, che narra le avventure del leggendario detective Sherlock Holmes e del suo fedele amico e narratore, il dottor John Watson. Le storie sono ambientate principalmente nella Londra vittoriana e sono caratterizzate da misteri intricati, enigmi da risolvere e colpi di scena sorprendenti.',
@@ -95,7 +109,7 @@ VALUES (
        
 
        (
-		   'Isaac Asimov',
+		   3,
 		   'Fondazione',
 		   '"Fondazione" è un romanzo di fantascienza scritto da Isaac Asimov e pubblicato nel 1951. È il primo libro di una celebre serie, conosciuta come la "Trilogia della Fondazione", che in seguito si è estesa a una serie di sette romanzi.
 

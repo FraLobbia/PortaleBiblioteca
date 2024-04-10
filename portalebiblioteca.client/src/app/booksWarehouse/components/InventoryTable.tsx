@@ -17,7 +17,8 @@ const InventoryTable = ({ book }: InventoryTableProps) => {
 
 	// store variables
 	const { booksEntities } = useAppSelector((state) => state.bookState);
-	// what happens when the component is rendered
+
+	// what happens when the component is rendered and when the book changes
 	useEffect(() => {
 		dispatch(fetchItemsEntityByBookId(book?.idBook || 0));
 	}, []);

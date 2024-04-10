@@ -8,13 +8,15 @@ namespace PortaleBiblioteca
     {
         [Key]
         public int IdBook { get; set; }
-        public string Author { get; set; }
+
+        [ForeignKey("Author")]
+        public int IdAuthor { get; set; }
+        public Author Author { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
+
         [ForeignKey("Genre")]
         public int IdGenre { get; set; }
-
-
         public int AvailableQuantity
         {
             get

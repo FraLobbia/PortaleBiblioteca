@@ -35,7 +35,7 @@ const HomePage = () => {
 								<FontAwesomeIcon icon={faBook} />
 								<span className="ms-2">Vai al catalogo</span>
 							</Link>
-							<Link to="/reviews" className="btn btn-primary">
+							<Link to="/recensioni" className="btn btn-primary">
 								<FontAwesomeIcon icon={faFeather} />
 								<span className="ms-2">
 									Leggi le recensioni
