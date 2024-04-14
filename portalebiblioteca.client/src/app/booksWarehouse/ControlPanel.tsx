@@ -2,23 +2,35 @@ import { useEffect, useState } from "react";
 import { Container, Form } from "react-bootstrap";
 import { Book } from "../../interfaces/book.interface";
 import { useAppDispatch, useAppSelector } from "../../functions/hooks";
-import ReceiveNewBook from "./ReceiveNewBook";
-import { fetchBookList } from "../../api/booksCatalog/bookCRUDFetches";
+import ReceiveBooks from "./ReceiveBooks";
+import {
+	fetchBookById,
+	fetchBookList,
+} from "../../api/booksCatalog/bookCRUDFetches";
 import BackButton from "../_miscellaneous/reusable/BackButton";
+import { fetchItemsEntityByBookId } from "../../api/warehouse/warehouseFetches";
 const ControlPanel = () => {
 	// define hooks
 	const dispatch = useAppDispatch();
 
 	// store variables
 	const { books } = useAppSelector((state) => state.bookState);
+	const { currentBook } = useAppSelector((state) => state.bookState);
 
 	// variables
-	const [choosenBook, setChoosenBook] = useState<Book | null>(null);
+	const [choosenBookID, setChoosenBookID] = useState<number | null>(null);
 
 	// what happens when the component is mounted
 	useEffect(() => {
 		dispatch(fetchBookList());
 	}, []);
+
+	// what happens when the choosenBookID changes
+	useEffect(() => {
+		if (!choosenBookID) return;
+		dispatch(fetchBookById(choosenBookID));
+		dispatch(fetchItemsEntityByBookId(choosenBookID));
+	}, [choosenBookID]);
 
 	return (
 		<Container>
@@ -27,14 +39,7 @@ const ControlPanel = () => {
 			<Form.Group className="mt-3">
 				<Form.Select
 					id="bookChoiceField"
-					onChange={(e) =>
-						setChoosenBook(
-							books.find(
-								(book) =>
-									book.idBook === parseInt(e.target.value)
-							) ?? null
-						)
-					}
+					onChange={(e) => setChoosenBookID(parseInt(e.target.value))}
 					aria-label="Scelta del titolo da aggiungere in magazzino">
 					<option className="text-muted" value={""}>
 						Scegli un titolo tra quelli a catalogo
@@ -46,7 +51,8 @@ const ControlPanel = () => {
 					))}
 				</Form.Select>
 			</Form.Group>
-			{choosenBook && <ReceiveNewBook book={choosenBook} />}
+
+			{currentBook && <ReceiveBooks book={currentBook} />}
 		</Container>
 	);
 };

@@ -4,8 +4,9 @@ import { fetchWithAuth } from "../interceptor";
 import { AppDispatch } from "../../redux/store/store";
 import { ItemsEntity } from "../../interfaces/warehouse.interface";
 import { setBookEntities } from "../../redux/slicers/bookSlice";
+import { fetchBookById } from "../booksCatalog/bookCRUDFetches";
 
-export const addToWarehouse =
+export const fetchAddToWarehouse =
 	(quantity: number, idBook: number) => async (dispatch: AppDispatch) => {
 		try {
 			const response = await fetchWithAuth(
@@ -33,6 +34,7 @@ export const addToWarehouse =
 			} else {
 				const bookEntities: ItemsEntity[] = await response.json();
 				dispatch(setBookEntities(bookEntities));
+				dispatch(fetchBookById(idBook));
 				Swal.fire({
 					title: "Libri ricevuti!",
 					text: "I libri sono in magazzino in attesa di essere riposti negli scaffali!",

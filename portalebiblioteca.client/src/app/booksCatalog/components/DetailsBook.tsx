@@ -5,8 +5,15 @@ import { addLoanToUser } from "../../../api/booksCatalog/bookLOANSFetches";
 import { Link, useNavigate } from "react-router-dom";
 import { formatData } from "../../../functions/utility";
 import { Book } from "../../../interfaces/book.interface";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+	faBookOpen,
+	faFeather,
+	faSliders,
+} from "@fortawesome/free-solid-svg-icons";
+import { useEffect } from "react";
 interface DetailsBookProps {
-	book: Book;
+	book: Book | null;
 }
 
 const DetailsBook = ({ book }: DetailsBookProps) => {
@@ -18,7 +25,6 @@ const DetailsBook = ({ book }: DetailsBookProps) => {
 	const { permissionsToEdit, user } = useAppSelector(
 		(state) => state.profileState.loggedProfile
 	);
-
 	// variables
 	const isWarehouse = window.location.href.includes("warehouse");
 
@@ -52,18 +58,29 @@ const DetailsBook = ({ book }: DetailsBookProps) => {
 						<dt>Disponibile:</dt>
 						<dd>{book.availableQuantity}</dd>
 						{!isWarehouse ? (
-							<div className="d-flex flex-column">
+							<div className="d-flex flex-column gap-3">
 								<Button
 									onClick={createLoan}
-									variant="primary"
-									className="my-2">
-									Prendi in prestito
+									variant="mattone"
+									className="d-flex
+										justify-content-center align-items-center gap-2">
+									<FontAwesomeIcon icon={faBookOpen} />
+									<span>Prendi in prestito</span>
 								</Button>
+								<Link
+									className="btn btn-primary d-flex
+										justify-content-center align-items-center gap-2"
+									to={"/recensioni/" + book.idBook}>
+									<FontAwesomeIcon icon={faFeather} />
+									<span>Recensioni</span>
+								</Link>
 								{permissionsToEdit && (
 									<Link
 										to={"/catalogo/edit/" + book.idBook}
-										className="btn btn-warning">
-										Modifica dettagli
+										className="btn btn-warning d-flex
+										justify-content-center align-items-center gap-2">
+										<FontAwesomeIcon icon={faSliders} />
+										<span>Modifica dettagli</span>
 									</Link>
 								)}
 							</div>

@@ -1,16 +1,13 @@
 import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { ItemsEntity } from "../../../interfaces/warehouse.interface";
-import { useAppDispatch } from "../../../functions/hooks";
-import { useEffect } from "react";
-import { fetchBookList } from "../../../api/booksCatalog/bookCRUDFetches";
+
 interface InventoryTableProps {
 	bookEntities: ItemsEntity[];
 }
 
 const WarehouseTable = ({ bookEntities }: InventoryTableProps) => {
 	// define hooks
-	const dispatch = useAppDispatch();
 
 	// variables
 	const warehousequantity = bookEntities
@@ -24,11 +21,6 @@ const WarehouseTable = ({ bookEntities }: InventoryTableProps) => {
 			(acc: number, item: ItemsEntity) => acc + item.quantity,
 			0
 		) - warehousequantity;
-
-	// what appens when the component is mounted
-	// useEffect(() => {
-	// 	dispatch(fetchBookList());
-	// }, []);
 
 	return (
 		<>

@@ -1,7 +1,7 @@
 import { Button, Form } from "react-bootstrap";
 import DetailsBook from "../booksCatalog/components/DetailsBook";
 import { useState } from "react";
-import { addToWarehouse } from "../../api/warehouse/warehouseFetches";
+import { fetchAddToWarehouse } from "../../api/warehouse/warehouseFetches";
 import { Book } from "../../interfaces/book.interface";
 import InventoryTable from "./components/InventoryTable";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,21 +12,19 @@ interface ReceiveNewBookProps {
 	book: Book | null;
 }
 
-const ReceiveNewBook = ({ book }: ReceiveNewBookProps) => {
+const ReceiveBooks = ({ book }: ReceiveNewBookProps) => {
 	// define hooks
 	const dispatch = useAppDispatch();
 
 	//variables
 	const [quantity, setQuantity] = useState<number>(1);
 
-	//functions
+	// functions to handle the form
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		if (!book) return;
-		dispatch(addToWarehouse(quantity, book.idBook));
+		dispatch(fetchAddToWarehouse(quantity, book.idBook));
 	};
-
-	// store variables
 
 	return (
 		<>
@@ -71,8 +69,8 @@ const ReceiveNewBook = ({ book }: ReceiveNewBookProps) => {
 				di aggiungere controlla che i dati corrispondano al libro
 				arrivato
 			</h3>
-			{book && <DetailsBook book={book} />}
+			<DetailsBook book={book} />
 		</>
 	);
 };
-export default ReceiveNewBook;
+export default ReceiveBooks;

@@ -1,9 +1,7 @@
 import { Table } from "react-bootstrap";
 import { Book } from "../../../interfaces/book.interface";
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../../functions/hooks";
-import { fetchItemsEntityByBookId } from "../../../api/warehouse/warehouseFetches";
+import { useAppSelector } from "../../../functions/hooks";
 import { ItemsEntity } from "../../../interfaces/warehouse.interface";
 import WarehouseTable from "./WarehouseTable";
 
@@ -13,15 +11,9 @@ interface InventoryTableProps {
 
 const InventoryTable = ({ book }: InventoryTableProps) => {
 	// define hooks
-	const dispatch = useAppDispatch();
 
 	// store variables
 	const { bookEntities } = useAppSelector((state) => state.bookState);
-
-	// what happens when the component is rendered and when the book changes
-	useEffect(() => {
-		dispatch(fetchItemsEntityByBookId(book?.idBook || 0));
-	}, [book]);
 
 	return (
 		<>
@@ -41,7 +33,6 @@ const InventoryTable = ({ book }: InventoryTableProps) => {
 				</thead>
 				<tbody className="text-center">
 					{bookEntities
-
 						.filter((item: ItemsEntity) =>
 							item.shelf.shelfName.includes("Corsia")
 						)

@@ -33,26 +33,27 @@ export const fetchBookList = () => async (dispatch: AppDispatch) => {
 	}
 };
 
-export const fetchBookById = (id: string) => async (dispatch: AppDispatch) => {
-	try {
-		const response = await fetchWithAuth(url + "Books/" + id, {
-			headers: {
-				"Content-Type": "application/json",
-			},
-		});
+export const fetchBookById =
+	(id: string | number) => async (dispatch: AppDispatch) => {
+		try {
+			const response = await fetchWithAuth(url + "Books/" + id, {
+				headers: {
+					"Content-Type": "application/json",
+				},
+			});
 
-		if (response.ok) {
-			const book: Book = await response.json();
-			console.info("Dettagli del libro", book);
-			dispatch(setCurrentBook(book));
-		} else {
-			throw new Error("Errore nel recupero dei risultati");
+			if (response.ok) {
+				const book: Book = await response.json();
+				console.info("Dettagli del libro", book);
+				dispatch(setCurrentBook(book));
+			} else {
+				throw new Error("Errore nel recupero dei risultati");
+			}
+		} catch (error) {
+			// Handle errors here, if necessary
+			console.error("Errore nel fetch:", error);
 		}
-	} catch (error) {
-		// Handle errors here, if necessary
-		console.error("Errore nel fetch:", error);
-	}
-};
+	};
 
 export const fetchBookCreate =
 	(newBook: BookDTO) => async (dispatch: AppDispatch) => {
