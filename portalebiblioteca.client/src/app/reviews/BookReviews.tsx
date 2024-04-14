@@ -6,6 +6,7 @@ import { fetchBookById } from "../../api/booksCatalog/bookCRUDFetches";
 import { Accordion, Container } from "react-bootstrap";
 import DetailsBook from "../booksCatalog/components/DetailsBook";
 import IndexReviews from "./IndexReviews";
+import BackButton from "../_miscellaneous/reusable/BackButton";
 
 const BookReviews = () => {
 	// define hooks
@@ -24,6 +25,7 @@ const BookReviews = () => {
 
 	return (
 		<Container>
+			<BackButton />
 			<h1>
 				Recensioni
 				<br />

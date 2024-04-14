@@ -6,8 +6,7 @@ import { ItemsEntity } from "../../interfaces/warehouse.interface";
 import { setBookEntities } from "../../redux/slicers/bookSlice";
 
 export const addToWarehouse =
-	async (quantity: number, idBook: number) =>
-	async (dispatch: AppDispatch) => {
+	(quantity: number, idBook: number) => async (dispatch: AppDispatch) => {
 		try {
 			const response = await fetchWithAuth(
 				url + "api/Warehouse/receive",

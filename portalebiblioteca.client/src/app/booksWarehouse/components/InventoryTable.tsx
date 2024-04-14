@@ -21,7 +21,7 @@ const InventoryTable = ({ book }: InventoryTableProps) => {
 	// what happens when the component is rendered and when the book changes
 	useEffect(() => {
 		dispatch(fetchItemsEntityByBookId(book?.idBook || 0));
-	}, []);
+	}, [book]);
 
 	return (
 		<>

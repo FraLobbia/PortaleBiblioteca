@@ -19,10 +19,12 @@ namespace PortaleBiblioteca.Server.Controllers
 
         // GET: api/Reviews
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Review>>> GetReviews()
+        public async Task<ActionResult<IEnumerable<ReviewDTO>>> GetReviews()
         {
             var reviews = await _context.Reviews
-                .Select(r => new Review
+                .Include(r => r.Book)
+                .Include(r => r.User)
+                .Select(r => new ReviewDTO
                 {
                     IdReview = r.IdReview,
                     IdBook = r.IdBook,
@@ -33,13 +35,11 @@ namespace PortaleBiblioteca.Server.Controllers
                     Book = new Book
                     {
                         IdBook = r.Book.IdBook,
-                        Author = r.Book.Author,
                         Title = r.Book.Title,
-                        Description = r.Book.Description,
+                        Author = r.Book.Author,
                         Genre = r.Book.Genre,
-                        PublicationDate = r.Book.PublicationDate,
-                        ISBN = r.Book.ISBN,
                         CoverImage = r.Book.CoverImage
+
                     },
                     User = new User
                     {

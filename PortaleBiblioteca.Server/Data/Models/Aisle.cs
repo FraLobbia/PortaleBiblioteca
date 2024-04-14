@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace PortaleBiblioteca.Server.Data.Models
 {
@@ -17,6 +18,7 @@ namespace PortaleBiblioteca.Server.Data.Models
         // Corsie FISICHE:
         // da corsia 200 in poi
 
+        [JsonIgnore]
         public virtual ICollection<Shelf> Shelves { get; set; }
     }
 }

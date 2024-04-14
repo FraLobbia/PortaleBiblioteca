@@ -26,9 +26,9 @@ const WarehouseTable = ({ bookEntities }: InventoryTableProps) => {
 		) - warehousequantity;
 
 	// what appens when the component is mounted
-	useEffect(() => {
-		dispatch(fetchBookList());
-	}, []);
+	// useEffect(() => {
+	// 	dispatch(fetchBookList());
+	// }, []);
 
 	return (
 		<>

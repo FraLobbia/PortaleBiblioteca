@@ -1,10 +1,7 @@
 import { Button, Form } from "react-bootstrap";
 import DetailsBook from "../booksCatalog/components/DetailsBook";
-import { useEffect, useState } from "react";
-import {
-	addToWarehouse,
-	fetchItemsEntityByBookId,
-} from "../../api/warehouse/warehouseFetches";
+import { useState } from "react";
+import { addToWarehouse } from "../../api/warehouse/warehouseFetches";
 import { Book } from "../../interfaces/book.interface";
 import InventoryTable from "./components/InventoryTable";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -30,11 +27,6 @@ const ReceiveNewBook = ({ book }: ReceiveNewBookProps) => {
 	};
 
 	// store variables
-
-	// what happens when the component is rendered
-	useEffect(() => {
-		dispatch(fetchItemsEntityByBookId(book?.idBook || 0));
-	}, []);
 
 	return (
 		<>
@@ -79,7 +71,7 @@ const ReceiveNewBook = ({ book }: ReceiveNewBookProps) => {
 				di aggiungere controlla che i dati corrispondano al libro
 				arrivato
 			</h3>
-			{book && <DetailsBook idBook={book.idBook.toString()} />}
+			{book && <DetailsBook book={book} />}
 		</>
 	);
 };

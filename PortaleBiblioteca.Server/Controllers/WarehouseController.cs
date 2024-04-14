@@ -48,14 +48,45 @@ namespace PortaleBiblioteca.Server.Controllers
 
             await _context.SaveChangesAsync();
 
-            // ritorna la lista aggiornata
-            return StatusCode(201, await _context.Items.ToListAsync());
+
+
+            var itemsList = _context.Items
+            .Include(i => i.Shelf.Aisle)
+            .Where(i => i.IdBook == data.IdBook)
+            .Select(i => new
+            {
+                i.IdItemsEntity,
+                i.Quantity,
+                i.ChangeDate,
+                Status = i.Status.ToString(),
+                Shelf = new
+                {
+                    i.Shelf.IdShelf,
+                    ShelfHeight = i.Shelf.ShelfHeight.ToString(),
+                    i.Shelf.ShelfBay,
+                    i.Shelf.ShelfName,
+                    ShelfType = i.Shelf.ShelfType.ToString(),
+                },
+                Book = new BookDTO
+                {
+                    IdBook = i.Book.IdBook,
+                    IdAuthor = i.Book.IdAuthor,
+                    Title = i.Book.Title,
+                    Description = i.Book.Description,
+                    IdGenre = i.Book.IdGenre,
+                    PublicationDate = i.Book.PublicationDate,
+                    ISBN = i.Book.ISBN,
+                    CoverImage = i.Book.CoverImage
+                }
+            })
+            .ToList();
+            return StatusCode(201, itemsList);
         }
 
 
         // GET: api/Warehouse/5
         [HttpGet("{IdBook}")]
-        public async Task<IActionResult> GetItemsEntity(int IdBook)
+        public async Task<IActionResult> GetItemEntities(int IdBook)
         {
 
             // include the book and the shelf
@@ -76,15 +107,16 @@ namespace PortaleBiblioteca.Server.Controllers
                         i.Shelf.ShelfName,
                         ShelfType = i.Shelf.ShelfType.ToString(),
                     },
-                    Book = new
+                    Book = new BookDTO
                     {
-                        i.Book.IdBook,
-                        i.Book.Title,
-                        i.Book.Author,
-                        i.Book.ISBN,
-                        i.Book.Genre,
-                        i.Book.Description,
-                        i.Book.CoverImage
+                        IdBook = i.Book.IdBook,
+                        IdAuthor = i.Book.IdAuthor,
+                        Title = i.Book.Title,
+                        Description = i.Book.Description,
+                        IdGenre = i.Book.IdGenre,
+                        PublicationDate = i.Book.PublicationDate,
+                        ISBN = i.Book.ISBN,
+                        CoverImage = i.Book.CoverImage
                     }
                 })
                 .ToListAsync();

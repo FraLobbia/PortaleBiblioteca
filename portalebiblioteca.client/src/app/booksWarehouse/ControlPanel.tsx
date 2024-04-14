@@ -5,8 +5,6 @@ import { useAppDispatch, useAppSelector } from "../../functions/hooks";
 import ReceiveNewBook from "./ReceiveNewBook";
 import { fetchBookList } from "../../api/booksCatalog/bookCRUDFetches";
 import BackButton from "../_miscellaneous/reusable/BackButton";
-import { fetchItemsEntityByBookId } from "../../api/warehouse/warehouseFetches";
-
 const ControlPanel = () => {
 	// define hooks
 	const dispatch = useAppDispatch();
@@ -16,11 +14,12 @@ const ControlPanel = () => {
 
 	// variables
 	const [choosenBook, setChoosenBook] = useState<Book | null>(null);
-	// what appens when the component is mounted
+
+	// what happens when the component is mounted
 	useEffect(() => {
 		dispatch(fetchBookList());
-		dispatch(fetchItemsEntityByBookId(choosenBook?.idBook ?? 0));
 	}, []);
+
 	return (
 		<Container>
 			<BackButton />

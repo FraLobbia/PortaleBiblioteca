@@ -62,6 +62,8 @@ namespace PortaleBiblioteca.Server.Data.Models
 
             }
         }
+
+        [JsonIgnore]
         public virtual ICollection<ItemsEntity> Items { get; set; }
 
 

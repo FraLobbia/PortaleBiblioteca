@@ -23,7 +23,7 @@ namespace PortaleBiblioteca.Server.Controllers
         public async Task<ActionResult<IEnumerable<Book>>> GetBooks()
         {
             return await _context.Books
-                    .Include(b => b.Items)
+                    //.Include(b => b.Items)
                     .Include(b => b.Author)
                     .Include(b => b.Genre)
                     .ToListAsync();
@@ -37,10 +37,10 @@ namespace PortaleBiblioteca.Server.Controllers
 
             // get the items with quantity
             Book book = await _context.Books
-                .Include(b => b.Items)
                 .Include(b => b.Author)
                 .Include(b => b.Genre)
-
+                .Include(b => b.Reviews)
+                .Include(b => b.Items)
                 .FirstOrDefaultAsync(b => b.IdBook == id);
 
             if (book == null)

@@ -74,7 +74,7 @@ const LoansHistory = ({ activeLoans, loansCurrentUser }: LoansHistoryProps) => {
 												<p>{loan.book.title}</p>
 											</Link>
 											<p className="text-muted">
-												{loan.book.author}
+												{loan.book.author.name}
 											</p>
 										</td>
 										<td>

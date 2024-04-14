@@ -2,7 +2,8 @@ import ReviewForm from "./ReviewForm";
 import { Book } from "../../../interfaces/book.interface";
 import { useAppSelector } from "../../../functions/hooks";
 import { Review } from "../../../interfaces/review.interface";
-
+import { useEffect, useState } from "react";
+import SingleReview from "./SingleReview";
 interface NewReviewProps {
 	book: Book;
 }
@@ -14,20 +15,33 @@ const NewReview = ({ book }: NewReviewProps) => {
 	);
 
 	// variables
-	const userHasAlreadyWrittenReview = book.reviews?.some(
+	const [review, setReview] = useState<Review | null>(null);
+
+	const userReview = book.reviews?.find(
 		(review: Review) => review.idUser === user?.idUser
 	);
 
+	useEffect(() => {
+		if (userReview) {
+			setReview({
+				...userReview,
+				book: book,
+			});
+		}
+	}, [userReview, book]);
+
 	return (
 		<>
-			{userHasAlreadyWrittenReview ? (
+			{userReview ? (
 				<>
-					{" "}
-					<h1>Scrivi una nuova recensione</h1>
-					<ReviewForm idBook={book.idBook} />
+					<h3>
+						Hai già recensito questo libro, <br /> ecco la tua
+						recensione!
+					</h3>
+					{review && <SingleReview review={review} user={user} />}
 				</>
 			) : (
-				<h1>Hai già scritto una recensione per questo libro</h1>
+				<ReviewForm idBook={book.idBook} />
 			)}
 		</>
 	);

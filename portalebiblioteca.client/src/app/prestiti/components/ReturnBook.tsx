@@ -73,7 +73,7 @@ const ReturnBookForm = ({ activeLoans }: ReturnBookFormProps) => {
 								<option
 									key={"loan" + loan.idLoan}
 									value={loan.idLoan}>
-									{loan.book.title} - {loan.book.author}
+									{loan.book.title} - {loan.book.author.name}
 								</option>
 							))}
 						</Form.Select>
