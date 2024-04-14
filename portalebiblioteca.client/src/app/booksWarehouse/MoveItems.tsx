@@ -51,7 +51,9 @@ const MoveItems = () => {
 						as="select">
 						<option>Scegli una corsia</option>
 						{aisles.map((aisle) => (
-							<option key={aisle.idAisle} value={aisle.idAisle}>
+							<option
+								key={"aisle" + aisle.idAisle}
+								value={aisle.idAisle}>
 								{aisle.aisleNumber}
 							</option>
 						))}

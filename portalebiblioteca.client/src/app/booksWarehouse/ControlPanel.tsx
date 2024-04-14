@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from "../../functions/hooks";
 import ReceiveNewBook from "./ReceiveNewBook";
 import { fetchBookList } from "../../api/booksCatalog/bookCRUDFetches";
 import BackButton from "../_miscellaneous/reusable/BackButton";
+import { fetchItemsEntityByBookId } from "../../api/warehouse/warehouseFetches";
 
 const ControlPanel = () => {
 	// define hooks
@@ -12,14 +13,14 @@ const ControlPanel = () => {
 
 	// store variables
 	const { books } = useAppSelector((state) => state.bookState);
-	const { itemsEntities } = useAppSelector((state) => state.warehouseState);
 
 	// variables
 	const [choosenBook, setChoosenBook] = useState<Book | null>(null);
 	// what appens when the component is mounted
 	useEffect(() => {
 		dispatch(fetchBookList());
-	}, [itemsEntities]);
+		dispatch(fetchItemsEntityByBookId(choosenBook?.idBook ?? 0));
+	}, []);
 	return (
 		<Container>
 			<BackButton />
@@ -40,7 +41,7 @@ const ControlPanel = () => {
 						Scegli un titolo tra quelli a catalogo
 					</option>
 					{books.map((book: Book) => (
-						<option key={book.idBook} value={book.idBook}>
+						<option key={"book-" + book.idBook} value={book.idBook}>
 							{book.title} - {book.author.name}
 						</option>
 					))}

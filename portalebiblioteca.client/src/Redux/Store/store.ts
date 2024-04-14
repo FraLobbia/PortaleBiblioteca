@@ -10,6 +10,7 @@ import genreSlice from "../slicers/genreSlice";
 import warehouseSlice from "../slicers/warehouseSlice";
 import preferencesSlice from "../slicers/preferencesSlice";
 import authorSlice from "../slicers/authorSlice";
+import reviewSlice from "../slicers/reviewSlice";
 
 const persistConfig = {
 	key: "root",
@@ -35,6 +36,7 @@ const rootReducer = combineSlices({
 	warehouseState: warehouseSlice,
 	preferenceState: preferencesSlice,
 	authorState: authorSlice,
+	reviewState: reviewSlice,
 });
 //2) =================================================================================
 // Infer the `RootState` type from the root reducer

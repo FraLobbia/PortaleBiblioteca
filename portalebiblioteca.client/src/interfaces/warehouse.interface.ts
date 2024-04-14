@@ -35,6 +35,7 @@ export enum Type {
 export interface ItemsEntity {
 	idItemsEntity: number;
 	idBook: number;
+	changeTime: Date;
 	quantity: number;
 	status: ItemsEntityStatus;
 	idShelf: number;

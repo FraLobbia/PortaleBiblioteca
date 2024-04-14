@@ -25,8 +25,8 @@ namespace PortaleBiblioteca.Server.Controllers
             return await _context.Books
                     .Include(b => b.Items)
                     .Include(b => b.Author)
+                    .Include(b => b.Genre)
                     .ToListAsync();
-
         }
 
         // GET: /Books/5
@@ -39,6 +39,8 @@ namespace PortaleBiblioteca.Server.Controllers
             Book book = await _context.Books
                 .Include(b => b.Items)
                 .Include(b => b.Author)
+                .Include(b => b.Genre)
+
                 .FirstOrDefaultAsync(b => b.IdBook == id);
 
             if (book == null)
@@ -81,7 +83,10 @@ namespace PortaleBiblioteca.Server.Controllers
                 _context.Entry(book).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
 
-                return Ok(await _context.Books.Include(b => b.Author).ToListAsync());
+                return Ok(await _context.Books
+                .Include(b => b.Author)
+                .Include(b => b.Genre)
+                .ToListAsync());
 
             }
             catch (DbUpdateConcurrencyException)
@@ -119,7 +124,10 @@ namespace PortaleBiblioteca.Server.Controllers
             await _context.SaveChangesAsync();
 
             // return the updated booklist with code 201 (created)
-            return CreatedAtAction("GetBooks", new { id = book.IdBook }, await _context.Books.Include(b => b.Author).ToListAsync());
+            return CreatedAtAction("GetBooks", new { id = book.IdBook }, await _context.Books
+            .Include(b => b.Author)
+            .Include(b => b.Genre)
+            .ToListAsync());
 
         }
 

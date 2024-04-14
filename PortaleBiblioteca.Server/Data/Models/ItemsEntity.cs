@@ -11,6 +11,10 @@ namespace PortaleBiblioteca.Server.Data.Models
 
         [ForeignKey("Book")]
         public int IdBook { get; set; }
+        [JsonIgnore]
+        public virtual Book Book { get; set; }
+        [Required]
+        public DateTime ChangeDate { get; set; }
 
         [Required]
         public int Quantity { get; set; }
@@ -21,8 +25,6 @@ namespace PortaleBiblioteca.Server.Data.Models
         [Required]
         [ForeignKey("Shelf")]
         public int IdShelf { get; set; }
-        [JsonIgnore]
-        public virtual Book Book { get; set; }
         public virtual Shelf Shelf { get; set; }
 
         public enum ItemsEntityStatus

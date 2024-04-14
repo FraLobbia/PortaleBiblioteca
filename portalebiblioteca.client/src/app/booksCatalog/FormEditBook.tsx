@@ -118,7 +118,7 @@ const FormEditBook = () => {
 								<option value="">Seleziona un autore</option>
 								{authors.map((author) => (
 									<option
-										key={author.idAuthor}
+										key={"author-" + author.idAuthor}
 										value={author.idAuthor}>
 										{author.name}
 									</option>
@@ -157,7 +157,7 @@ const FormEditBook = () => {
 								<option value="">Seleziona un genere</option>
 								{genres.map((genre) => (
 									<option
-										key={genre.idGenre}
+										key={"genre-" + genre.idGenre}
 										value={genre.idGenre}>
 										{genre.name}
 									</option>

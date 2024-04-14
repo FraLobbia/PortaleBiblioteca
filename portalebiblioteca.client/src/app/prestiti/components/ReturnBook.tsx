@@ -70,7 +70,9 @@ const ReturnBookForm = ({ activeLoans }: ReturnBookFormProps) => {
 								Scegli un titolo tra i tuoi libri in prestito
 							</option>
 							{activeLoans.map((loan: Loan) => (
-								<option key={loan.idLoan} value={loan.idLoan}>
+								<option
+									key={"loan" + loan.idLoan}
+									value={loan.idLoan}>
 									{loan.book.title} - {loan.book.author}
 								</option>
 							))}

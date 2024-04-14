@@ -79,9 +79,9 @@ const Sidebar = () => {
 					<h3 className="mt-5">Generi</h3>
 					{genres &&
 						genres.map((genre: Genre) => (
-							<div key={genre.idGenre}>
+							<div key={"genre-" + genre.idGenre}>
 								<input
-									className="form-check-input bg-secondary border-0 me-2"
+									className="form-check-input bg-secondary border-0 me-4"
 									type="checkbox"
 									defaultChecked={true}
 									id={
@@ -121,9 +121,9 @@ const Sidebar = () => {
 								return uniqueAuthors;
 							}, [])
 							.map((book: Book) => (
-								<div key={book.idGenre}>
+								<div key={"book-side-" + book.idBook}>
 									<input
-										className="form-check-input bg-secondary border-0 me-2"
+										className="form-check-input bg-secondary border-0 me-4"
 										type="checkbox"
 										defaultChecked={true}
 										id={

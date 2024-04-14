@@ -1,11 +1,11 @@
 import { Table } from "react-bootstrap";
 import { Book } from "../../../interfaces/book.interface";
 import { Link } from "react-router-dom";
-import InventoryWarehouseTable from "./InventoryWarehouseTable";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../../functions/hooks";
 import { fetchItemsEntityByBookId } from "../../../api/warehouse/warehouseFetches";
 import { ItemsEntity } from "../../../interfaces/warehouse.interface";
+import WarehouseTable from "./WarehouseTable";
 
 interface InventoryTableProps {
 	book: Book | null;
@@ -16,7 +16,7 @@ const InventoryTable = ({ book }: InventoryTableProps) => {
 	const dispatch = useAppDispatch();
 
 	// store variables
-	const { booksEntities } = useAppSelector((state) => state.bookState);
+	const { bookEntities } = useAppSelector((state) => state.bookState);
 
 	// what happens when the component is rendered and when the book changes
 	useEffect(() => {
@@ -26,7 +26,9 @@ const InventoryTable = ({ book }: InventoryTableProps) => {
 	return (
 		<>
 			<h3>Inventario</h3>
-			<InventoryWarehouseTable booksEntities={booksEntities} />
+
+			<WarehouseTable bookEntities={bookEntities} />
+
 			<h6>Scaffali aperti al pubblico</h6>
 			<Table striped bordered hover>
 				<thead className="container text-center">
@@ -38,12 +40,19 @@ const InventoryTable = ({ book }: InventoryTableProps) => {
 					</tr>
 				</thead>
 				<tbody className="text-center">
-					{booksEntities
+					{bookEntities
+
 						.filter((item: ItemsEntity) =>
 							item.shelf.shelfName.includes("Corsia")
 						)
+						.sort(
+							(a: ItemsEntity, b: ItemsEntity) =>
+								b.idItemsEntity - a.idItemsEntity
+						)
 						.map((item: ItemsEntity) => (
-							<tr className="row m-0" key={item.idItemsEntity}>
+							<tr
+								className="row m-0"
+								key={"item-" + item.idItemsEntity}>
 								<td className="col-4 text-start">
 									{item.shelf.shelfName}
 								</td>

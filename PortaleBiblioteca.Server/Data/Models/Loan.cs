@@ -20,8 +20,8 @@ namespace PortaleBiblioteca.Server.Data.Models
 
         public DateTime? ReturnDate { get; set; }
 
-        public Book Book { get; set; }
-        public User User { get; set; }
+        public virtual Book Book { get; set; }
+        public virtual User User { get; set; }
 
     }
 }

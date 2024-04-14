@@ -55,7 +55,7 @@ const LoansHistory = ({ activeLoans, loansCurrentUser }: LoansHistoryProps) => {
 									ShowAlsoReturned ? true : !loan.returned
 								)
 								.map((loan: Loan) => (
-									<tr key={loan.idLoan}>
+									<tr key={"loan-" + loan.idLoan}>
 										<td className="text-start">
 											<Link
 												to={

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
+using System.Text.Json.Serialization;
 namespace PortaleBiblioteca.Server.Data.Models
 {
     public class Review
@@ -15,10 +15,13 @@ namespace PortaleBiblioteca.Server.Data.Models
         public int IdUser { get; set; }
         [Required]
         public string ReviewTitle { get; set; }
+
+        public DateTime ReviewDate { get; set; }
         [Required]
         public string ReviewBody { get; set; }
 
-        public Book Book { get; set; }
-        public User User { get; set; }
+        public virtual Book Book { get; set; }
+
+        public virtual User User { get; set; }
     }
 }

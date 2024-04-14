@@ -69,7 +69,7 @@ const FormAddBook = () => {
 						<option value="">Seleziona un autore</option>
 						{authors.map((author) => (
 							<option
-								key={author.idAuthor}
+								key={"autho-" + author.idAuthor}
 								value={author.idAuthor}>
 								{author.name}
 							</option>
@@ -106,7 +106,9 @@ const FormAddBook = () => {
 						onChange={(e) => setGenere(parseInt(e.target.value))}>
 						<option value="">Seleziona un genere</option>
 						{genres.map((genre) => (
-							<option key={genre.idGenre} value={genre.idGenre}>
+							<option
+								key={"genre-" + genre.idGenre}
+								value={genre.idGenre}>
 								{genre.name}
 							</option>
 						))}

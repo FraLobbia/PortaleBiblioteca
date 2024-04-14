@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PortaleBiblioteca.Server.Data;
@@ -25,7 +21,36 @@ namespace PortaleBiblioteca.Server.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Review>>> GetReviews()
         {
-            return await _context.Reviews.ToListAsync();
+            var reviews = await _context.Reviews
+                .Select(r => new Review
+                {
+                    IdReview = r.IdReview,
+                    IdBook = r.IdBook,
+                    IdUser = r.IdUser,
+                    ReviewTitle = r.ReviewTitle,
+                    ReviewDate = r.ReviewDate,
+                    ReviewBody = r.ReviewBody,
+                    Book = new Book
+                    {
+                        IdBook = r.Book.IdBook,
+                        Author = r.Book.Author,
+                        Title = r.Book.Title,
+                        Description = r.Book.Description,
+                        Genre = r.Book.Genre,
+                        PublicationDate = r.Book.PublicationDate,
+                        ISBN = r.Book.ISBN,
+                        CoverImage = r.Book.CoverImage
+                    },
+                    User = new User
+                    {
+                        IdUser = r.User.IdUser,
+                        FirstName = r.User.FirstName,
+                        UserImage = r.User.UserImage
+                    }
+                })
+                .ToListAsync();
+
+            return reviews;
         }
 
         // GET: api/Reviews/5
@@ -78,6 +103,7 @@ namespace PortaleBiblioteca.Server.Controllers
         [HttpPost]
         public async Task<ActionResult<Review>> PostReview(Review review)
         {
+            review.ReviewDate = DateTime.Now;
             _context.Reviews.Add(review);
             await _context.SaveChangesAsync();
 

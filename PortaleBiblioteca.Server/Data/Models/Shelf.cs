@@ -11,6 +11,7 @@ namespace PortaleBiblioteca.Server.Data.Models
         [Required]
         [ForeignKey("Aisle")]
         public int IdAisle { get; set; }
+        public virtual Aisle Aisle { get; set; }
 
         [Required]
         [EnumDataType(typeof(Height))]
@@ -62,7 +63,7 @@ namespace PortaleBiblioteca.Server.Data.Models
             }
         }
         public virtual ICollection<ItemsEntity> Items { get; set; }
-        public Aisle Aisle { get; set; }
+
 
         public enum Type
         {

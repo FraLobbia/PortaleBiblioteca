@@ -1,15 +1,17 @@
-import { Container, Form } from "react-bootstrap";
+import { Card, Container, Form } from "react-bootstrap";
 import { useAppSelector } from "../../../functions/hooks";
 import { Review } from "../../../interfaces/review.interface";
 import { useState } from "react";
 import { createReviewFetch } from "../../../api/reviews/reviewsCRUDfetches";
+import { useNavigate } from "react-router-dom";
 
 interface ReviewFormProps {
-	idBook: string | undefined;
+	idBook: number | undefined;
 }
 
 const ReviewForm = ({ idBook }: ReviewFormProps) => {
 	// define hooks
+	const navigate = useNavigate();
 
 	// variables
 	const [reviewTitle, setReviewTitle] = useState<string>("");
@@ -26,17 +28,16 @@ const ReviewForm = ({ idBook }: ReviewFormProps) => {
 		if (!user) return;
 		if (!idBook) return;
 		const newReview: Review = {
-			idBook: parseInt(idBook),
+			idBook: idBook,
 			idUser: user.idUser,
 			reviewTitle,
 			reviewBody,
 		};
 		createReviewFetch(newReview);
-		setReviewTitle("");
-		setReviewBody("");
+		navigate("/recensioni");
 	};
 	return (
-		<Container fluid className="border border-3 border-mattone">
+		<Card className="border border-3 border-mattone p-3">
 			<h2>Scrivi una recensione</h2>
 			<Form onSubmit={handleSubmit}>
 				<Form.Group className="mb-3">
@@ -59,16 +60,16 @@ const ReviewForm = ({ idBook }: ReviewFormProps) => {
 					/>
 				</Form.Group>
 
-				<div className="my-3">
-					<button type="submit" className="btn btn-primary">
-						Invia
-					</button>
-					<button type="reset" className="btn btn-secondary ms-2">
+				<div className="my-3 text-end">
+					<button type="reset" className="btn btn-secondary me-3">
 						Cancella
+					</button>
+					<button type="submit" className="btn btn-primary">
+						Posta recensione
 					</button>
 				</div>
 			</Form>
-		</Container>
+		</Card>
 	);
 };
 

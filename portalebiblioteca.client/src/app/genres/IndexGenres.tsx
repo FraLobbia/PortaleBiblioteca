@@ -29,7 +29,7 @@ const IndexGenres = () => {
 				</thead>
 				<tbody>
 					{genres.map((genre) => (
-						<tr key={genre.idGenre}>
+						<tr key={"genre-" + genre.idGenre}>
 							<td>{genre.name}</td>
 							<td>{genre.description}</td>
 							<td className="d-flex flex-column gap-2">

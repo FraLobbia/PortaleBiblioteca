@@ -11,12 +11,13 @@ namespace PortaleBiblioteca
 
         [ForeignKey("Author")]
         public int IdAuthor { get; set; }
-        public Author Author { get; set; }
+        public virtual Author Author { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
 
         [ForeignKey("Genre")]
         public int IdGenre { get; set; }
+        public virtual Genre Genre { get; set; }
         public int AvailableQuantity
         {
             get
@@ -134,10 +135,12 @@ namespace PortaleBiblioteca
         public DateTime PublicationDate { get; set; }
         public string ISBN { get; set; }
         public string CoverImage { get; set; }
-        public Genre Genre { get; set; }
-        [JsonIgnore]
+
+
         public virtual ICollection<ItemsEntity> Items { get; set; }
+
         public virtual ICollection<Review> Reviews { get; set; }
+
         public virtual ICollection<Loan> Loans { get; set; }
     }
 

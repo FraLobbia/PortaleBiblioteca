@@ -17,11 +17,10 @@ import FormEditGenres from "./app/genres/FormEditGenres";
 import ControlPanel from "./app/booksWarehouse/ControlPanel";
 import MoveItems from "./app/booksWarehouse/MoveItems";
 import { setDarkMode } from "./functions/utility";
-import BackButton from "./app/_miscellaneous/reusable/BackButton";
 import MyFooter from "./app/_miscellaneous/myFooter";
 import IndexAuthors from "./app/authors/IndexAuthors";
-import ReviewForm from "./app/reviews/components/ReviewForm";
-import NewReview from "./app/reviews/NewReview";
+import IndexReviews from "./app/reviews/IndexReviews";
+import BookReviews from "./app/reviews/BookReviews";
 
 function App() {
 	const selectedTheme = localStorage.getItem("selectedTheme");
@@ -59,8 +58,8 @@ function App() {
 					</Route>
 
 					<Route path="/recensioni">
-						<Route index element={<NewReview />} />
-						<Route path=":id" element={<NewReview />} />
+						<Route index element={<IndexReviews />} />
+						<Route path=":id" element={<BookReviews />} />
 						<Route path="edit/:id" element={<FormEditGenres />} />
 					</Route>
 

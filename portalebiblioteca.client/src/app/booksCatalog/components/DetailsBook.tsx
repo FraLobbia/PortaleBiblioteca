@@ -1,22 +1,20 @@
 import { Button, Col, Row } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../../functions/hooks";
-import { fetchBookById } from "../../../api/booksCatalog/bookCRUDFetches";
-import { useEffect } from "react";
 import { loanObjForm } from "../../../interfaces/loans.interface";
 import { addLoanToUser } from "../../../api/booksCatalog/bookLOANSFetches";
 import { Link, useNavigate } from "react-router-dom";
 import { formatData } from "../../../functions/utility";
+import { Book } from "../../../interfaces/book.interface";
 interface DetailsBookProps {
-	idBook: string | undefined;
+	book: Book;
 }
 
-const DetailsBook = ({ idBook }: DetailsBookProps) => {
+const DetailsBook = ({ book }: DetailsBookProps) => {
 	// define hooks
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 
 	//store variables
-	const book = useAppSelector((state) => state.bookState.currentBook);
 	const { permissionsToEdit, user } = useAppSelector(
 		(state) => state.profileState.loggedProfile
 	);
@@ -35,11 +33,6 @@ const DetailsBook = ({ idBook }: DetailsBookProps) => {
 		};
 		dispatch(addLoanToUser(loanObJ)).then(() => navigate("/prestiti"));
 	};
-
-	// what appens when the component is mounted
-	useEffect(() => {
-		if (idBook) dispatch(fetchBookById(idBook));
-	}, [idBook]);
 
 	return (
 		<>

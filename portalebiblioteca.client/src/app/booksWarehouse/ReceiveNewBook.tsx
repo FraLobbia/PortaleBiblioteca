@@ -1,11 +1,15 @@
 import { Button, Form } from "react-bootstrap";
 import DetailsBook from "../booksCatalog/components/DetailsBook";
-import { useState } from "react";
-import { addToWarehouse } from "../../api/warehouse/warehouseFetches";
+import { useEffect, useState } from "react";
+import {
+	addToWarehouse,
+	fetchItemsEntityByBookId,
+} from "../../api/warehouse/warehouseFetches";
 import { Book } from "../../interfaces/book.interface";
 import InventoryTable from "./components/InventoryTable";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
+import { useAppDispatch } from "../../functions/hooks";
 
 interface ReceiveNewBookProps {
 	book: Book | null;
@@ -13,6 +17,7 @@ interface ReceiveNewBookProps {
 
 const ReceiveNewBook = ({ book }: ReceiveNewBookProps) => {
 	// define hooks
+	const dispatch = useAppDispatch();
 
 	//variables
 	const [quantity, setQuantity] = useState<number>(1);
@@ -21,8 +26,15 @@ const ReceiveNewBook = ({ book }: ReceiveNewBookProps) => {
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		if (!book) return;
-		addToWarehouse(quantity, parseInt(book.idBook.toString()));
+		dispatch(addToWarehouse(quantity, book.idBook));
 	};
+
+	// store variables
+
+	// what happens when the component is rendered
+	useEffect(() => {
+		dispatch(fetchItemsEntityByBookId(book?.idBook || 0));
+	}, []);
 
 	return (
 		<>

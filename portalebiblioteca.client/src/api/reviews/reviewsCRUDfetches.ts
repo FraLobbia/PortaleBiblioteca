@@ -2,6 +2,35 @@ import Swal from "sweetalert2";
 import { url } from "../../functions/config";
 import { Review } from "../../interfaces/review.interface";
 import { fetchWithAuth } from "../interceptor";
+import { AppDispatch } from "../../redux/store/store";
+import { setReviews } from "../../redux/slicers/reviewSlice";
+import { Toast } from "../../functions/utility";
+
+export const fetchReviewList = () => async (dispatch: AppDispatch) => {
+	try {
+		const response = await fetchWithAuth(url + "api/Reviews", {
+			headers: {
+				"Content-Type": "application/json",
+			},
+		});
+
+		if (!response.ok) {
+			response.json().then((err) => {
+				Toast.fire({
+					icon: "error",
+					title: `${err.message}`,
+				});
+			});
+		} else {
+			const reviewList: Review[] = await response.json();
+			console.info("Lista delle review", reviewList);
+			dispatch(setReviews(reviewList));
+		}
+	} catch (error) {
+		// Handle errors here, if necessary
+		console.error("Errore nel fetch:", error);
+	}
+};
 
 export const createReviewFetch = async (review: Review) => {
 	try {

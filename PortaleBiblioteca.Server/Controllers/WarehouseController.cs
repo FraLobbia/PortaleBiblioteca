@@ -42,6 +42,7 @@ namespace PortaleBiblioteca.Server.Controllers
             item.Status = ItemsEntity.ItemsEntityStatus.AtWarehouse;
             item.Quantity = data.Quantity;
             item.IdShelf = 5003; // this is the shelf for the warehouse
+            item.ChangeDate = DateTime.Now;
             _context.Items.Add(item);
 
 
@@ -56,7 +57,7 @@ namespace PortaleBiblioteca.Server.Controllers
         [HttpGet("{IdBook}")]
         public async Task<IActionResult> GetItemsEntity(int IdBook)
         {
-            //var itemsEntities = await _context.Items.Where(i => i.IdBook == IdBook).ToListAsync();
+
             // include the book and the shelf
             var itemsEntities = await _context.Items
                 .Include(i => i.Shelf.Aisle)
@@ -65,6 +66,7 @@ namespace PortaleBiblioteca.Server.Controllers
                 {
                     i.IdItemsEntity,
                     i.Quantity,
+                    i.ChangeDate,
                     Status = i.Status.ToString(),
                     Shelf = new
                     {

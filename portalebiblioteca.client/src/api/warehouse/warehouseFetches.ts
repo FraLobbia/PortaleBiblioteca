@@ -2,41 +2,48 @@ import Swal from "sweetalert2";
 import { url } from "../../functions/config";
 import { fetchWithAuth } from "../interceptor";
 import { AppDispatch } from "../../redux/store/store";
-import { setBooksEntities } from "../../redux/slicers/bookSlice";
 import { ItemsEntity } from "../../interfaces/warehouse.interface";
+import { setBookEntities } from "../../redux/slicers/bookSlice";
 
-export const addToWarehouse = async (quantity: number, idBook: number) => {
-	try {
-		const response = await fetchWithAuth(url + "api/Warehouse/receive", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				quantity,
-				idBook,
-			}),
-		});
+export const addToWarehouse =
+	async (quantity: number, idBook: number) =>
+	async (dispatch: AppDispatch) => {
+		try {
+			const response = await fetchWithAuth(
+				url + "api/Warehouse/receive",
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						quantity,
+						idBook,
+					}),
+				}
+			);
 
-		if (!response.ok) {
-			response.json().then((err) => {
-				Swal.fire({
-					title: `${err.message}`,
-					icon: "error",
-					footer: `Errore ${response.status}`,
+			if (!response.ok) {
+				response.json().then((err) => {
+					Swal.fire({
+						title: `${err.message}`,
+						icon: "error",
+						footer: `Errore ${response.status}`,
+					});
 				});
-			});
-		} else {
-			Swal.fire({
-				title: "Libri ricevuti!",
-				text: "I libri sono in magazzino in attesa di essere riposti negli scaffali!",
-				icon: "success",
-			});
+			} else {
+				const bookEntities: ItemsEntity[] = await response.json();
+				dispatch(setBookEntities(bookEntities));
+				Swal.fire({
+					title: "Libri ricevuti!",
+					text: "I libri sono in magazzino in attesa di essere riposti negli scaffali!",
+					icon: "success",
+				});
+			}
+		} catch (error) {
+			console.error(error);
 		}
-	} catch (error) {
-		console.error(error);
-	}
-};
+	};
 
 export const fetchAllWarehouse = async () => {
 	try {
@@ -87,7 +94,7 @@ export const fetchItemsEntityByBookId =
 			} else {
 				const items: ItemsEntity[] = await response.json();
 				console.log("ItemsEntity: ", items);
-				dispatch(setBooksEntities(items));
+				dispatch(setBookEntities(items));
 			}
 		} catch (error) {
 			console.error(error);

@@ -1,4 +1,6 @@
 import { Genre } from "./genre.interface";
+import { Loan } from "./loans.interface";
+import { Review } from "./review.interface";
 
 export interface Author {
 	idAuthor: number;
@@ -23,8 +25,8 @@ export interface Book {
 	isbn: string;
 	coverImage: string;
 	genre: Genre;
-	reviews: null;
-	loans: null;
+	reviews?: Review[];
+	loans?: Loan[];
 }
 
 export interface BookDTO {

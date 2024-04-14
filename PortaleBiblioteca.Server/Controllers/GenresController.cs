@@ -34,6 +34,7 @@ namespace PortaleBiblioteca.Server.Controllers
 
         // GET: api/Genres/5
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<ActionResult<Genre>> GetGenre(int id)
         {
             var genre = await _context.Genres.FindAsync(id);

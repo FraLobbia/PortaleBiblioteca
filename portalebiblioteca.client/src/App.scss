@@ -1,7 +1,8 @@
 ﻿@import "./assets/_bootstrapOverrides.scss";
 @import "./app/booksWarehouse/_warehouse.scss";
 @import "./assets/DarkMode.scss";
-
+@import "./assets/variables.scss";
+@import "./assets/_bootswatch.scss";
 @import url("https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap");
 p {
 	margin: 0;
