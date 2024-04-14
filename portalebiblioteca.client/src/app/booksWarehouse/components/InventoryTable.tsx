@@ -1,17 +1,10 @@
 import { Table } from "react-bootstrap";
-import { Book } from "../../../interfaces/book.interface";
 import { Link } from "react-router-dom";
 import { useAppSelector } from "../../../functions/hooks";
 import { ItemsEntity } from "../../../interfaces/warehouse.interface";
 import WarehouseTable from "./WarehouseTable";
 
-interface InventoryTableProps {
-	book: Book | null;
-}
-
-const InventoryTable = ({ book }: InventoryTableProps) => {
-	// define hooks
-
+const InventoryTable = () => {
 	// store variables
 	const { bookEntities } = useAppSelector((state) => state.bookState);
 
@@ -19,7 +12,7 @@ const InventoryTable = ({ book }: InventoryTableProps) => {
 		<>
 			<h3>Inventario</h3>
 
-			<WarehouseTable bookEntities={bookEntities} />
+			<WarehouseTable />
 
 			<h6>Scaffali aperti al pubblico</h6>
 			<Table striped bordered hover>

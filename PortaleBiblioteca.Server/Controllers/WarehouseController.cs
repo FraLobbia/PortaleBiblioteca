@@ -83,51 +83,41 @@ namespace PortaleBiblioteca.Server.Controllers
             return StatusCode(201, itemsList);
         }
 
-
-        // GET: api/Warehouse/5
-        [HttpGet("{IdBook}")]
-        public async Task<IActionResult> GetItemEntities(int IdBook)
+        // GET: api/Warehouse/5/bays
+        [HttpGet("{IdAisle}/bays")]
+        public async Task<IActionResult> GetBays(int IdAisle)
         {
+            var bays = await _context.Shelves
+        .Where(s => s.IdAisle == IdAisle)
+        .Select(s => s.ShelfBay)
+        .Distinct()
+        .ToArrayAsync();
 
-            // include the book and the shelf
-            var itemsEntities = await _context.Items
-                .Include(i => i.Shelf.Aisle)
-                .Where(i => i.IdBook == IdBook)
-                .Select(i => new
-                {
-                    i.IdItemsEntity,
-                    i.Quantity,
-                    i.ChangeDate,
-                    Status = i.Status.ToString(),
-                    Shelf = new
-                    {
-                        i.Shelf.IdShelf,
-                        ShelfHeight = i.Shelf.ShelfHeight.ToString(),
-                        i.Shelf.ShelfBay,
-                        i.Shelf.ShelfName,
-                        ShelfType = i.Shelf.ShelfType.ToString(),
-                    },
-                    Book = new BookDTO
-                    {
-                        IdBook = i.Book.IdBook,
-                        IdAuthor = i.Book.IdAuthor,
-                        Title = i.Book.Title,
-                        Description = i.Book.Description,
-                        IdGenre = i.Book.IdGenre,
-                        PublicationDate = i.Book.PublicationDate,
-                        ISBN = i.Book.ISBN,
-                        CoverImage = i.Book.CoverImage
-                    }
-                })
-                .ToListAsync();
-
-            if (itemsEntities == null)
+            if (bays == null || bays.Length == 0)
             {
                 return NotFound();
             }
-
-            return Ok(itemsEntities);
+            return Ok(bays);
         }
+
+        // GET: api/Warehouse/5/5/heights
+        [HttpGet("{IdAisle}/{ShelfBay}/heights")]
+        public async Task<IActionResult> GetHeights(int IdAisle, int ShelfBay)
+        {
+            var heights = await _context.Shelves
+        .Where(s => s.IdAisle == IdAisle)
+        .Where(s => s.ShelfBay == ShelfBay)
+        .Select(s => s.ShelfHeight.ToString())
+        .Distinct()
+        .ToArrayAsync();
+
+            if (heights == null || heights.Length == 0)
+            {
+                return NotFound(new { message = "No shelves found for the given aisle and bay." });
+            }
+            return Ok(heights);
+        }
+
 
         // GET: api/Warehouse/aisle
         [HttpGet("aisle")]
@@ -136,7 +126,7 @@ namespace PortaleBiblioteca.Server.Controllers
             return await _context.Aisles.ToListAsync();
         }
 
-        // get all itemsentity of a book
+        // get all itemsEntity of a book
         // GET: api/Warehouse/book/5
         [HttpGet("book/{IdBook}")]
         public async Task<IActionResult> GetItemsEntityByBook(int IdBook)

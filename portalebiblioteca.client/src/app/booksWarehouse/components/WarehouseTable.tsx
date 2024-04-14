@@ -1,13 +1,11 @@
 import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { ItemsEntity } from "../../../interfaces/warehouse.interface";
+import { useAppSelector } from "../../../functions/hooks";
 
-interface InventoryTableProps {
-	bookEntities: ItemsEntity[];
-}
-
-const WarehouseTable = ({ bookEntities }: InventoryTableProps) => {
-	// define hooks
+const WarehouseTable = () => {
+	// store variables
+	const { bookEntities } = useAppSelector((state) => state.bookState);
 
 	// variables
 	const warehousequantity = bookEntities

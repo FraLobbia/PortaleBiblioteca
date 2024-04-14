@@ -59,7 +59,7 @@ const ReceiveBooks = ({ book }: ReceiveNewBookProps) => {
 
 			<hr />
 
-			<InventoryTable book={book} />
+			<InventoryTable />
 
 			<hr />
 

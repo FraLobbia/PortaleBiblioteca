@@ -5,6 +5,7 @@ import { AppDispatch } from "../../redux/store/store";
 import { ItemsEntity } from "../../interfaces/warehouse.interface";
 import { setBookEntities } from "../../redux/slicers/bookSlice";
 import { fetchBookById } from "../booksCatalog/bookCRUDFetches";
+import { setBays, setHeights } from "../../redux/slicers/warehouseSlice";
 
 export const fetchAddToWarehouse =
 	(quantity: number, idBook: number) => async (dispatch: AppDispatch) => {
@@ -96,6 +97,75 @@ export const fetchItemsEntityByBookId =
 				const items: ItemsEntity[] = await response.json();
 				console.log("ItemsEntity: ", items);
 				dispatch(setBookEntities(items));
+			}
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+export const fetchBaysByAisleId =
+	(idAisle: number) => async (dispatch: AppDispatch) => {
+		try {
+			const response = await fetchWithAuth(
+				url + `api/Warehouse/${idAisle}/bays`,
+				{
+					method: "GET",
+					headers: {
+						"Content-Type": "application/json",
+					},
+				}
+			);
+
+			if (!response.ok) {
+				response.json().then((err) => {
+					Swal.fire({
+						title: `${err.message}`,
+						icon: "error",
+						footer: `Errore ${response.status}`,
+					});
+				});
+			} else {
+				const bays = await response.json();
+				dispatch(setBays(bays));
+				console.log("Baie della corsia " + idAisle + " :", bays);
+			}
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+export const fetchHeightsByBayId =
+	(idAisle: number, idBay: number) => async (dispatch: AppDispatch) => {
+		try {
+			const response = await fetchWithAuth(
+				url + `api/Warehouse/${idAisle}/${idBay}/heights`,
+				{
+					method: "GET",
+					headers: {
+						"Content-Type": "application/json",
+					},
+				}
+			);
+
+			if (!response.ok) {
+				response.json().then((err) => {
+					Swal.fire({
+						title: `${err.message}`,
+						icon: "error",
+						footer: `Errore ${response.status}`,
+					});
+				});
+			} else {
+				const heights: string[] = await response.json();
+				dispatch(setHeights(heights));
+				console.log(
+					"Altezze della baia " +
+						idBay +
+						" della corsia " +
+						idAisle +
+						" :",
+					heights
+				);
 			}
 		} catch (error) {
 			console.error(error);
