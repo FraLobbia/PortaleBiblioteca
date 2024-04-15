@@ -77,3 +77,16 @@ export const truncateText = (text: string, maxLength: number) => {
 	}
 	return text.slice(0, maxLength) + "...";
 };
+
+export const convertToAisleName = (aisleNumber: number) => {
+	switch (aisleNumber) {
+		case 110:
+			return "Banco del bibliotecario - " + "Corsia " + aisleNumber;
+		case 120:
+			return "Scaffale prestiti - " + "Corsia " + aisleNumber;
+		case 200:
+			return "Magazzino " + "Corsia " + aisleNumber;
+		default:
+			return "Corsia " + aisleNumber;
+	}
+};

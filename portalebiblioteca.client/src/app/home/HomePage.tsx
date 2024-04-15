@@ -43,7 +43,7 @@ const HomePage = () => {
 							</Link>
 						</div>
 					</section>
-					<section className="section events">
+					{/* <section className="section events">
 						<h2 className="mt-4">Eventi e attività</h2>
 						<p className="pb-1">
 							Esplore le ricchezze della biblioteca: dal prestito
@@ -55,7 +55,7 @@ const HomePage = () => {
 								Controlla il calendario
 							</span>
 						</Link>
-					</section>
+					</section> */}
 					<section className="section services">
 						<h2 className="mt-4">I nostri servizi</h2>
 						<p className="pb-1">

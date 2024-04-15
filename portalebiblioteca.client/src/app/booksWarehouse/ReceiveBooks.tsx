@@ -28,13 +28,16 @@ const ReceiveBooks = ({ book }: ReceiveNewBookProps) => {
 
 	return (
 		<>
-			<h1 className="my-3 text-center">Ricezione libri</h1>
+			<h1 className="my-3 text-center">Ricezione libri in magazzino</h1>
 			<Form onSubmit={handleSubmit}>
 				<Form.Group>
-					<Form.Label className="alert alert-secondary p-1 w-100 text-center">
-						I libri verranno aggiunti nello scaffale
-						<b> 200-A1</b> del magazzino in attesa di essere riposti
-						nelle corsie aperte al pubblico{" "}
+					<Form.Label className="alert alert-secondary p-1 w-100 text-center d-flex align-items-center gap-2 justify-content-center">
+						<FontAwesomeIcon icon={faCircleInfo} />
+						<span>
+							I libri verranno aggiunti nello scaffale
+							<b> Magazzino Corsia 200 - A1</b> in attesa di
+							essere riposti nelle corsie aperte al pubblico{" "}
+						</span>
 					</Form.Label>
 					<Form.Control
 						placeholder="Quantità"

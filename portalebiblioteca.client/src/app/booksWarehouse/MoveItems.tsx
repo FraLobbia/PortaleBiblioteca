@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Accordion, Button, Container, Form } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../functions/hooks";
 import { fetchBookById } from "../../api/booksCatalog/bookCRUDFetches";
 import { getAisles } from "../../api/warehouse/AislesShelvesFetches";
@@ -15,10 +15,12 @@ import {
 import { MoveObject } from "../../interfaces/warehouse.interface";
 import InventoryTable from "./components/InventoryTable";
 import DetailsBook from "../booksCatalog/components/DetailsBook";
+import { convertToAisleName } from "../../functions/utility";
 
 const MoveItems = () => {
 	// define hooks
 	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
 	const { id } = useParams<{ id: string }>();
 
 	// store variables
@@ -45,10 +47,32 @@ const MoveItems = () => {
 		dispatch(getMaxQuantityInTheShelf(moveSourceShelfId, parseInt(id)));
 	}, []);
 
-	// fetch bays when an aisle is choosen
+	const getIdAisle = (aisleNumber: number) => {
+		const aisle = aisles.find((a) => a.aisleNumber === aisleNumber);
+		return aisle?.idAisle;
+	};
+
+	// handle choises
 	useEffect(() => {
-		if (choosenAisle) {
-			dispatch(fetchBaysByAisleId(choosenAisle));
+		if (!choosenAisle) return;
+		switch (choosenAisle) {
+			case 110:
+				setChoosenBay(1);
+				setChoosenHeight("A");
+				break;
+			case 120:
+				setChoosenBay(1);
+				setChoosenHeight("A");
+				break;
+			case 200:
+				setChoosenBay(1);
+				setChoosenHeight("A");
+				break;
+			default:
+				setChoosenBay(null);
+				setChoosenHeight(null);
+				dispatch(fetchBaysByAisleId(choosenAisle));
+				break;
 		}
 	}, [choosenAisle]);
 
@@ -63,15 +87,19 @@ const MoveItems = () => {
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		if (!id || !choosenAisle || !choosenBay || !choosenHeight) return;
+		const idAisle = getIdAisle(choosenAisle);
+		if (!idAisle) return;
 		const newMove: MoveObject = {
 			moveSourceShelfId: moveSourceShelfId,
 			idBook: parseInt(id),
 			quantity: quantity,
-			idAisle: choosenAisle,
+			idAisle: idAisle,
 			shelfBay: choosenBay,
 			heightChar: choosenHeight,
 		};
-		dispatch(fetchMove(newMove));
+		dispatch(fetchMove(newMove)).then(() => {
+			navigate("/warehouse");
+		});
 	};
 
 	return (
@@ -114,15 +142,15 @@ const MoveItems = () => {
 						<option>Scegli una corsia</option>
 						{aisles.map((aisle) => (
 							<option
-								key={"aisle" + aisle.idAisle}
-								value={aisle.idAisle}>
-								Corsia {aisle.aisleNumber}
+								key={"aisle-" + aisle.idAisle}
+								value={aisle.aisleNumber}>
+								{convertToAisleName(aisle.aisleNumber)}
 							</option>
 						))}
 					</Form.Control>
 				</Form.Group>
 
-				{choosenAisle && (
+				{choosenAisle && choosenAisle < 99 && (
 					<Form.Group className="my-4" controlId="formShelf">
 						<Form.Label>Scegli una baia di destinazione</Form.Label>
 						<Form.Control
@@ -141,7 +169,7 @@ const MoveItems = () => {
 					</Form.Group>
 				)}
 
-				{choosenBay && choosenAisle && (
+				{choosenBay && choosenAisle && choosenAisle < 99 && (
 					<Form.Group controlId="formHeight">
 						<Form.Label>Scegli l'altezza</Form.Label>
 						<Form.Control
@@ -163,7 +191,8 @@ const MoveItems = () => {
 						<h1 className="text-center alert alert-info">
 							Destinazione <br />
 							<span className="fw-bold">
-								Corsia {choosenAisle} -{choosenHeight}
+								{convertToAisleName(choosenAisle)} -{" "}
+								{choosenHeight}
 								{choosenBay}
 							</span>
 						</h1>

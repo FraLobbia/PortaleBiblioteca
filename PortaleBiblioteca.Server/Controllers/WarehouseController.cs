@@ -285,7 +285,7 @@ namespace PortaleBiblioteca.Server.Controllers
             }
             else if (destinationShelf.ShelfType == Shelf.Type.Virtual)
             {
-                typeStatus = ItemsEntity.ItemsEntityStatus.NotAvailable;
+                typeStatus = ItemsEntity.ItemsEntityStatus.CheckedOutForLoan;
             }
             else
             {

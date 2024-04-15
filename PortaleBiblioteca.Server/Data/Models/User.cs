@@ -18,7 +18,6 @@ namespace PortaleBiblioteca.Server.Data.Models
         public string Role { get; set; }
         public string UserImage { get; set; }
 
-        public virtual ICollection<Attendance> Attendances { get; set; }
         public virtual ICollection<Loan> Loans { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }
 

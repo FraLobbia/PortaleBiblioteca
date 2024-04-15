@@ -26,14 +26,16 @@ namespace PortaleBiblioteca.Server.Data.Models
         {
             get
             {   // something like 1-A1 or 6-C3
-                if (Aisle.AisleNumber >= 200)
+                switch (Aisle.AisleNumber)
                 {
-                    return "Magazzino " + Aisle.AisleNumber + " - " + ShelfHeight + ShelfBay;
-                }
-                else
-                {
-
-                    return "Corsia " + Aisle.AisleNumber + " - " + ShelfHeight + ShelfBay;
+                    case 110:
+                        return "Banco del bibliotecario - " + "Corsia " + Aisle.AisleNumber + " - " + ShelfHeight + ShelfBay;
+                    case 120:
+                        return "In prestito";
+                    case 200:
+                        return "Magazzino " + "Corsia " + Aisle.AisleNumber + " - " + ShelfHeight + ShelfBay;
+                    default:
+                        return "Corsia " + Aisle.AisleNumber + " - " + ShelfHeight + ShelfBay;
                 }
             }
         }

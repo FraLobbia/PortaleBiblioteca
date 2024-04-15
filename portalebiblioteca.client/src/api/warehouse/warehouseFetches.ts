@@ -162,14 +162,6 @@ export const fetchHeightsByBayId =
 			} else {
 				const heights: string[] = await response.json();
 				dispatch(setHeights(heights));
-				console.log(
-					"Altezze della baia " +
-						idBay +
-						" della corsia " +
-						idAisle +
-						" :",
-					heights
-				);
 			}
 		} catch (error) {
 			console.error(error);
