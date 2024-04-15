@@ -6,7 +6,23 @@ namespace PortaleBiblioteca.Server.Data.Models
 {
     public class MoveDTO
     {
-        public Height Height { get; set; }
+        public char HeightChar { get; set; }
+
+        public Height Height
+        {
+            get
+            {
+                return HeightChar switch
+                {
+                    'A' => Height.A,
+                    'B' => Height.B,
+                    'C' => Height.C,
+                    'D' => Height.D,
+                    'E' => Height.E,
+                    _ => Height.A,
+                };
+            }
+        }
 
         public int IdAisle { get; set; }
 

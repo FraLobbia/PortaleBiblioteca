@@ -216,43 +216,94 @@ namespace PortaleBiblioteca.Server.Controllers
         [HttpPost("move")]
         public async Task<IActionResult> MoveItem(MoveDTO data)
         {
+            // definisco scaffale di partenza
             var sourceShelf = await _context.Shelves
             .Include(s => s.Aisle)
             .Include(s => s.Items)
             .FirstOrDefaultAsync(s => s.IdShelf == data.MoveSourceShelfId);
             if (sourceShelf == null)
             {
-                return NotFound(new { message = "Source shelf not found." });
+                return NotFound(new { message = "Scaffale di partenza non trovato." });
             }
-
+            // definisco scaffale di destinazione
             var destinationShelf = await _context.Shelves
                 .Include(s => s.Aisle)
                 .FirstOrDefaultAsync(
                     s => s.ShelfHeight == data.Height
                     && s.IdAisle == data.IdAisle
                     && s.ShelfBay == data.ShelfBay);
+            if (destinationShelf == null)
+            {
+                return NotFound(new { message = "Errore nel reperire lo scaffale di destinazione" });
+            }
 
+            // gestisco la quantità degli item dallo scaffale di partenza
+            // ogni item viene ciclato e gestito in base alla quantità disponibile nello stesso
+            int quantityToMove = data.Quantity;
+            while (quantityToMove > 0)
+            {
+                var item = sourceShelf.Items.FirstOrDefault();
+                if (item == null)
+                {
+                    return BadRequest(new { message = "Non ci sono libri nello scaffale" });
+                }
+                if (item.Quantity <= quantityToMove)
+                {
+                    // remove the item from the source shelf
+                    quantityToMove -= item.Quantity;
+                    _context.Items.Remove(item);
+                    _context.SaveChanges();
 
+                }
+                else if (item.Quantity > quantityToMove)
+                {
+                    // update the quantity of the item in the source shelf
+                    item.Quantity -= quantityToMove;
+                    _context.Items.Update(item);
+                    _context.SaveChanges();
+                    quantityToMove = 0;
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
 
+            // gestisco lo status dell'item in base al tipo di scaffale di destinazione
+            ItemsEntity.ItemsEntityStatus typeStatus;
+            if (destinationShelf.ShelfType == Shelf.Type.Warehouse)
+            {
+                typeStatus = ItemsEntity.ItemsEntityStatus.AtWarehouse;
+            }
+            else if (destinationShelf.ShelfType == Shelf.Type.LibrarianDesk)
+            {
+                typeStatus = ItemsEntity.ItemsEntityStatus.AtLibrarianDesk;
+            }
+            else if (destinationShelf.ShelfType == Shelf.Type.Physical)
+            {
+                typeStatus = ItemsEntity.ItemsEntityStatus.Available;
+            }
+            else if (destinationShelf.ShelfType == Shelf.Type.Virtual)
+            {
+                typeStatus = ItemsEntity.ItemsEntityStatus.NotAvailable;
+            }
+            else
+            {
+                return BadRequest(new { message = "Errore nel reperire lo status dello scaffale di destinazione" });
+            }
 
-            // foreach (var item in sourceShelf.Items)
-            // {
-            //     if (item.Quantity <= data.Quantity)
-            //     {
-            //         item.IdShelf = data.MoveDestinationShelfId;
-            //         item.ChangeDate = DateTime.Now;
-            //         await _context.SaveChangesAsync();
-            //     }
-            //     else
-            //     {
-            //         return BadRequest(new { message = "Quantity to move is greater than the quantity in the source shelf." });
+            ItemsEntity newItemEntity = new ItemsEntity();
+            newItemEntity.Book = await _context.Books.FindAsync(data.IdBook);
+            newItemEntity.Quantity = data.Quantity;
+            newItemEntity.Shelf = destinationShelf;
+            newItemEntity.ChangeDate = DateTime.Now;
+            newItemEntity.Status = typeStatus;
 
-            //     }
-            // }
+            _context.Items.Add(newItemEntity);
 
+            await _context.SaveChangesAsync();
 
-
-            return Ok(sourceShelf);
+            return StatusCode(201, newItemEntity.IdItemsEntity);
 
 
         }

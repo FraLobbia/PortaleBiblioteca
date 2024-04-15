@@ -65,7 +65,7 @@ const MoveItems = () => {
 			quantity: quantity,
 			idAisle: choosenAisle,
 			shelfBay: choosenBay,
-			height: choosenHeight,
+			heightChar: choosenHeight,
 		};
 		dispatch(fetchMove(newMove));
 	};
@@ -159,8 +159,8 @@ const MoveItems = () => {
 						<h1 className="text-center alert alert-info">
 							Destinazione <br />
 							<span className="fw-bold">
-								Corsia {choosenAisle} - {choosenBay}
-								{choosenHeight}
+								Corsia {choosenAisle} -{choosenHeight}
+								{choosenBay}
 							</span>
 						</h1>
 						<Form.Group className="d-flex justify-content-center">

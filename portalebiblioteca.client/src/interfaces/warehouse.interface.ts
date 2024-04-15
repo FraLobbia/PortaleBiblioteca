@@ -58,5 +58,5 @@ export interface MoveObject {
 	quantity: number;
 	idAisle: number;
 	shelfBay: number;
-	height: string;
+	heightChar: string;
 }
