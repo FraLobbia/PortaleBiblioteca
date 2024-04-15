@@ -12,6 +12,16 @@ const InventoryTable = () => {
 	// store variables
 	const { bookEntities } = useAppSelector((state) => state.bookState);
 
+	// Raggruppa gli elementi per shelfName
+	const groupedItems = bookEntities.reduce((acc, item) => {
+		const shelfName = item.shelf.shelfName;
+		if (!acc[shelfName]) {
+			acc[shelfName] = [];
+		}
+		acc[shelfName].push(item);
+		return acc;
+	}, {} as { [key: string]: ItemsEntity[] });
+
 	return (
 		<>
 			<h3>Inventario</h3>
@@ -21,52 +31,57 @@ const InventoryTable = () => {
 			<h6>Scaffali aperti al pubblico</h6>
 			<Table striped bordered hover>
 				<thead className="container text-center">
-					<tr className="row m-0">
-						<th className="col-3">Scaffale</th>
+					<tr className="row-cols-4 m-0">
+						<th>Scaffale</th>
 
-						<th className="col-3">Quantità</th>
-						<th className="col-3">Disponibile sugli scaffali</th>
-						<th className="col-3"></th>
+						<th>Quantità</th>
+						<th></th>
 					</tr>
 				</thead>
 				<tbody className="text-center">
-					{bookEntities
-						.filter((item: ItemsEntity) =>
-							item.shelf.shelfName.includes("Corsia")
-						)
-						.sort(
-							(a: ItemsEntity, b: ItemsEntity) =>
-								b.idItemsEntity - a.idItemsEntity
-						)
-						.map((item: ItemsEntity) => (
-							<tr
-								className="row m-0"
-								key={"item-" + item.idItemsEntity}>
-								<td className="col-3 text-start">
-									{item.shelf.shelfName}
-								</td>
+					{Object.keys(groupedItems)
+						.filter((shelfName) => !shelfName.includes("Magazzino"))
+						.sort((a, b) => {
+							const numberA = parseInt(a.replace(/^\D+/g, ""));
+							const numberB = parseInt(b.replace(/^\D+/g, ""));
+							return numberA - numberB;
+						})
+						.map((shelfName, index) => {
+							const items = groupedItems[shelfName];
+							const firstItem = items[0]; // Prendi solo il primo elemento per questo scaffale
+							return (
+								<tr key={index} className="row-cols-4 m-0">
+									<td>{shelfName}</td>
 
-								<td className="col-3">{item.quantity}</td>
-								<td className="col-3">
-									{item.book.warehouseQuantity}
-								</td>
-								<td className="col-3">
-									<Link to={"move/" + item.book.idBook}>
-										<Button
-											onClick={() =>
-												dispatch(
-													setMoveSource([
-														item.shelf.shelfName,
-														item.shelf.idShelf,
-													])
-												)
+									<td>
+										{items.reduce(
+											(acc, item) => acc + item.quantity,
+											0
+										)}
+									</td>
+									<td>
+										<Link
+											to={
+												"move/" + firstItem.book.idBook
 											}>
-											Sposta
-										</Button>
-									</Link>
-								</td>
-							</tr>
-						))}
+											<Button
+												onClick={() =>
+													dispatch(
+														setMoveSource([
+															firstItem.shelf
+																.shelfName,
+															firstItem.shelf
+																.idShelf,
+														])
+													)
+												}>
+												Sposta
+											</Button>
+										</Link>
+									</td>
+								</tr>
+							);
+						})}
 
 					<tr className="row m-0">
 						<td className="col text-center" colSpan={4}>

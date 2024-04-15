@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Container, Form } from "react-bootstrap";
+import { Accordion, Button, Container, Form } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../functions/hooks";
 import { fetchBookById } from "../../api/booksCatalog/bookCRUDFetches";
@@ -13,6 +13,8 @@ import {
 	getMaxQuantityInTheShelf,
 } from "../../api/warehouse/warehouseFetches";
 import { MoveObject } from "../../interfaces/warehouse.interface";
+import InventoryTable from "./components/InventoryTable";
+import DetailsBook from "../booksCatalog/components/DetailsBook";
 
 const MoveItems = () => {
 	// define hooks
@@ -26,6 +28,8 @@ const MoveItems = () => {
 	const { moveSource, moveSourceShelfId, sourceMaxQuantity } = useAppSelector(
 		(state) => state.warehouseState
 	);
+	const book = useAppSelector((state) => state.bookState.currentBook);
+
 	//variables
 	const [quantity, setQuantity] = useState<number>(1);
 	const [choosenAisle, setChoosenAisle] = useState<number | null>(null);
@@ -174,6 +178,24 @@ const MoveItems = () => {
 					</>
 				)}
 			</Form>
+
+			<hr className="my-5" />
+
+			<Accordion flush>
+				<Accordion.Item eventKey="0">
+					<Accordion.Header>Inventario attuale</Accordion.Header>
+					<Accordion.Body>
+						<InventoryTable />
+					</Accordion.Body>
+				</Accordion.Item>
+
+				<Accordion.Item eventKey="1">
+					<Accordion.Header>Dettagli libro</Accordion.Header>
+					<Accordion.Body>
+						<DetailsBook book={book} />
+					</Accordion.Body>
+				</Accordion.Item>
+			</Accordion>
 		</Container>
 	);
 };
