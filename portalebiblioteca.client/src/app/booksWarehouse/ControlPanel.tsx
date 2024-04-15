@@ -52,7 +52,9 @@ const ControlPanel = () => {
 				</Form.Select>
 			</Form.Group>
 
-			{currentBook && <ReceiveBooks book={currentBook} />}
+			{currentBook && choosenBookID && (
+				<ReceiveBooks book={currentBook} />
+			)}
 		</Container>
 	);
 };

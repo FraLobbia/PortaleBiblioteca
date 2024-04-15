@@ -2,10 +2,14 @@ import Swal from "sweetalert2";
 import { url } from "../../functions/config";
 import { fetchWithAuth } from "../interceptor";
 import { AppDispatch } from "../../redux/store/store";
-import { ItemsEntity } from "../../interfaces/warehouse.interface";
+import { ItemsEntity, MoveObject } from "../../interfaces/warehouse.interface";
 import { setBookEntities } from "../../redux/slicers/bookSlice";
 import { fetchBookById } from "../booksCatalog/bookCRUDFetches";
-import { setBays, setHeights } from "../../redux/slicers/warehouseSlice";
+import {
+	setBays,
+	setHeights,
+	setSourceMaxQuantity,
+} from "../../redux/slicers/warehouseSlice";
 
 export const fetchAddToWarehouse =
 	(quantity: number, idBook: number) => async (dispatch: AppDispatch) => {
@@ -166,6 +170,68 @@ export const fetchHeightsByBayId =
 						" :",
 					heights
 				);
+			}
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+export const getMaxQuantityInTheShelf =
+	(IdShelf: number, idBook: number) => async (dispatch: AppDispatch) => {
+		try {
+			const response = await fetchWithAuth(
+				url + `api/Warehouse/${IdShelf}/book/${idBook}`,
+				{
+					method: "GET",
+					headers: {
+						"Content-Type": "application/json",
+					},
+				}
+			);
+
+			if (!response.ok) {
+				response.json().then((err) => {
+					Swal.fire({
+						title: `${err.message}`,
+						icon: "error",
+						footer: `Errore ${response.status}`,
+					});
+				});
+			} else {
+				const maxQuantity: number = await response.json();
+				dispatch(setSourceMaxQuantity(maxQuantity));
+				return maxQuantity;
+			}
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+export const fetchMove =
+	(move: MoveObject) => async (dispatch: AppDispatch) => {
+		try {
+			const response = await fetchWithAuth(url + "api/Warehouse/move", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(move),
+			});
+
+			if (!response.ok) {
+				response.json().then((err) => {
+					Swal.fire({
+						title: `${err.message}`,
+						icon: "error",
+						footer: `Errore ${response.status}`,
+					});
+				});
+			} else {
+				Swal.fire({
+					title: "Libro spostato!",
+					text: "Il libro è stato spostato con successo!",
+					icon: "success",
+				});
 			}
 		} catch (error) {
 			console.error(error);

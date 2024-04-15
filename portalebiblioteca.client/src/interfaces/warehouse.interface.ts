@@ -51,3 +51,12 @@ export enum ItemsEntityStatus {
 	AtWarehouse = "AtWarehouse",
 	CheckedOutForLoan = "CheckedOutForLoan",
 }
+
+export interface MoveObject {
+	moveSourceShelfId: number;
+	idBook: number;
+	quantity: number;
+	idAisle: number;
+	shelfBay: number;
+	height: string;
+}

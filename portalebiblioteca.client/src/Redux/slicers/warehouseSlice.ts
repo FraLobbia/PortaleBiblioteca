@@ -6,6 +6,9 @@ interface warehouseState {
 	bays: number[];
 	heights: string[];
 	shelves: Shelf[];
+	moveSource: string;
+	sourceMaxQuantity: number;
+	moveSourceShelfId: number;
 }
 
 const initialState: warehouseState = {
@@ -13,6 +16,9 @@ const initialState: warehouseState = {
 	bays: [],
 	heights: [],
 	shelves: [],
+	moveSource: "",
+	sourceMaxQuantity: 0,
+	moveSourceShelfId: 0,
 };
 //=================================================================================
 const warehouseSlice = createSlice({
@@ -31,9 +37,22 @@ const warehouseSlice = createSlice({
 		setShelves(state, action: { payload: Shelf[] }) {
 			state.shelves = action.payload;
 		},
+		setMoveSource(state, action: { payload: [string, number] }) {
+			state.moveSource = action.payload[0];
+			state.moveSourceShelfId = action.payload[1];
+		},
+		setSourceMaxQuantity(state, action: { payload: number }) {
+			state.sourceMaxQuantity = action.payload;
+		},
 	},
 });
 //=================================================================================
-export const { setAisles, setShelves, setBays, setHeights } =
-	warehouseSlice.actions;
+export const {
+	setAisles,
+	setShelves,
+	setBays,
+	setHeights,
+	setMoveSource,
+	setSourceMaxQuantity,
+} = warehouseSlice.actions;
 export default warehouseSlice.reducer;

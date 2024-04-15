@@ -1,9 +1,13 @@
-import { Table } from "react-bootstrap";
+import { Button, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { ItemsEntity } from "../../../interfaces/warehouse.interface";
-import { useAppSelector } from "../../../functions/hooks";
+import { useAppDispatch, useAppSelector } from "../../../functions/hooks";
+import { setMoveSource } from "../../../redux/slicers/warehouseSlice";
 
 const WarehouseTable = () => {
+	// define hooks
+	const dispatch = useAppDispatch();
+
 	// store variables
 	const { bookEntities } = useAppSelector((state) => state.bookState);
 
@@ -41,10 +45,19 @@ const WarehouseTable = () => {
 						<td className="col-3">{totalQuantity}</td>
 						<td className="col-3">{warehousequantity}</td>
 						<td className="col-3">
-							<Link
-								to={"move/" + bookEntities[0]?.book.idBook}
-								className="btn btn-primary w-100 px-0">
-								Sposta
+							<Link to={"move/" + bookEntities[0]?.book.idBook}>
+								<Button
+									onClick={() =>
+										dispatch(
+											setMoveSource([
+												bookEntities[0]?.shelf
+													.shelfName,
+												bookEntities[0].shelf.idShelf,
+											])
+										)
+									}>
+									Sposta
+								</Button>
 							</Link>
 						</td>
 					</tr>

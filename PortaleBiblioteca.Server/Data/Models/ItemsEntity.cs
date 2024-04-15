@@ -25,6 +25,7 @@ namespace PortaleBiblioteca.Server.Data.Models
         [Required]
         [ForeignKey("Shelf")]
         public int IdShelf { get; set; }
+        [JsonIgnore]
         public virtual Shelf Shelf { get; set; }
 
         public enum ItemsEntityStatus

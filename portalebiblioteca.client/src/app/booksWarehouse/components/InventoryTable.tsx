@@ -1,10 +1,14 @@
-import { Table } from "react-bootstrap";
+import { Button, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { useAppSelector } from "../../../functions/hooks";
+import { useAppDispatch, useAppSelector } from "../../../functions/hooks";
 import { ItemsEntity } from "../../../interfaces/warehouse.interface";
 import WarehouseTable from "./WarehouseTable";
+import { setMoveSource } from "../../../redux/slicers/warehouseSlice";
 
 const InventoryTable = () => {
+	// define hooks
+	const dispatch = useAppDispatch();
+
 	// store variables
 	const { bookEntities } = useAppSelector((state) => state.bookState);
 
@@ -18,10 +22,11 @@ const InventoryTable = () => {
 			<Table striped bordered hover>
 				<thead className="container text-center">
 					<tr className="row m-0">
-						<th className="col-4">Scaffale</th>
+						<th className="col-3">Scaffale</th>
 
-						<th className="col-4">Quantità</th>
-						<th className="col-4">Disponibile sugli scaffali</th>
+						<th className="col-3">Quantità</th>
+						<th className="col-3">Disponibile sugli scaffali</th>
+						<th className="col-3"></th>
 					</tr>
 				</thead>
 				<tbody className="text-center">
@@ -37,16 +42,32 @@ const InventoryTable = () => {
 							<tr
 								className="row m-0"
 								key={"item-" + item.idItemsEntity}>
-								<td className="col-4 text-start">
+								<td className="col-3 text-start">
 									{item.shelf.shelfName}
 								</td>
 
-								<td className="col-4">{item.quantity}</td>
-								<td className="col-4">
+								<td className="col-3">{item.quantity}</td>
+								<td className="col-3">
 									{item.book.warehouseQuantity}
+								</td>
+								<td className="col-3">
+									<Link to={"move/" + item.book.idBook}>
+										<Button
+											onClick={() =>
+												dispatch(
+													setMoveSource([
+														item.shelf.shelfName,
+														item.shelf.idShelf,
+													])
+												)
+											}>
+											Sposta
+										</Button>
+									</Link>
 								</td>
 							</tr>
 						))}
+
 					<tr className="row m-0">
 						<td className="col text-center" colSpan={4}>
 							<Link to="/todo">Vedi altri</Link>

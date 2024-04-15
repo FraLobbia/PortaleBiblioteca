@@ -11,6 +11,7 @@ namespace PortaleBiblioteca.Server.Data.Models
         [Required]
         [ForeignKey("Aisle")]
         public int IdAisle { get; set; }
+        [JsonInclude]
         public virtual Aisle Aisle { get; set; }
 
         [Required]
@@ -63,7 +64,7 @@ namespace PortaleBiblioteca.Server.Data.Models
             }
         }
 
-        [JsonIgnore]
+        // [JsonIgnore]
         public virtual ICollection<ItemsEntity> Items { get; set; }
 
 
@@ -75,13 +76,5 @@ namespace PortaleBiblioteca.Server.Data.Models
             Physical // 3
         }
 
-        public enum Height
-        {
-            A, // 0 nel db
-            B, // 1 
-            C, // 2
-            D, // 3
-            E, // 4
-        }
     }
 }
