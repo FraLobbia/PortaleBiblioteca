@@ -1,4 +1,4 @@
-import { setLoggedProfile } from "../../redux/slicers/userSlice";
+import { setLoggedProfile, setUsers } from "../../redux/slicers/userSlice";
 import { url } from "../../functions/config";
 import {
 	LoginModel,
@@ -121,3 +121,30 @@ export const fetchEditUser =
 			console.error("Errore nel fetch:", error);
 		}
 	};
+
+export const fetchAllUsers = () => async (dispatch: AppDispatch) => {
+	try {
+		const response = await fetchWithAuth(url + "Users", {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+			},
+		});
+
+		if (!response.ok) {
+			response.json().then((err) => {
+				Toast.fire({
+					icon: "error",
+					title: `${err.message}`,
+				});
+			});
+		} else {
+			const users: User[] = await response.json();
+			console.info("Utenti ottenuti: ", users);
+			dispatch(setUsers(users));
+		}
+	} catch (error) {
+		// Puoi gestire gli errori qui, se necessario
+		console.error("Errore nel fetch:", error);
+	}
+};

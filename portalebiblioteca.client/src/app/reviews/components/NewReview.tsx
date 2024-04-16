@@ -21,6 +21,8 @@ const NewReview = ({ book }: NewReviewProps) => {
 		(review: Review) => review.idUser === user?.idUser
 	);
 
+	// what happens when the component mounts:
+	// set the review object
 	useEffect(() => {
 		if (userReview) {
 			setReview({

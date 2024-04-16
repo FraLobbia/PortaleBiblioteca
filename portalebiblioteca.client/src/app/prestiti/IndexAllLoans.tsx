@@ -1,13 +1,13 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../functions/hooks";
-import { fetchLoansByUserId } from "../../api/booksCatalog/bookLOANSFetches";
+import { fetchLoansByUserId } from "../../api/loans/loansFetches";
 import { Loan } from "../../interfaces/loans.interface";
 import { Container } from "react-bootstrap";
 import BackButton from "../_miscellaneous/reusable/BackButton";
 import LoansHistory from "./components/LoansHistory";
 import ReturnBookForm from "./components/ReturnBook";
 
-const IndexLoans = () => {
+const IndexAllLoans = () => {
 	// define hooks
 	const dispatch = useAppDispatch();
 
@@ -22,7 +22,8 @@ const IndexLoans = () => {
 		return loans;
 	})();
 
-	// What happens when the component mounts
+	// What happens when the component mounts:
+	// fetch the loans of the user
 	useEffect(() => {
 		if (user) {
 			dispatch(fetchLoansByUserId(user.idUser.toString()));
@@ -42,4 +43,4 @@ const IndexLoans = () => {
 	);
 };
 
-export default IndexLoans;
+export default IndexAllLoans;

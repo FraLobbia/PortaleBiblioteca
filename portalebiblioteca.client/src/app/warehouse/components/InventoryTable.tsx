@@ -2,10 +2,10 @@ import { Button, Table } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../functions/hooks";
 import { ItemsEntity } from "../../../interfaces/warehouse.interface";
-import WarehouseTable from "./WarehouseTable";
 import { setMoveSource } from "../../../redux/slicers/warehouseSlice";
 import { useEffect } from "react";
 import { fetchItemsEntityByBookId } from "../../../api/warehouse/warehouseFetches";
+import InventoryTableNotPublic from "./InventoryTableNotPublic";
 
 const InventoryTable = () => {
 	// define hooks
@@ -37,20 +37,22 @@ const InventoryTable = () => {
 	);
 
 	useEffect(() => {
-		dispatch(fetchItemsEntityByBookId(id));
+		if (!id) return;
+		dispatch(fetchItemsEntityByBookId(parseInt(id)));
 	}, [id]);
 
 	return (
 		<>
 			<h3>Inventario</h3>
 
-			<WarehouseTable />
+			<InventoryTableNotPublic />
 
-			<h6>Scaffali aperti al pubblico</h6>
+			<hr />
+
 			<Table striped bordered hover>
 				<thead className="container text-center">
 					<tr className="row-cols-4 m-0">
-						<th>Scaffale</th>
+						<th>Scaffali pubblici</th>
 						<th>Quantità</th>
 						<th></th>
 					</tr>

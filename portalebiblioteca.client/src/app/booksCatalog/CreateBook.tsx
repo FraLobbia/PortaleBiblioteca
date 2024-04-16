@@ -8,7 +8,7 @@ import { fetchGenres } from "../../api/genres/genresCRUDFetches";
 import { BookDTO } from "../../interfaces/book.interface";
 import { fetchAuthors } from "../../api/authors/authorsCRUDFetches";
 
-const FormAddBook = () => {
+const CreateBook = () => {
 	//define hooks
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
@@ -21,13 +21,6 @@ const FormAddBook = () => {
 	const [dataPubblicazione, setDataPubblicazione] = useState<Date>();
 	const [isbn, setIsbn] = useState<string>("");
 	const [immagineCopertina, setImmagineCopertina] = useState<string>("");
-	const { permissionsToEdit } = useAppSelector(
-		(state) => state.profileState.loggedProfile
-	);
-
-	// store variables
-	const { genres } = useAppSelector((state) => state.genreState);
-	const { authors } = useAppSelector((state) => state.authorState);
 
 	// function to handle the submit of the form
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -41,8 +34,7 @@ const FormAddBook = () => {
 			isbn: isbn,
 			coverImage: immagineCopertina,
 		};
-		dispatch(fetchBookCreate(newBook));
-		navigate("/catalogo");
+		dispatch(fetchBookCreate(newBook)).then(() => navigate("/catalogo"));
 	};
 
 	// what appens when the component is mounted
@@ -55,10 +47,17 @@ const FormAddBook = () => {
 		}
 	}, []);
 
+	// store variables
+	const { genres } = useAppSelector((state) => state.genreState);
+	const { authors } = useAppSelector((state) => state.authorState);
+	const { permissionsToEdit } = useAppSelector(
+		(state) => state.profileState.loggedProfile
+	);
+
 	return (
 		<Container>
 			<BackButton />
-			<h1 className="text-center">Aggiungi un Libro</h1>
+			<h1 className="text-center">Crea un nuovo libro nel catalogo</h1>
 			<Form onSubmit={handleSubmit}>
 				<Form.Group className="">
 					<Form.Label>Autore</Form.Label>
@@ -162,4 +161,4 @@ const FormAddBook = () => {
 	);
 };
 
-export default FormAddBook;
+export default CreateBook;

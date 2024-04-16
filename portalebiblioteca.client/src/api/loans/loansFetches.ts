@@ -4,6 +4,7 @@ import { Loan, loanObjForm } from "../../interfaces/loans.interface";
 import { setLoansOfUser } from "../../redux/slicers/bookSlice";
 import { AppDispatch } from "../../redux/store/store";
 import { fetchWithAuth } from "../interceptor";
+import { setLoansOfBook } from "../../redux/slicers/loanSlice";
 
 export const addLoanToUser =
 	(loanObj: loanObjForm) => async (dispatch: AppDispatch) => {
@@ -84,6 +85,31 @@ export const flagLoanAsReturned =
 					icon: "success",
 					timer: 1500,
 				});
+			} else {
+				throw new Error("Errore nel recupero dei risultati");
+			}
+		} catch (error) {
+			// Handle errors here, if necessary
+			console.error("Errore nel fetch:", error);
+		}
+	};
+
+export const fetchLoanByBookId =
+	(idBook: string) => async (dispatch: AppDispatch) => {
+		try {
+			const response = await fetchWithAuth(
+				url + "api/Loans/book/" + idBook,
+				{
+					headers: {
+						"Content-Type": "application/json",
+					},
+				}
+			);
+
+			if (response.ok) {
+				const loans: Loan[] = await response.json();
+				console.info("Prestiti relativi al libro: ", loans);
+				dispatch(setLoansOfBook(loans));
 			} else {
 				throw new Error("Errore nel recupero dei risultati");
 			}

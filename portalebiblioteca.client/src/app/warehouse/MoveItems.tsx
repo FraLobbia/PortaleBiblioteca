@@ -98,7 +98,7 @@ const MoveItems = () => {
 			heightChar: choosenHeight,
 		};
 		dispatch(fetchMove(newMove)).then(() => {
-			navigate("/warehouse");
+			navigate("/catalogo/edit/" + id + "?tab=Warehouse");
 		});
 	};
 

@@ -73,7 +73,40 @@ namespace PortaleBiblioteca.Server.Controllers
                     })
                     .ToListAsync()
             );
+        }
 
+        // GET: api/Loans/book/5
+        [HttpGet("book/{id}")]
+        public async Task<ActionResult<IEnumerable<Loan>>> GetLoansByBook(int id)
+        {
+            // check if the book exists
+            var book = await _context.Books.FindAsync(id);
+            if (book == null)
+            {
+                return NotFound(new { message = "Id libro non presente" });
+            }
+
+            return Ok(await _context.Loans
+                    .Include(loan => loan.User)
+                    .Where(loan => loan.IdBook == id
+                        && !loan.Returned)
+                    .Select(loan => new
+                    {
+                        loan.IdLoan,
+                        loan.LoanDate,
+                        loan.Returned,
+                        loan.ReturnDate,
+                        loan.IdUser,
+                        User = new
+                        {
+                            loan.User.IdUser,
+                            loan.User.FirstName,
+                            loan.User.LastName,
+                            loan.User.UserImage
+                        }
+                    })
+                    .ToListAsync()
+            );
         }
 
         // PUT: api/Loans/5

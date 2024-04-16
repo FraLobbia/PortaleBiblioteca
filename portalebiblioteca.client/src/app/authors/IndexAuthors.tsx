@@ -1,17 +1,22 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../functions/hooks";
-import { Button, Container } from "react-bootstrap";
+import { Button, Container, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import BackButton from "../_miscellaneous/reusable/BackButton";
 import { fetchAuthors } from "../../api/authors/authorsCRUDFetches";
 
 const IndexAuthors = () => {
+	// define hooks
 	const dispatch = useAppDispatch();
-	const { authors } = useAppSelector((state) => state.authorState);
 
+	// what happens when the component is rendered
 	useEffect(() => {
 		dispatch(fetchAuthors());
 	}, []);
+
+	// store variables
+	const { authors } = useAppSelector((state) => state.authorState);
+
 	return (
 		<Container>
 			<BackButton />
@@ -19,7 +24,7 @@ const IndexAuthors = () => {
 			<Link to="/generi/add" className="btn btn-success my-3">
 				Aggiungi nuovo Autore
 			</Link>
-			<table className="table table-light">
+			<Table striped bordered hover>
 				<thead>
 					<tr>
 						<th>Nome</th>
@@ -32,20 +37,22 @@ const IndexAuthors = () => {
 						<tr key={author.idAuthor}>
 							<td>{author.name}</td>
 							<td>{author.biography}</td>
-							<td className="d-flex flex-column gap-2">
-								<Link
-									to={"edit/" + author.idAuthor}
-									className="btn btn-warning">
-									Modifica
-								</Link>
-								<Button className="btn btn-danger">
-									Elimina
-								</Button>
+							<td>
+								<div className="d-flex flex-column gap-3">
+									<Link
+										to={"edit/" + author.idAuthor}
+										className="btn btn-warning">
+										Modifica
+									</Link>
+									<Button className="btn btn-danger">
+										Elimina
+									</Button>
+								</div>
 							</td>
 						</tr>
 					))}
 				</tbody>
-			</table>
+			</Table>
 		</Container>
 	);
 };

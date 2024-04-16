@@ -3,22 +3,26 @@ import { Button, Container, Form } from "react-bootstrap";
 import { Genre } from "../../interfaces/genre.interface";
 import { useNavigate, useParams } from "react-router-dom";
 import {
-	createGenreFetch,
 	editGenreFetch,
 	fetchGenreById,
 } from "../../api/genres/genresCRUDFetches";
 import BackButton from "../_miscellaneous/reusable/BackButton";
 import { useAppDispatch, useAppSelector } from "../../functions/hooks";
-import { parse } from "path";
 
-const FormEditGenres = () => {
+const EditGenre = () => {
+	// define hooks
 	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
+
+	// variables
 	const { id } = useParams();
 	const [name, setName] = useState<string>("");
 	const [description = "", setDescription] = useState<string>("");
-	const navigate = useNavigate();
+
+	// store variables
 	const genre = useAppSelector((state) => state.genreState.currentGenre);
 
+	// function to handle the submit of the form
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		if (!id) return;
@@ -32,10 +36,12 @@ const FormEditGenres = () => {
 		});
 	};
 
+	// what happens when the component mounts
 	useEffect(() => {
 		if (id) dispatch(fetchGenreById(id));
 	}, []);
 
+	// fill the form with the genre data
 	useEffect(() => {
 		if (genre) {
 			setName(genre.name);
@@ -76,4 +82,4 @@ const FormEditGenres = () => {
 	);
 };
 
-export default FormEditGenres;
+export default EditGenre;

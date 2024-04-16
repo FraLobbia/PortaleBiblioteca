@@ -21,8 +21,5 @@ export async function fetchWithAuth(
 	// Esegui la richiesta fetch con le nuove intestazioni
 
 	const response = await fetch(url, { ...options, headers });
-	if (!response.ok) {
-		throw new Error("Errore nell'auth" + response.statusText);
-	}
 	return response;
 }

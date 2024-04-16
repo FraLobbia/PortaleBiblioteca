@@ -1,27 +1,34 @@
 import { createSlice } from "@reduxjs/toolkit";
 //=================================================================================
 interface preferencesState {
-	notChoosenAuthors: string[];
-	notChoosenGenresIDs: number[];
+	AuthorsToExclude: number[];
+	GenreToExclude: number[];
 }
 const initialState: preferencesState = {
-	notChoosenGenresIDs: [],
-	notChoosenAuthors: [],
+	GenreToExclude: [],
+	AuthorsToExclude: [],
 };
 //=================================================================================
 const preferencesSlice = createSlice({
 	name: "preferences",
 	initialState,
 	reducers: {
-		setChoosenGenresIDs(state, action: { payload: number[] }) {
-			state.notChoosenGenresIDs = action.payload;
+		setGenreToExclude(state, action: { payload: number[] }) {
+			state.GenreToExclude = action.payload;
 		},
-		setChoosenAuthors(state, action: { payload: string[] }) {
-			state.notChoosenAuthors = action.payload;
+		setAuthorsToExclude(state, action: { payload: number[] }) {
+			state.AuthorsToExclude = action.payload;
+		},
+		intializePreferencesBooks(state) {
+			state.GenreToExclude = [];
+			state.AuthorsToExclude = [];
 		},
 	},
 });
 //=================================================================================
-export const { setChoosenGenresIDs, setChoosenAuthors } =
-	preferencesSlice.actions;
+export const {
+	setGenreToExclude,
+	setAuthorsToExclude,
+	intializePreferencesBooks,
+} = preferencesSlice.actions;
 export default preferencesSlice.reducer;

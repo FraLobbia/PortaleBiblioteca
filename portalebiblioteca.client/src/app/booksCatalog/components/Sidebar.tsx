@@ -4,12 +4,13 @@ import { useAppDispatch, useAppSelector } from "../../../functions/hooks";
 import { Genre } from "../../../interfaces/genre.interface";
 import { fetchGenres } from "../../../api/genres/genresCRUDFetches";
 import { Book } from "../../../interfaces/book.interface";
-import {
-	setChoosenAuthors,
-	setChoosenGenresIDs,
-} from "../../../redux/slicers/preferencesSlice";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter } from "@fortawesome/free-solid-svg-icons";
+import {
+	setAuthorsToExclude,
+	setGenreToExclude,
+} from "../../../redux/slicers/preferencesSlice";
 
 const Sidebar = () => {
 	// define hooks
@@ -17,15 +18,13 @@ const Sidebar = () => {
 
 	// store variables
 	const { genres } = useAppSelector((state) => state.genreState);
-	const { notChoosenAuthors, notChoosenGenresIDs } = useAppSelector(
+	const { AuthorsToExclude, GenreToExclude } = useAppSelector(
 		(state) => state.preferenceState
 	);
 	const { books } = useAppSelector((state) => state.bookState);
 
 	// variables
 	const [show, setShow] = useState(false);
-	const arrayNotGenresChosen: number[] = [...notChoosenGenresIDs];
-	const arrayNotChoosenAuthors: string[] = [...notChoosenAuthors];
 
 	// functions to handle the offcanvas
 	const handleClose = () => setShow(false);
@@ -36,27 +35,33 @@ const Sidebar = () => {
 		dispatch(fetchGenres());
 	}, []);
 
-	// function to handle the genre choice and update the store
+	// function to handle the GENRE choice and update the store redux
 	const handleGenreChoice = (idGenre: number): void => {
-		if (arrayNotGenresChosen.includes(idGenre)) {
-			const index = arrayNotGenresChosen.indexOf(idGenre);
-			arrayNotGenresChosen.splice(index, 1);
-			dispatch(setChoosenGenresIDs(arrayNotGenresChosen));
+		if (!GenreToExclude.includes(idGenre)) {
+			// if is NOT in the list, dispatch the list plus the genre
+			dispatch(setGenreToExclude([...GenreToExclude, idGenre]));
 		} else {
-			arrayNotGenresChosen.push(idGenre);
-			dispatch(setChoosenGenresIDs(arrayNotGenresChosen));
+			// if is in the list, dispatch the list without the genre
+			dispatch(
+				setGenreToExclude(
+					GenreToExclude.filter((genre) => genre !== idGenre)
+				)
+			);
 		}
 	};
 
-	// function to handle the author choice and update the store
-	const handleAuthorChoice = (author: string): void => {
-		if (arrayNotChoosenAuthors.includes(author)) {
-			const index = arrayNotChoosenAuthors.indexOf(author);
-			arrayNotChoosenAuthors.splice(index, 1);
-			dispatch(setChoosenAuthors(arrayNotChoosenAuthors));
+	// function to handle the AUTHOR choice and update the store redux
+	const handleAuthorChoice = (idAuthor: number): void => {
+		if (!AuthorsToExclude.includes(idAuthor)) {
+			// if input is NOT checked, add the author to the list
+			dispatch(setAuthorsToExclude([...AuthorsToExclude, idAuthor]));
 		} else {
-			arrayNotChoosenAuthors.push(author);
-			dispatch(setChoosenAuthors(arrayNotChoosenAuthors));
+			// if input is checked, remove the author from the list
+			dispatch(
+				setAuthorsToExclude(
+					AuthorsToExclude.filter((author) => author !== idAuthor)
+				)
+			);
 		}
 	};
 
@@ -107,19 +112,23 @@ const Sidebar = () => {
 					{books &&
 						books
 							.filter(
-								(book) =>
-									!notChoosenGenresIDs.includes(book.idGenre)
+								(book) => !GenreToExclude.includes(book.idGenre)
 							)
-							.reduce((uniqueAuthors: Book[], book: Book) => {
-								if (
-									!uniqueAuthors.some(
-										(item) => item.author === book.author
-									)
-								) {
-									uniqueAuthors.push(book);
-								}
-								return uniqueAuthors;
-							}, [])
+							.reduce(
+								// to have unique authors I have to reduce the array of books
+								(uniqueAuthorsForBook: Book[], book: Book) => {
+									if (
+										!uniqueAuthorsForBook.some(
+											(item) =>
+												item.author === book.author
+										)
+									) {
+										uniqueAuthorsForBook.push(book);
+									}
+									return uniqueAuthorsForBook;
+								},
+								[]
+							)
 							.map((book: Book) => (
 								<div key={"book-side-" + book.idBook}>
 									<input
@@ -127,18 +136,20 @@ const Sidebar = () => {
 										type="checkbox"
 										defaultChecked={true}
 										id={
-											book.author.name
-												? book.author.name
+											book.author.idAuthor
+												? book.author.idAuthor.toString()
 												: ""
 										}
 										onChange={() =>
-											handleAuthorChoice(book.author.name)
+											handleAuthorChoice(
+												book.author.idAuthor
+											)
 										}
 									/>
 									<label
 										htmlFor={
-											book.idGenre
-												? book.idGenre.toString()
+											book.author.idAuthor
+												? book.author.idAuthor.toString()
 												: ""
 										}>
 										{book.author.name}

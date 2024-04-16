@@ -5,11 +5,15 @@ import { useNavigate } from "react-router-dom";
 import { createGenreFetch } from "../../api/genres/genresCRUDFetches";
 import BackButton from "../_miscellaneous/reusable/BackButton";
 
-const FormAddGenres = () => {
-	const [name, setName] = useState("");
-	const [description, setDescription] = useState("");
+const CreateGenre = () => {
+	// define hooks
 	const navigate = useNavigate();
 
+	// variables
+	const [name, setName] = useState("");
+	const [description, setDescription] = useState("");
+
+	// function to handle the submit of the form
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		const newGenreObj: Genre = {
@@ -54,4 +58,4 @@ const FormAddGenres = () => {
 	);
 };
 
-export default FormAddGenres;
+export default CreateGenre;

@@ -1,11 +1,11 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
 	fetchBookCreate,
 	fetchBookList,
 } from "../../api/booksCatalog/bookCRUDFetches";
 import { Book, BookDTO } from "../../interfaces/book.interface";
 import { useAppDispatch, useAppSelector } from "../../functions/hooks";
-import { Button, Col, Container, Row } from "react-bootstrap";
+import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import Card from "react-bootstrap/Card";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -18,6 +18,7 @@ import {
 	faFeather,
 	faSliders,
 } from "@fortawesome/free-solid-svg-icons";
+import { intializePreferencesBooks } from "../../redux/slicers/preferencesSlice";
 
 const IndexBooks = () => {
 	// define hooks
@@ -29,12 +30,16 @@ const IndexBooks = () => {
 	const { permissionsToEdit } = useAppSelector(
 		(state) => state.profileState.loggedProfile
 	);
-	const { notChoosenAuthors, notChoosenGenresIDs } = useAppSelector(
+	const { AuthorsToExclude, GenreToExclude } = useAppSelector(
 		(state) => state.preferenceState
 	);
 
+	// variables
+	const [search, setSearch] = useState<string>("");
+
 	// what appens when the component is mounted
 	useEffect(() => {
+		dispatch(intializePreferencesBooks());
 		dispatch(fetchBookList());
 	}, []);
 
@@ -57,6 +62,7 @@ const IndexBooks = () => {
 	return (
 		<Container>
 			<h1 className="text-center mt-3">I Libri del nostro catalogo</h1>
+
 			<Row>
 				<Col lg={3} className="d-flex justify-content-between">
 					<Sidebar />
@@ -69,19 +75,38 @@ const IndexBooks = () => {
 					<Row
 						className="gy-2 justify-content-center
 			">
+						<Form>
+							<Form.Control
+								type="text"
+								placeholder="Cerca un libro per titolo o autore"
+								className="mb-3"
+								value={search}
+								onChange={(e) => setSearch(e.target.value)}
+							/>
+						</Form>
 						{books.length ? (
 							books
+								// 1° filter: exclude by genre
 								.filter(
 									(book) =>
-										!notChoosenGenresIDs.includes(
-											book.idGenre
+										!GenreToExclude.includes(book.idGenre)
+								)
+								// 2° filter: exclude by author
+								.filter(
+									(book) =>
+										!AuthorsToExclude.includes(
+											book.author.idAuthor
 										)
 								)
+								// 3° filter: search input in title and author
 								.filter(
 									(book) =>
-										!notChoosenAuthors.includes(
-											book.author.name
-										)
+										book.title
+											.toLowerCase()
+											.includes(search.toLowerCase()) ||
+										book.author.name
+											.toLowerCase()
+											.includes(search.toLowerCase())
 								)
 								.map((book: Book) => (
 									<Col md={12} key={"book-" + book.idBook}>
@@ -114,7 +139,7 @@ const IndexBooks = () => {
 														300
 													)}
 												</Card.Text>
-												<div className="d-flex gap-3 justify-content-end mt-3">
+												<div className="d-flex flex-column flex-sm-row gap-3 justify-content-end mt-3">
 													{permissionsToEdit && (
 														<Link
 															className="btn btn-warning d-flex align-items-center gap-2"
@@ -126,25 +151,20 @@ const IndexBooks = () => {
 																icon={faSliders}
 															/>
 															<span>
-																Modifica
+																Dashboard
 															</span>
 														</Link>
 													)}
 													<Link
+														className="btn btn-primary d-flex align-items-center gap-2"
 														to={
 															"/recensioni/" +
 															book.idBook
 														}>
-														<Button
-															variant="primary"
-															className="d-flex align-items-center gap-2">
-															<FontAwesomeIcon
-																icon={faFeather}
-															/>
-															<span>
-																Recensioni
-															</span>
-														</Button>
+														<FontAwesomeIcon
+															icon={faFeather}
+														/>
+														<span>Recensioni</span>
 													</Link>
 													<Link
 														className="btn btn-mattone d-flex align-items-center gap-2"

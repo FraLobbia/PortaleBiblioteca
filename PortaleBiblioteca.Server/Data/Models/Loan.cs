@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace PortaleBiblioteca.Server.Data.Models
 {
@@ -20,7 +21,9 @@ namespace PortaleBiblioteca.Server.Data.Models
 
         public DateTime? ReturnDate { get; set; }
 
+        [JsonIgnore]
         public virtual Book Book { get; set; }
+
         public virtual User User { get; set; }
 
     }

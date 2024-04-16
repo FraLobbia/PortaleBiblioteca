@@ -63,7 +63,7 @@ const MyNavbar = () => {
 								<NavDropdown.Item
 									as={NavLink}
 									to="/catalogo/add">
-									Aggiungi nuovo libro
+									Crea nuovo libro
 								</NavDropdown.Item>
 								<NavDropdown.Divider />
 								<NavDropdown.Item as={NavLink} to="/generi">
@@ -85,11 +85,14 @@ const MyNavbar = () => {
 								Catalogo
 							</NavLink>
 						)}
+						<NavLink className={"nav-link"} to="/recensioni">
+							Recensioni
+						</NavLink>
 
 						{permissionsToEdit && (
 							<>
-								<NavLink className={"nav-link"} to="/warehouse">
-									Magazzino
+								<NavLink className={"nav-link"} to="/librarian">
+									Banco del bibliotecario
 								</NavLink>
 							</>
 						)}

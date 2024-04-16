@@ -4,31 +4,13 @@ import { ItemsEntity } from "../../../interfaces/warehouse.interface";
 import { useAppDispatch, useAppSelector } from "../../../functions/hooks";
 import { setMoveSource } from "../../../redux/slicers/warehouseSlice";
 
-const WarehouseTable = () => {
+const InventoryTableNotPublic = () => {
 	// define hooks
 	const dispatch = useAppDispatch();
 
 	// store variables
 	const { bookEntities } = useAppSelector((state) => state.bookState);
 
-	// variables
-	// const warehousequantity = bookEntities
-	// 	.filter(
-	// 		(item: ItemsEntity) =>
-	// 			item.shelf.shelfName.includes("Magazzino") &&
-	// 			item.status === "AtWarehouse"
-	// 	)
-	// 	.reduce((acc: number, item: ItemsEntity) => acc + item.quantity, 0);
-
-	// const totalQuantity =
-	// 	bookEntities.reduce(
-	// 		(acc: number, item: ItemsEntity) => acc + item.quantity,
-	// 		0
-	// 	) - warehousequantity;
-
-	// Raggruppa gli elementi in un oggetto in cui
-	// la chiave è il nome dello scaffale
-	// e il valore è un array di ItemsEntity
 	type GroupedItems = { [key: string]: ItemsEntity[] };
 	const groupedItems: GroupedItems = bookEntities.reduce((acc, item) => {
 		const shelfName = item.shelf.shelfName;
@@ -39,15 +21,17 @@ const WarehouseTable = () => {
 		return acc;
 	}, {} as GroupedItems);
 
-	// Filtra solo gli scaffali aperti al pubblico
+	// Filtra solo gli scaffali del magazzino
 	const warehouseShelves = Object.keys(groupedItems).filter((shelfName) =>
 		shelfName.includes("Magazzino")
 	);
 
+	// Filtra solo gli scaffali virtuali per i prestiti
 	const loansShelves = Object.keys(groupedItems).filter((shelfName) =>
 		shelfName.includes("In prestito")
 	);
 
+	// Filtra solo gli scaffali del banco del bibliotecario
 	const librarianDesk = Object.keys(groupedItems).filter((shelfName) =>
 		shelfName.includes("bibliotecario")
 	);
@@ -91,7 +75,8 @@ const WarehouseTable = () => {
 									<td>
 										<Link
 											to={
-												"move/" + firstItem?.book.idBook
+												"/warehouse/move/" +
+												firstItem?.book.idBook
 											}>
 											<Button
 												onClick={() =>
@@ -134,7 +119,8 @@ const WarehouseTable = () => {
 									<td>
 										<Link
 											to={
-												"move/" + firstItem?.book.idBook
+												"/warehouse/move/" +
+												firstItem?.book.idBook
 											}>
 											<Button
 												onClick={() =>
@@ -176,7 +162,8 @@ const WarehouseTable = () => {
 									<td>
 										<Link
 											to={
-												"move/" + firstItem?.book.idBook
+												"/warehouse/move/" +
+												firstItem?.book.idBook
 											}>
 											<Button
 												onClick={() =>
@@ -196,35 +183,10 @@ const WarehouseTable = () => {
 								</tr>
 							);
 						})}
-
-					{/* <tr className="row m-0">
-						<td className="col-3 text-start">
-							{bookEntities[0]?.shelf.shelfName}
-						</td>
-
-						<td className="col-3">{totalQuantity}</td>
-						<td className="col-3">{warehousequantity}</td>
-						<td className="col-3">
-							<Link to={"move/" + bookEntities[0]?.book.idBook}>
-								<Button
-									onClick={() =>
-										dispatch(
-											setMoveSource([
-												bookEntities[0]?.shelf
-													.shelfName,
-												bookEntities[0].shelf.idShelf,
-											])
-										)
-									}>
-									Sposta
-								</Button>
-							</Link>
-						</td>
-					</tr> */}
 				</tbody>
 			</Table>
 		</>
 	);
 };
 
-export default WarehouseTable;
+export default InventoryTableNotPublic;

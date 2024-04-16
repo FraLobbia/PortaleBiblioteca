@@ -1,9 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { loggedProfile } from "../../interfaces/profile.interface";
+import { User, loggedProfile } from "../../interfaces/profile.interface";
 //=================================================================================
 
 interface UserState {
 	loggedProfile: loggedProfile;
+	users: User[];
 }
 
 const initialState: UserState = {
@@ -12,6 +13,7 @@ const initialState: UserState = {
 		permissionsToEdit: false,
 		user: null,
 	},
+	users: [],
 };
 //=================================================================================
 const userSlice = createSlice({
@@ -34,8 +36,11 @@ const userSlice = createSlice({
 			}
 			state.loggedProfile = action.payload;
 		},
+		setUsers: (state, action: { payload: User[] }) => {
+			state.users = action.payload;
+		},
 	},
 });
 //=================================================================================
-export const { logout, setLoggedProfile } = userSlice.actions;
+export const { logout, setLoggedProfile, setUsers } = userSlice.actions;
 export default userSlice.reducer;

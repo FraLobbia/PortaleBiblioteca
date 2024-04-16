@@ -4,12 +4,12 @@ import { Genre } from "../../interfaces/genre.interface";
 interface GenreState {
 	genres: Genre[];
 	currentGenre: Genre | null;
-	notChoosenGenresIDs: number[];
+	GenreToExclude: number[];
 }
 const initialState: GenreState = {
 	genres: [],
 	currentGenre: null,
-	notChoosenGenresIDs: [],
+	GenreToExclude: [],
 };
 //=================================================================================
 const genreSlice = createSlice({

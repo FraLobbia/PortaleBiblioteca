@@ -1,7 +1,7 @@
 import { Button, Col, Row } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../../functions/hooks";
 import { loanObjForm } from "../../../interfaces/loans.interface";
-import { addLoanToUser } from "../../../api/booksCatalog/bookLOANSFetches";
+import { addLoanToUser } from "../../../api/loans/loansFetches";
 import { Link, useNavigate } from "react-router-dom";
 import { formatData } from "../../../functions/utility";
 import { Book } from "../../../interfaces/book.interface";
@@ -79,7 +79,7 @@ const DetailsBook = ({ book }: DetailsBookProps) => {
 										className="btn btn-warning d-flex
 										justify-content-center align-items-center gap-2">
 										<FontAwesomeIcon icon={faSliders} />
-										<span>Modifica dettagli</span>
+										<span>Dashboard</span>
 									</Link>
 								)}
 							</div>
