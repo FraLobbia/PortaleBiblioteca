@@ -30,10 +30,10 @@ const EditBook = () => {
 	return (
 		<Container>
 			<BackButton />
-			<Link
-				to={"/catalogo/details/" + currentBook?.idBook}
-				className="alert alert-primary d-flex justify-content-between ">
-				<div className="d-flex align-items-center gap-3">
+			<div className="alert alert-primary d-flex justify-content-between ">
+				<Link
+					to={"/catalogo/details/" + currentBook?.idBook}
+					className="d-flex align-items-center gap-3 text-dark">
 					<img
 						src={currentBook?.coverImage}
 						height={"100px"}
@@ -43,14 +43,14 @@ const EditBook = () => {
 						<h1 className="m-0">{currentBook?.title}</h1>
 						<h4>{currentBook?.author.name}</h4>
 					</div>
-				</div>
+				</Link>
 
-				<div className="d-flex gap-4">
+				<div className="d-none gap-4 d-sm-flex">
 					<div>
-						<dt>Disponibile al pubblico:</dt>
-						<dd>{currentBook?.availableQuantity}</dd>
 						<dt>In magazzino:</dt>
 						<dd>{currentBook?.warehouseQuantity}</dd>
+						<dt>Disponibile al pubblico:</dt>
+						<dd>{currentBook?.availableQuantity}</dd>
 					</div>
 					<div className="vr"></div>
 					<div>
@@ -60,7 +60,7 @@ const EditBook = () => {
 						<dd>{currentBook?.checkedOutForLoanQuantity}</dd>
 					</div>
 				</div>
-			</Link>
+			</div>
 			<Tabs
 				defaultActiveKey={tab || "Edit"}
 				activeKey={tab ? tab : "Edit"}

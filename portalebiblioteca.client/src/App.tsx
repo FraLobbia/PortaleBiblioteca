@@ -22,6 +22,7 @@ import MoveItems from "./app/warehouse/MoveItems";
 import CreateBook from "./app/booksCatalog/CreateBook";
 import CreateGenres from "./app/genres/CreateGenre";
 import EditGenre from "./app/genres/EditGenre";
+import LibrarianDeskDashboard from "./app/librarianDesk/LibrarianDeskDashboard";
 
 function App() {
 	const selectedTheme = localStorage.getItem("selectedTheme");
@@ -79,14 +80,7 @@ function App() {
 					</Route>
 
 					<Route path="/librarian">
-						<Route
-							index
-							element={
-								<>
-									<h1>work in progress</h1>
-								</>
-							}
-						/>
+						<Route index element={<LibrarianDeskDashboard />} />
 					</Route>
 
 					<Route path="*" element={<NotFound_404 />} />

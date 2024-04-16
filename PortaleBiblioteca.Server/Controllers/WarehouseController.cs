@@ -44,11 +44,7 @@ namespace PortaleBiblioteca.Server.Controllers
             item.IdShelf = 5003; // this is the shelf for the warehouse
             item.ChangeDate = DateTime.Now;
             _context.Items.Add(item);
-
-
             await _context.SaveChangesAsync();
-
-
 
             var itemsList = _context.Items
             .Include(i => i.Shelf.Aisle)
@@ -56,6 +52,7 @@ namespace PortaleBiblioteca.Server.Controllers
             .Select(i => new
             {
                 i.IdItemsEntity,
+                i.OwnerId,
                 i.Quantity,
                 i.ChangeDate,
                 Status = i.Status.ToString(),
@@ -137,6 +134,7 @@ namespace PortaleBiblioteca.Server.Controllers
                 .Select(i => new
                 {
                     i.IdItemsEntity,
+                    i.OwnerId,
                     i.Quantity,
                     Status = i.Status.ToString(),
                     Shelf = new
@@ -179,6 +177,7 @@ namespace PortaleBiblioteca.Server.Controllers
                 .Select(i => new
                 {
                     i.IdItemsEntity,
+                    i.OwnerId,
                     i.Quantity,
                     Status = i.Status.ToString(),
                     Shelf = new
@@ -237,8 +236,10 @@ namespace PortaleBiblioteca.Server.Controllers
                 return NotFound(new { message = "Errore nel reperire lo scaffale di destinazione" });
             }
 
-            // gestisco la quantità degli item dallo scaffale di partenza
-            // ogni item viene ciclato e gestito in base alla quantità disponibile nello stesso
+            int ownerId = 0;
+
+            // handle the quantity of the items from the source shelf
+            // each item is cycled and handled based on the quantity available in the same
             int quantityToMove = data.Quantity;
             while (quantityToMove > 0)
             {
@@ -247,13 +248,16 @@ namespace PortaleBiblioteca.Server.Controllers
                 {
                     return BadRequest(new { message = "Non ci sono libri nello scaffale" });
                 }
+
+                // save the owner id of the item to avoid losing it if the item is removed
+                ownerId = item.OwnerId;
+
                 if (item.Quantity <= quantityToMove)
                 {
-                    // remove the item from the source shelf
+                    // remove the item from the source shelf 
                     quantityToMove -= item.Quantity;
                     _context.Items.Remove(item);
                     _context.SaveChanges();
-
                 }
                 else if (item.Quantity > quantityToMove)
                 {
@@ -265,7 +269,7 @@ namespace PortaleBiblioteca.Server.Controllers
                 }
                 else
                 {
-                    return BadRequest();
+                    return BadRequest(new { message = "Errore nel reperire la quantità dell'item" });
                 }
             }
 
@@ -274,6 +278,7 @@ namespace PortaleBiblioteca.Server.Controllers
             if (destinationShelf.ShelfType == Shelf.Type.Warehouse)
             {
                 typeStatus = ItemsEntity.ItemsEntityStatus.AtWarehouse;
+                ownerId = 0; // 0 means that the item is owned by the library        
             }
             else if (destinationShelf.ShelfType == Shelf.Type.LibrarianDesk)
             {
@@ -282,6 +287,7 @@ namespace PortaleBiblioteca.Server.Controllers
             else if (destinationShelf.ShelfType == Shelf.Type.Physical)
             {
                 typeStatus = ItemsEntity.ItemsEntityStatus.Available;
+                ownerId = 0;
             }
             else if (destinationShelf.ShelfType == Shelf.Type.Virtual)
             {
@@ -293,20 +299,73 @@ namespace PortaleBiblioteca.Server.Controllers
             }
 
             ItemsEntity newItemEntity = new ItemsEntity();
-            newItemEntity.Book = await _context.Books.FindAsync(data.IdBook);
+
+            // the owner id is set to 0 if the item is owned by the library
+            newItemEntity.OwnerId = ownerId;
+
+            newItemEntity.IdBook = data.IdBook;
             newItemEntity.Quantity = data.Quantity;
             newItemEntity.Shelf = destinationShelf;
             newItemEntity.ChangeDate = DateTime.Now;
             newItemEntity.Status = typeStatus;
 
+            // save the new item in the database
             _context.Items.Add(newItemEntity);
-
             await _context.SaveChangesAsync();
 
             return StatusCode(201, newItemEntity.IdItemsEntity);
-
-
         }
 
+        // GET: api/Warehouse/reservedToBePicked
+        [HttpGet("reservedToBePicked")]
+        public async Task<IActionResult> GetReservedToBePicked()
+        {
+            var itemsEntities = await _context.Items
+                .Include(i => i.Shelf.Aisle)
+                .Include(i => i.User)
+                .Where(i =>
+                    i.Status == ItemsEntity.ItemsEntityStatus.ReservedToBePicked)
+                .Select(i => new
+                {
+                    i.IdItemsEntity,
+                    i.OwnerId,
+                    i.Quantity,
+                    Status = i.Status.ToString(),
+                    Shelf = new
+                    {
+                        i.Shelf.IdShelf,
+                        ShelfHeight = i.Shelf.ShelfHeight.ToString(),
+                        i.Shelf.ShelfBay,
+                        i.Shelf.ShelfName,
+                        ShelfType = i.Shelf.ShelfType.ToString(),
+                    },
+                    Book = new
+                    {
+                        i.Book.IdBook,
+                        i.Book.Title,
+                        i.Book.Author,
+                        i.Book.ISBN,
+                        i.Book.Genre,
+                        i.Book.Description,
+                        i.Book.CoverImage
+                    },
+                    User = new
+                    {
+                        i.User.IdUser,
+                        i.User.FirstName,
+                        i.User.LastName,
+                        i.User.Email,
+                        i.User.UserImage
+                    }
+                })
+                .ToListAsync();
+
+            if (itemsEntities == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(itemsEntities);
+        }
     }
 }

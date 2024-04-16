@@ -229,3 +229,32 @@ export const fetchMove =
 			console.error(error);
 		}
 	};
+
+export const fetchReservedToBePicked = () => async (dispatch: AppDispatch) => {
+	try {
+		const response = await fetchWithAuth(
+			url + "api/Warehouse/reservedToBePicked",
+			{
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+				},
+			}
+		);
+
+		if (!response.ok) {
+			response.json().then((err) => {
+				Swal.fire({
+					title: `${err.message}`,
+					icon: "error",
+					footer: `Errore ${response.status}`,
+				});
+			});
+		} else {
+			const reserved = await response.json();
+			console.log("Reserved to be picked: ", reserved);
+		}
+	} catch (error) {
+		console.error(error);
+	}
+};

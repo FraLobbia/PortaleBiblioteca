@@ -177,15 +177,87 @@ namespace PortaleBiblioteca.Server.Controllers
         [HttpPost("add")]
         public async Task<ActionResult<Loan>> PostLoan(LoanCreateDTO formLoan)
         {
+
+            User user = GetUserByToken();
+            if (user == null)
+            {
+                return Unauthorized(new { message = "Utente non autorizzato" });
+            }
+            if (user.IdUser != formLoan.IdUser)
+            {
+                return Unauthorized(new { message = "Non autorizzato. Per aggiungere un prestito per un altro utente è necessario avere ruoli 'librarian' o 'admin'" });
+            }
+
+            // check if the user has already loaned the book
             var alreadyLoaned = await _context.Loans
-                .Where(loan => loan.IdBook == formLoan.IdBook && loan.IdUser == formLoan.IdUser && !loan.Returned)
+                .Where(loan =>
+                loan.IdBook == formLoan.IdBook &&
+                loan.IdUser == formLoan.IdUser &&
+                !loan.Returned)
                 .FirstOrDefaultAsync();
 
+            // if already loaned, return an error
             if (alreadyLoaned != null)
             {
                 return BadRequest(new { message = "Hai già preso in prestito questo libro!" });
             }
 
+            try // handle moving the book from "Available" to "ReservedToBePicked"
+            {
+                ItemsEntity item;
+                try // get an item with status "Available"
+                {
+                    item = await _context.Items
+                        .Where(item =>
+                            item.IdBook == formLoan.IdBook &&
+                            item.Status == ItemsEntity.ItemsEntityStatus.Available)
+                        .FirstOrDefaultAsync();
+                }
+                catch
+                {
+                    return BadRequest(new { message = "Libro non disponibile" });
+                }
+
+                // save the shelf id in order to transpose 
+                // to item with status "ReservedToBePicked"
+                int shelfIdToTranspose = item.IdShelf;
+
+                // decrement the quantity of the book in order to 
+                // add again the same book with status "ReservedToBePicked"
+                switch (true)
+                {
+                    case var _ when item.Quantity > 1:
+                        item.Quantity--;
+                        _context.Entry(item).State = EntityState.Modified;
+                        await _context.SaveChangesAsync();
+                        break;
+                    case var _ when item.Quantity == 1:
+                        _context.Items.Remove(item);
+                        await _context.SaveChangesAsync();
+                        break;
+                }
+
+                // add the book with status "ReservedToBePicked"
+                ItemsEntity newItem = new ItemsEntity
+                {
+                    OwnerId = formLoan.IdUser,
+                    IdBook = formLoan.IdBook,
+                    ChangeDate = DateTime.Now,
+                    Quantity = 1,
+                    Status = ItemsEntity.ItemsEntityStatus.ReservedToBePicked,
+                    IdShelf = shelfIdToTranspose
+                };
+
+                // save the new item
+                _context.Items.Add(newItem);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { message = e.Message });
+            }
+
+            // create a new loan
             Loan loan = new Loan
             {
                 IdBook = formLoan.IdBook,
@@ -194,8 +266,6 @@ namespace PortaleBiblioteca.Server.Controllers
                 Returned = false,
                 ReturnDate = null
             };
-
-
             _context.Loans.Add(loan);
             await _context.SaveChangesAsync();
 
@@ -222,7 +292,6 @@ namespace PortaleBiblioteca.Server.Controllers
                     })
                     .ToListAsync()
             );
-
         }
 
 

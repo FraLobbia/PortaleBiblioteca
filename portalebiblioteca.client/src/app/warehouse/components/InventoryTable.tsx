@@ -66,6 +66,7 @@ const InventoryTable = () => {
 						</tr>
 					)}
 					{publicShelves
+						// sort by aisle number
 						.sort((a, b) => {
 							const numberA = parseInt(a.replace(/^\D+/g, ""));
 							const numberB = parseInt(b.replace(/^\D+/g, ""));
