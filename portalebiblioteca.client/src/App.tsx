@@ -5,7 +5,7 @@ import MyNavbar from "./app/_miscellaneous/myNavbar";
 import IndexBooks from "./app/booksCatalog/IndexBooks";
 import FormAddBook from "./app/booksCatalog/FormAddBook";
 import DetailsBookPage from "./app/booksCatalog/DetailsBookPage";
-import FormEditBook from "./app/booksCatalog/FormEditBook";
+import FormEditBook from "./app/booksCatalog/components/FormEditBook";
 import SignUpPage from "./app/user/SignUpPage";
 import LoginPage from "./app/user/LoginPage";
 import EditProfile from "./app/user/EditProfile";
@@ -21,6 +21,7 @@ import MyFooter from "./app/_miscellaneous/myFooter";
 import IndexAuthors from "./app/authors/IndexAuthors";
 import IndexReviews from "./app/reviews/IndexReviews";
 import BookReviews from "./app/reviews/BookReviews";
+import EditBook from "./app/booksCatalog/EditBook";
 
 function App() {
 	const selectedTheme = localStorage.getItem("selectedTheme");
@@ -42,7 +43,7 @@ function App() {
 							path="details/:id"
 							element={<DetailsBookPage />}
 						/>
-						<Route path="edit/:id" element={<FormEditBook />} />
+						<Route path="edit/:id" element={<EditBook />} />
 					</Route>
 
 					<Route path="/generi">

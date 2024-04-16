@@ -126,7 +126,7 @@ const IndexBooks = () => {
 																icon={faSliders}
 															/>
 															<span>
-																Modifica libro
+																Modifica
 															</span>
 														</Link>
 													)}

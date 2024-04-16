@@ -1,13 +1,16 @@
 import { Button, Table } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../functions/hooks";
 import { ItemsEntity } from "../../../interfaces/warehouse.interface";
 import WarehouseTable from "./WarehouseTable";
 import { setMoveSource } from "../../../redux/slicers/warehouseSlice";
+import { useEffect } from "react";
+import { fetchItemsEntityByBookId } from "../../../api/warehouse/warehouseFetches";
 
 const InventoryTable = () => {
 	// define hooks
 	const dispatch = useAppDispatch();
+	const { id } = useParams<{ id: string }>();
 
 	// store variables
 	const { bookEntities } = useAppSelector((state) => state.bookState);
@@ -32,6 +35,10 @@ const InventoryTable = () => {
 			!shelfName.includes("In prestito") &&
 			!shelfName.includes("bibliotecario")
 	);
+
+	useEffect(() => {
+		dispatch(fetchItemsEntityByBookId(id));
+	}, [id]);
 
 	return (
 		<>

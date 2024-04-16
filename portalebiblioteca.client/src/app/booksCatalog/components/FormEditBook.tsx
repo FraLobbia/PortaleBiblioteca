@@ -1,16 +1,15 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../functions/hooks";
+import { useAppDispatch, useAppSelector } from "../../../functions/hooks";
 import { useEffect, useState } from "react";
 import {
 	fetchBookById,
 	fetchBookDelete,
 	fetchBookEdit,
-} from "../../api/booksCatalog/bookCRUDFetches";
+} from "../../../api/booksCatalog/bookCRUDFetches";
 import { Button, Container, Form } from "react-bootstrap";
-import { BookDTO } from "../../interfaces/book.interface";
-import BackButton from "../_miscellaneous/reusable/BackButton";
+import { BookDTO } from "../../../interfaces/book.interface";
 import Swal from "sweetalert2";
-import { fetchGenres } from "../../api/genres/genresCRUDFetches";
+import { fetchGenres } from "../../../api/genres/genresCRUDFetches";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 
@@ -93,7 +92,6 @@ const FormEditBook = () => {
 
 	return (
 		<Container>
-			<BackButton />
 			<div className="d-flex justify-content-between align-items-center">
 				<h1>Modifica dettagli del libro</h1>
 				<Button
