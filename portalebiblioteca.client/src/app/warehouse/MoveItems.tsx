@@ -78,7 +78,7 @@ const MoveItems = () => {
 
 	// fetch heights when a bay is choosen
 	useEffect(() => {
-		if (choosenBay && choosenAisle) {
+		if (choosenBay && choosenAisle && choosenAisle < 99) {
 			dispatch(fetchHeightsByBayId(choosenAisle, choosenBay));
 		}
 	}, [choosenBay]);

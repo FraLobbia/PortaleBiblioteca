@@ -9,10 +9,9 @@ namespace PortaleBiblioteca.Server.Data.Models
         [Key]
         public int IdItemsEntity { get; set; }
 
-        [ForeignKey("User")]
-        public int OwnerId { get; set; } = 0;
-
-        public virtual User User { get; set; }
+        [ForeignKey("Loan")]
+        public int? IdLoan { get; set; }
+        public virtual Loan Loan { get; set; }
 
         [ForeignKey("Book")]
         public int IdBook { get; set; }

@@ -1,7 +1,6 @@
 ﻿using PortaleBiblioteca.Server.Data.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
 namespace PortaleBiblioteca
 {
     public class Book
@@ -140,8 +139,6 @@ namespace PortaleBiblioteca
         public virtual ICollection<ItemsEntity> Items { get; set; }
 
         public virtual ICollection<Review> Reviews { get; set; }
-
-        public virtual ICollection<Loan> Loans { get; set; }
     }
 
 }

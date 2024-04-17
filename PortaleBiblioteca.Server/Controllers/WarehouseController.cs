@@ -38,7 +38,8 @@ namespace PortaleBiblioteca.Server.Controllers
 
 
             ItemsEntity item = new ItemsEntity();
-            item.Book = book;
+            item.IdBook = book.IdBook;
+            item.IdLoan = null;
             item.Status = ItemsEntity.ItemsEntityStatus.AtWarehouse;
             item.Quantity = data.Quantity;
             item.IdShelf = 5003; // this is the shelf for the warehouse
@@ -52,7 +53,7 @@ namespace PortaleBiblioteca.Server.Controllers
             .Select(i => new
             {
                 i.IdItemsEntity,
-                i.OwnerId,
+                i.IdLoan,
                 i.Quantity,
                 i.ChangeDate,
                 Status = i.Status.ToString(),
@@ -102,11 +103,11 @@ namespace PortaleBiblioteca.Server.Controllers
         public async Task<IActionResult> GetHeights(int IdAisle, int ShelfBay)
         {
             var heights = await _context.Shelves
-        .Where(s => s.IdAisle == IdAisle)
-        .Where(s => s.ShelfBay == ShelfBay)
-        .Select(s => s.ShelfHeight.ToString())
-        .Distinct()
-        .ToArrayAsync();
+                .Where(s => s.IdAisle == IdAisle)
+                .Where(s => s.ShelfBay == ShelfBay)
+                .Select(s => s.ShelfHeight.ToString())
+                .Distinct()
+                .ToArrayAsync();
 
             if (heights == null || heights.Length == 0)
             {
@@ -134,7 +135,7 @@ namespace PortaleBiblioteca.Server.Controllers
                 .Select(i => new
                 {
                     i.IdItemsEntity,
-                    i.OwnerId,
+                    i.IdLoan,
                     i.Quantity,
                     Status = i.Status.ToString(),
                     Shelf = new
@@ -177,7 +178,7 @@ namespace PortaleBiblioteca.Server.Controllers
                 .Select(i => new
                 {
                     i.IdItemsEntity,
-                    i.OwnerId,
+                    i.IdLoan,
                     i.Quantity,
                     Status = i.Status.ToString(),
                     Shelf = new
@@ -236,7 +237,7 @@ namespace PortaleBiblioteca.Server.Controllers
                 return NotFound(new { message = "Errore nel reperire lo scaffale di destinazione" });
             }
 
-            int ownerId = 0;
+            int IdLoanToSave = 0; // intialize the idLoan 
 
             // handle the quantity of the items from the source shelf
             // each item is cycled and handled based on the quantity available in the same
@@ -249,8 +250,12 @@ namespace PortaleBiblioteca.Server.Controllers
                     return BadRequest(new { message = "Non ci sono libri nello scaffale" });
                 }
 
-                // save the owner id of the item to avoid losing it if the item is removed
-                ownerId = item.OwnerId;
+                // save the idLoan of the item to avoid losing it if the item is removed
+                if (item.IdLoan != null)
+                {
+                    IdLoanToSave = item.IdLoan.Value;
+                }
+
 
                 if (item.Quantity <= quantityToMove)
                 {
@@ -278,7 +283,6 @@ namespace PortaleBiblioteca.Server.Controllers
             if (destinationShelf.ShelfType == Shelf.Type.Warehouse)
             {
                 typeStatus = ItemsEntity.ItemsEntityStatus.AtWarehouse;
-                ownerId = 0; // 0 means that the item is owned by the library        
             }
             else if (destinationShelf.ShelfType == Shelf.Type.LibrarianDesk)
             {
@@ -287,7 +291,6 @@ namespace PortaleBiblioteca.Server.Controllers
             else if (destinationShelf.ShelfType == Shelf.Type.Physical)
             {
                 typeStatus = ItemsEntity.ItemsEntityStatus.Available;
-                ownerId = 0;
             }
             else if (destinationShelf.ShelfType == Shelf.Type.Virtual)
             {
@@ -300,8 +303,11 @@ namespace PortaleBiblioteca.Server.Controllers
 
             ItemsEntity newItemEntity = new ItemsEntity();
 
-            // the owner id is set to 0 if the item is owned by the library
-            newItemEntity.OwnerId = ownerId;
+            // if the item was previously associated with a loan, the saved idLoan is set in the new item 
+            if (IdLoanToSave != 0)
+            {
+                newItemEntity.IdLoan = IdLoanToSave;
+            }
 
             newItemEntity.IdBook = data.IdBook;
             newItemEntity.Quantity = data.Quantity;
@@ -322,13 +328,13 @@ namespace PortaleBiblioteca.Server.Controllers
         {
             var itemsEntities = await _context.Items
                 .Include(i => i.Shelf.Aisle)
-                .Include(i => i.User)
+                .Include(i => i.Loan.User)
                 .Where(i =>
                     i.Status == ItemsEntity.ItemsEntityStatus.ReservedToBePicked)
                 .Select(i => new
                 {
                     i.IdItemsEntity,
-                    i.OwnerId,
+                    i.IdLoan,
                     i.Quantity,
                     Status = i.Status.ToString(),
                     Shelf = new
@@ -351,11 +357,11 @@ namespace PortaleBiblioteca.Server.Controllers
                     },
                     User = new
                     {
-                        i.User.IdUser,
-                        i.User.FirstName,
-                        i.User.LastName,
-                        i.User.Email,
-                        i.User.UserImage
+                        i.Loan.User.IdUser,
+                        i.Loan.User.FirstName,
+                        i.Loan.User.LastName,
+                        i.Loan.User.Email,
+                        i.Loan.User.UserImage
                     }
                 })
                 .ToListAsync();
@@ -408,13 +414,13 @@ namespace PortaleBiblioteca.Server.Controllers
         {
             var itemsEntities = await _context.Items
                 .Include(i => i.Shelf.Aisle)
-                .Include(i => i.User)
+                .Include(i => i.Loan.User)
                 .Where(i =>
                     i.Status == ItemsEntity.ItemsEntityStatus.AtLibrarianDesk)
                 .Select(i => new
                 {
                     i.IdItemsEntity,
-                    i.OwnerId,
+                    i.IdLoan,
                     i.Quantity,
                     Status = i.Status.ToString(),
                     Shelf = new
@@ -437,11 +443,11 @@ namespace PortaleBiblioteca.Server.Controllers
                     },
                     User = new
                     {
-                        i.User.IdUser,
-                        i.User.FirstName,
-                        i.User.LastName,
-                        i.User.Email,
-                        i.User.UserImage
+                        i.Loan.User.IdUser,
+                        i.Loan.User.FirstName,
+                        i.Loan.User.LastName,
+                        i.Loan.User.Email,
+                        i.Loan.User.UserImage
                     }
                 })
                 .ToListAsync();

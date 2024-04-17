@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PortaleBiblioteca.Server.Data;
-using PortaleBiblioteca.Server.Data.Models;
 
 namespace PortaleBiblioteca.Server.Controllers
 {
@@ -42,8 +41,6 @@ namespace PortaleBiblioteca.Server.Controllers
                 .Include(b => b.Genre)
                 .Include(b => b.Reviews)
                 .Include(b => b.Items)
-                .Include(b => b.Loans
-                .Where(l => l.Returned == false))
                 .FirstOrDefaultAsync(b => b.IdBook == id);
 
             if (book == null)

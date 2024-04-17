@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PortaleBiblioteca.Server.Data;
 
@@ -11,9 +12,11 @@ using PortaleBiblioteca.Server.Data;
 namespace PortaleBiblioteca.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240417165314_uyvUOYGVrg")]
+    partial class uyvUOYGVrg
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -132,7 +135,7 @@ namespace PortaleBiblioteca.Server.Migrations
                     b.Property<int>("IdBook")
                         .HasColumnType("int");
 
-                    b.Property<int?>("IdLoan")
+                    b.Property<int>("IdLoan")
                         .HasColumnType("int");
 
                     b.Property<int>("IdShelf")
@@ -149,8 +152,7 @@ namespace PortaleBiblioteca.Server.Migrations
                     b.HasIndex("IdBook");
 
                     b.HasIndex("IdLoan")
-                        .IsUnique()
-                        .HasFilter("[IdLoan] IS NOT NULL");
+                        .IsUnique();
 
                     b.HasIndex("IdShelf");
 
@@ -307,7 +309,9 @@ namespace PortaleBiblioteca.Server.Migrations
 
                     b.HasOne("PortaleBiblioteca.Server.Data.Models.Loan", "Loan")
                         .WithOne("Item")
-                        .HasForeignKey("PortaleBiblioteca.Server.Data.Models.ItemsEntity", "IdLoan");
+                        .HasForeignKey("PortaleBiblioteca.Server.Data.Models.ItemsEntity", "IdLoan")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("PortaleBiblioteca.Server.Data.Models.Shelf", "Shelf")
                         .WithMany("Items")
