@@ -1,10 +1,9 @@
 import Swal from "sweetalert2";
 import { url } from "../../Functions/config";
 import { Loan, loanObjForm } from "../../interfaces/loans.interface";
-import { setLoansOfUser } from "../../Redux/slicers/bookSlice";
 import { AppDispatch } from "../../Redux/Store/store";
 import { fetchWithAuth } from "../interceptor";
-import { setLoansOfBook } from "../../Redux/slicers/loanSlice";
+import { setLoansOfBook, setLoansOfUser } from "../../Redux/slicers/loanSlice";
 
 export const addLoanToUser =
 	(loanObj: loanObjForm) => async (dispatch: AppDispatch) => {

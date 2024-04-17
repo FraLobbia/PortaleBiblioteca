@@ -17,9 +17,9 @@ namespace PortaleBiblioteca.Server.Data.Models
         [Required]
         [ForeignKey("User")]
         public int IdUser { get; set; }
-        public virtual User User { get; set; }
+        public User User { get; set; }
 
-        public virtual ItemsEntity Item { get; set; }
+        public ItemsEntity Item { get; set; }
 
     }
 }

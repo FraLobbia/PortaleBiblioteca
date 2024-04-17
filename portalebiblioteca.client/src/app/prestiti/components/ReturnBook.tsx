@@ -24,7 +24,7 @@ const ReturnBookForm = ({ activeLoans }: ReturnBookFormProps) => {
 
 		if (barcodeScanChoice) {
 			loanToReturn = activeLoans.find(
-				(loan: Loan) => loan.book.isbn === returnedBookISBN
+				(loan: Loan) => loan.book?.isbn === returnedBookISBN
 			);
 		} else {
 			loanToReturn = activeLoans.find(
@@ -72,7 +72,8 @@ const ReturnBookForm = ({ activeLoans }: ReturnBookFormProps) => {
 								<option
 									key={"loan" + loan.idLoan}
 									value={loan.idLoan}>
-									{loan.book.title} - {loan.book.author.name}
+									{loan.book?.title} -{" "}
+									{loan.book?.author.name}
 								</option>
 							))}
 						</Form.Select>

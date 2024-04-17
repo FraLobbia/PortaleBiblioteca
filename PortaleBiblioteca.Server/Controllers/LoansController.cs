@@ -49,8 +49,9 @@ namespace PortaleBiblioteca.Server.Controllers
                 return NotFound(new { message = "Id utente non presente" });
             }
 
-
             return Ok(await _context.Loans
+                    .Include(loan => loan.Item)
+                    .ThenInclude(item => item.Book)
                     .Where(loan => loan.IdUser == id)
                     .Select(loan => new
                     {
@@ -73,6 +74,7 @@ namespace PortaleBiblioteca.Server.Controllers
                     })
                     .ToListAsync()
             );
+
         }
 
         // GET: api/Loans/book/5
@@ -190,6 +192,7 @@ namespace PortaleBiblioteca.Server.Controllers
 
             // check if the user has already loaned the book
             var alreadyLoaned = await _context.Loans
+                .Include(loan => loan.Item)
                 .Where(loan =>
                 loan.Item.IdBook == formLoan.IdBook &&
                 loan.IdUser == formLoan.IdUser &&
@@ -237,18 +240,32 @@ namespace PortaleBiblioteca.Server.Controllers
                         break;
                 }
 
-                // add the book with status "ReservedToBePicked"
                 ItemsEntity newItem = new ItemsEntity
                 {
-                    IdLoan = formLoan.IdUser,
                     IdBook = formLoan.IdBook,
                     ChangeDate = DateTime.Now,
                     Quantity = 1,
                     Status = ItemsEntity.ItemsEntityStatus.ReservedToBePicked,
-                    IdShelf = shelfIdToTranspose
+                    IdShelf = shelfIdToTranspose,
+                    Loan = new Loan
+                    {
+                        IdUser = formLoan.IdUser,
+                        LoanDate = DateTime.Now,
+                        Returned = false,
+                        ReturnDate = null
+                    }
                 };
 
-                // save the new item
+                // // create a new loan
+                // Loan newLoan = new Loan
+                // {
+                //     IdUser = formLoan.IdUser,
+                //     LoanDate = DateTime.Now,
+                //     Returned = false,
+                //     ReturnDate = null
+
+                // };
+
                 _context.Items.Add(newItem);
                 await _context.SaveChangesAsync();
             }
@@ -257,20 +274,9 @@ namespace PortaleBiblioteca.Server.Controllers
                 return BadRequest(new { message = e.Message });
             }
 
-            // create a new loan
-            Loan loan = new Loan
-            {
-                //IdBook = formLoan.IdBook,
-                IdUser = formLoan.IdUser,
-                LoanDate = DateTime.Now,
-                Returned = false,
-                ReturnDate = null
-            };
-            _context.Loans.Add(loan);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetLoansByUser", new { id = formLoan.IdUser }, await _context.Loans
-                    .Where(loan => loan.IdUser == formLoan.IdUser)
+            return StatusCode(201, await _context.Loans
+                    .Include(loan => loan.Item)
+                    .Where(loan => loan.IdUser == user.IdUser)
                     .Select(loan => new
                     {
                         loan.IdLoan,
@@ -292,6 +298,8 @@ namespace PortaleBiblioteca.Server.Controllers
                     })
                     .ToListAsync()
             );
+
+
         }
 
 

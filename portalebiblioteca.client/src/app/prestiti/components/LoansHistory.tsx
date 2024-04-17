@@ -60,21 +60,21 @@ const LoansHistory = ({ activeLoans, loansCurrentUser }: LoansHistoryProps) => {
 											<Link
 												to={
 													"/catalogo/details/" +
-													loan.book.idBook
+													loan.book?.idBook
 												}>
 												<img
-													src={loan.book.coverImage}
-													alt={loan.book.title}
+													src={loan.book?.coverImage}
+													alt={loan.book?.title}
 													style={{
 														width: "50px",
 														height: "70px",
 														objectFit: "cover",
 													}}
 												/>
-												<p>{loan.book.title}</p>
+												<p>{loan.book?.title}</p>
 											</Link>
 											<p className="text-muted">
-												{loan.book.author.name}
+												{loan.book?.author.name}
 											</p>
 										</td>
 										<td>

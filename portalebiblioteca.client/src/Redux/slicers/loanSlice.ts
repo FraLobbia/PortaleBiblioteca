@@ -2,11 +2,13 @@ import { createSlice } from "@reduxjs/toolkit";
 import { Loan } from "../../interfaces/loans.interface";
 
 interface LoanState {
-	loans: Loan[];
+	loansOfBook: Loan[];
+	loansCurrentUser: Loan[];
 }
 
 const initialState: LoanState = {
-	loans: [],
+	loansOfBook: [],
+	loansCurrentUser: [],
 };
 //=================================================================================
 const loanSlice = createSlice({
@@ -14,10 +16,13 @@ const loanSlice = createSlice({
 	initialState,
 	reducers: {
 		setLoansOfBook(state, action: { payload: Loan[] }) {
-			state.loans = action.payload;
+			state.loansOfBook = action.payload;
+		},
+		setLoansOfUser(state, action: { payload: Loan[] }) {
+			state.loansCurrentUser = action.payload;
 		},
 	},
 });
 //=================================================================================
-export const { setLoansOfBook } = loanSlice.actions;
+export const { setLoansOfBook, setLoansOfUser } = loanSlice.actions;
 export default loanSlice.reducer;

@@ -1,5 +1,6 @@
 import { Book } from "./book.interface";
 import { User } from "./profile.interface";
+import { ItemsEntity } from "./warehouse.interface";
 
 export interface loanObjForm {
 	idBook: string;
@@ -11,8 +12,8 @@ export interface Loan {
 	loanDate: Date;
 	returned: boolean;
 	returnDate?: Date;
-	idBook: number;
 	idUser: number;
-	book: Book;
 	user: User;
+	item?: ItemsEntity;
+	book?: Book;
 }

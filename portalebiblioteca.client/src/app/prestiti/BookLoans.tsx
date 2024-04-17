@@ -17,7 +17,7 @@ const BookLoans = () => {
 	const { id } = useParams<{ id: string }>();
 
 	// store variables
-	const { loans } = useAppSelector((state) => state.loanState);
+	const { loansOfBook } = useAppSelector((state) => state.loanState);
 
 	// what appens when the component is mounted:
 	// fetch the loans of the book
@@ -48,7 +48,7 @@ const BookLoans = () => {
 
 	return (
 		<Container>
-			{loans.length === 0 ? (
+			{loansOfBook.length === 0 ? (
 				<p className="my-3">
 					Il libro non ha prestiti attivi al momento
 				</p>
@@ -56,7 +56,9 @@ const BookLoans = () => {
 				<>
 					<p className="my-3">
 						Il libro ha un totale di{" "}
-						<span className="fw-bold fs-5">{loans.length} </span>
+						<span className="fw-bold fs-5">
+							{loansOfBook.length}{" "}
+						</span>
 						prestiti attivi
 					</p>
 					<Table striped bordered hover className="text-center">
@@ -68,7 +70,7 @@ const BookLoans = () => {
 							</tr>
 						</thead>
 						<tbody>
-							{loans.map((loan) => (
+							{loansOfBook.map((loan) => (
 								<tr key={loan.idLoan}>
 									<td>{formatData(loan.loanDate)}</td>
 									<td>

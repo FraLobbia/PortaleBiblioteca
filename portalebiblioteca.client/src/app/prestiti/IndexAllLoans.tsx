@@ -15,7 +15,7 @@ const IndexAllLoans = () => {
 	const { user } = useAppSelector(
 		(state) => state.profileState.loggedProfile
 	);
-	const { loansCurrentUser } = useAppSelector((state) => state.bookState);
+	const { loansCurrentUser } = useAppSelector((state) => state.loanState);
 	// separate active loans from the total loans
 	const activeLoans: Loan[] = (() => {
 		const loans = loansCurrentUser.filter((loan: Loan) => !loan.returned);

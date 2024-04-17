@@ -7,7 +7,7 @@ import DetailsBookPage from "./app/booksCatalog/DetailsBookPage";
 import SignUpPage from "./app/user/SignUpPage";
 import LoginPage from "./app/user/LoginPage";
 import EditProfile from "./app/user/EditProfile";
-import ElencoPrestiti from "./app/prestiti/IndexAllLoans";
+import IndexAllLoans from "./app/prestiti/IndexAllLoans";
 import NotFound_404 from "./app/_miscellaneous/NotFound_404";
 import FormAddGenres from "./app/genres/CreateGenre";
 import IndexGenres from "./app/genres/IndexGenres";
@@ -72,7 +72,7 @@ function App() {
 					</Route>
 
 					<Route path="/prestiti">
-						<Route index element={<ElencoPrestiti />} />
+						<Route index element={<IndexAllLoans />} />
 					</Route>
 
 					<Route path="/warehouse">

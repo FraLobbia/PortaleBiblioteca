@@ -329,6 +329,7 @@ namespace PortaleBiblioteca.Server.Controllers
             var itemsEntities = await _context.Items
                 .Include(i => i.Shelf.Aisle)
                 .Include(i => i.Loan.User)
+
                 .Where(i =>
                     i.Status == ItemsEntity.ItemsEntityStatus.ReservedToBePicked)
                 .Select(i => new
