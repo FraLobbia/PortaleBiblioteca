@@ -367,5 +367,127 @@ namespace PortaleBiblioteca.Server.Controllers
 
             return Ok(itemsEntities);
         }
+
+        // POST: api/Warehouse/moveToLibrarianDesk
+        [HttpPost("moveToLibrarianDesk/{IdItemsEntityToPick}")]
+        public async Task<IActionResult> MoveItemToLibrarianDesk(int IdItemsEntityToPick)
+        {
+            // definisco scaffale di destinazione
+            var destinationShelf = await _context.Shelves
+                .Include(s => s.Aisle)
+                .FirstOrDefaultAsync(
+                    s => s.IdShelf == 5001); // this is the shelf for the librarian desk
+            if (destinationShelf == null)
+            {
+                return NotFound(new { message = "Errore nel reperire lo scaffale di destinazione" });
+            }
+
+            var item = await _context.Items
+                .Include(i => i.Shelf.Aisle)
+                .FirstOrDefaultAsync(i => i.IdItemsEntity == IdItemsEntityToPick);
+            if (item == null)
+            {
+                return NotFound(new { message = "Errore nel reperire l'item" });
+            }
+
+            // update the status of the item
+            item.Status = ItemsEntity.ItemsEntityStatus.AtLibrarianDesk;
+            item.Shelf = destinationShelf;
+            item.ChangeDate = DateTime.Now;
+
+            // save the new item in the database
+            _context.Items.Update(item);
+            await _context.SaveChangesAsync();
+
+            return Ok(item);
+        }
+
+        // GET: api/Warehouse/LibrarianDesk
+        [HttpGet("LibrarianDesk")]
+        public async Task<IActionResult> GetLibrarianDesk()
+        {
+            var itemsEntities = await _context.Items
+                .Include(i => i.Shelf.Aisle)
+                .Include(i => i.User)
+                .Where(i =>
+                    i.Status == ItemsEntity.ItemsEntityStatus.AtLibrarianDesk)
+                .Select(i => new
+                {
+                    i.IdItemsEntity,
+                    i.OwnerId,
+                    i.Quantity,
+                    Status = i.Status.ToString(),
+                    Shelf = new
+                    {
+                        i.Shelf.IdShelf,
+                        ShelfHeight = i.Shelf.ShelfHeight.ToString(),
+                        i.Shelf.ShelfBay,
+                        i.Shelf.ShelfName,
+                        ShelfType = i.Shelf.ShelfType.ToString(),
+                    },
+                    Book = new
+                    {
+                        i.Book.IdBook,
+                        i.Book.Title,
+                        i.Book.Author,
+                        i.Book.ISBN,
+                        i.Book.Genre,
+                        i.Book.Description,
+                        i.Book.CoverImage
+                    },
+                    User = new
+                    {
+                        i.User.IdUser,
+                        i.User.FirstName,
+                        i.User.LastName,
+                        i.User.Email,
+                        i.User.UserImage
+                    }
+                })
+                .ToListAsync();
+
+            if (itemsEntities == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(itemsEntities);
+        }
+
+
+        // POST: api/Warehouse/moveToVirtual
+        [HttpPost("moveToVirtual/{IdItemsEntityToVirtual}")]
+        public async Task<IActionResult> MoveItemToVirtual(int IdItemsEntityToVirtual)
+        {
+            // definisco scaffale di destinazione
+            var destinationShelf = await _context.Shelves
+                .Include(s => s.Aisle)
+                .FirstOrDefaultAsync(
+                    s => s.IdShelf == 5002); // this is the shelf for the virtual items
+            if (destinationShelf == null)
+            {
+                return NotFound(new { message = "Errore nel reperire lo scaffale di destinazione" });
+            }
+
+            var item = await _context.Items
+                .Include(i => i.Shelf.Aisle)
+                .FirstOrDefaultAsync(i => i.IdItemsEntity == IdItemsEntityToVirtual);
+            if (item == null)
+            {
+                return NotFound(new { message = "Errore nel reperire l'item" });
+            }
+
+            // update the status of the item
+            item.Status = ItemsEntity.ItemsEntityStatus.CheckedOutForLoan;
+            item.Shelf = destinationShelf;
+            item.ChangeDate = DateTime.Now;
+
+            // save the new item in the database
+            _context.Items.Update(item);
+            await _context.SaveChangesAsync();
+
+            return Ok(item);
+        }
+
     }
 }

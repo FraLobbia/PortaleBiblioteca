@@ -1,4 +1,5 @@
 import { Book } from "./book.interface";
+import { User } from "./profile.interface";
 
 export interface Aisle {
 	idAisle: number;
@@ -35,6 +36,7 @@ export enum Type {
 export interface ItemsEntity {
 	idItemsEntity: number;
 	ownerId: number;
+	user?: User;
 	idBook: number;
 	changeTime: Date;
 	quantity: number;

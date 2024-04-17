@@ -8,6 +8,8 @@ import { fetchBookById } from "../booksCatalog/bookCRUDFetches";
 import {
 	setBays,
 	setHeights,
+	setLibrarianDesk,
+	setReservedToBePicked,
 	setSourceMaxQuantity,
 } from "../../redux/slicers/warehouseSlice";
 
@@ -251,8 +253,69 @@ export const fetchReservedToBePicked = () => async (dispatch: AppDispatch) => {
 				});
 			});
 		} else {
-			const reserved = await response.json();
-			console.log("Reserved to be picked: ", reserved);
+			const reservedItems: ItemsEntity[] = await response.json();
+			dispatch(setReservedToBePicked(reservedItems));
+		}
+	} catch (error) {
+		console.error(error);
+	}
+};
+
+export const fetchMoveToDesk = async (idItemsEntity: number) => {
+	try {
+		const response = await fetchWithAuth(
+			url + `api/Warehouse/moveToLibrarianDesk/${idItemsEntity}`,
+			{
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+			}
+		);
+
+		if (!response.ok) {
+			response.json().then((err) => {
+				Swal.fire({
+					title: `${err.message}`,
+					icon: "error",
+					footer: `Errore ${response.status}`,
+				});
+			});
+		} else {
+			Swal.fire({
+				title: "Libro spostato!",
+				text: "Il libro è stato spostato al desk con successo!",
+				icon: "success",
+			});
+		}
+	} catch (error) {
+		console.error(error);
+	}
+};
+
+export const fetchBookAtLibrarianDesk = () => async (dispatch: AppDispatch) => {
+	try {
+		const response = await fetchWithAuth(
+			url + "api/Warehouse/LibrarianDesk",
+			{
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+				},
+			}
+		);
+
+		if (!response.ok) {
+			response.json().then((err) => {
+				Swal.fire({
+					title: `${err.message}`,
+					icon: "error",
+					footer: `Errore ${response.status}`,
+				});
+			});
+		} else {
+			const librarianDeskBooks: ItemsEntity[] = await response.json();
+			dispatch(setLibrarianDesk(librarianDeskBooks));
 		}
 	} catch (error) {
 		console.error(error);

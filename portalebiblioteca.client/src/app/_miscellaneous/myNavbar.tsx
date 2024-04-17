@@ -30,7 +30,7 @@ const MyNavbar = () => {
 			variant="dark"
 			className="bg-mattone p-0"
 			fixed="top"
-			expand="md">
+			expand="lg">
 			<Container className=" justify-content-center">
 				<Navbar.Brand>
 					<Link to="/" className="nav-link">
@@ -46,7 +46,7 @@ const MyNavbar = () => {
 				</Navbar.Brand>
 				<Navbar.Toggle aria-controls="basic-navbar-nav" />
 				<Navbar.Collapse
-					className=" justify-content-md-between"
+					className=" justify-content-lg-between"
 					id="basic-navbar-nav">
 					<Nav>
 						<NavLink className={"nav-link"} to="/">
