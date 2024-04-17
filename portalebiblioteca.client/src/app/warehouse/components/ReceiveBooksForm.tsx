@@ -3,7 +3,7 @@ import { useState } from "react";
 import { fetchAddToWarehouse } from "../../../api/warehouse/warehouseFetches";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
-import { useAppDispatch } from "../../../functions/hooks";
+import { useAppDispatch } from "../../../Functions/hooks";
 import { useNavigate, useParams } from "react-router-dom";
 
 const ReceiveBooks = () => {

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button, Offcanvas } from "react-bootstrap";
-import { useAppDispatch, useAppSelector } from "../../../functions/hooks";
+import { useAppDispatch, useAppSelector } from "../../../Functions/hooks";
 import { Genre } from "../../../interfaces/genre.interface";
 import { fetchGenres } from "../../../api/genres/genresCRUDFetches";
 import { Book } from "../../../interfaces/book.interface";
@@ -10,7 +10,7 @@ import { faFilter } from "@fortawesome/free-solid-svg-icons";
 import {
 	setAuthorsToExclude,
 	setGenreToExclude,
-} from "../../../redux/slicers/preferencesSlice";
+} from "../../../Redux/slicers/preferencesSlice";
 
 const Sidebar = () => {
 	// define hooks

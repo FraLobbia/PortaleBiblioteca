@@ -1,5 +1,5 @@
-import { setLoggedProfile, setUsers } from "../../redux/slicers/userSlice";
-import { url } from "../../functions/config";
+import { setLoggedProfile, setUsers } from "../../Redux/slicers/userSlice";
+import { url } from "../../Functions/config";
 import {
 	LoginModel,
 	SignUpModel,
@@ -7,9 +7,9 @@ import {
 	UserToEdit,
 	loggedProfile,
 } from "../../interfaces/profile.interface";
-import { AppDispatch, RootState, store } from "../../redux/store/store";
+import { AppDispatch, RootState, store } from "../../Redux/Store/store";
 import { fetchWithAuth } from "../interceptor";
-import { Toast } from "../../functions/utility";
+import { Toast } from "../../Functions/utility";
 // fetch per ottenere il token di autenticazione
 export const fetchLogin =
 	(loginObj: LoginModel) => async (dispatch: AppDispatch) => {

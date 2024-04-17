@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../functions/hooks";
+import { useAppDispatch, useAppSelector } from "../../Functions/hooks";
 import { fetchLoansByUserId } from "../../api/loans/loansFetches";
 import { Loan } from "../../interfaces/loans.interface";
 import { Container } from "react-bootstrap";

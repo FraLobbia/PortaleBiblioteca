@@ -1,6 +1,6 @@
 import ReviewForm from "./ReviewForm";
 import { Book } from "../../../interfaces/book.interface";
-import { useAppSelector } from "../../../functions/hooks";
+import { useAppSelector } from "../../../Functions/hooks";
 import { Review } from "../../../interfaces/review.interface";
 import { useEffect, useState } from "react";
 import SingleReview from "./SingleReview";

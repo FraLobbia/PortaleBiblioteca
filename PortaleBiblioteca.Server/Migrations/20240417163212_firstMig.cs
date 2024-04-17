@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PortaleBiblioteca.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class rsifnhIUJHBNKJU : Migration
+    public partial class firstMig : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -37,24 +37,6 @@ namespace PortaleBiblioteca.Server.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Authors", x => x.IdAuthor);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Events",
-                columns: table => new
-                {
-                    IdEvent = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    EventName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EventDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EventDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EventImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    EventType = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EventPrice = table.Column<double>(type: "float", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Events", x => x.IdEvent);
                 });
 
             migrationBuilder.CreateTable(
@@ -142,38 +124,14 @@ namespace PortaleBiblioteca.Server.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Attendances",
-                columns: table => new
-                {
-                    IdAttendance = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    IdEvent = table.Column<int>(type: "int", nullable: false),
-                    IdUser = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Attendances", x => x.IdAttendance);
-                    table.ForeignKey(
-                        name: "FK_Attendances_Events_IdEvent",
-                        column: x => x.IdEvent,
-                        principalTable: "Events",
-                        principalColumn: "IdEvent",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Attendances_Users_IdUser",
-                        column: x => x.IdUser,
-                        principalTable: "Users",
-                        principalColumn: "IdUser",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Items",
                 columns: table => new
                 {
                     IdItemsEntity = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    OwnerId = table.Column<int>(type: "int", nullable: false),
                     IdBook = table.Column<int>(type: "int", nullable: false),
+                    ChangeDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
                     IdShelf = table.Column<int>(type: "int", nullable: false)
@@ -192,6 +150,12 @@ namespace PortaleBiblioteca.Server.Migrations
                         column: x => x.IdShelf,
                         principalTable: "Shelves",
                         principalColumn: "IdShelf",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Items_Users_OwnerId",
+                        column: x => x.OwnerId,
+                        principalTable: "Users",
+                        principalColumn: "IdUser",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -233,6 +197,7 @@ namespace PortaleBiblioteca.Server.Migrations
                     IdBook = table.Column<int>(type: "int", nullable: false),
                     IdUser = table.Column<int>(type: "int", nullable: false),
                     ReviewTitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ReviewDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ReviewBody = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -253,16 +218,6 @@ namespace PortaleBiblioteca.Server.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Attendances_IdEvent",
-                table: "Attendances",
-                column: "IdEvent");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Attendances_IdUser",
-                table: "Attendances",
-                column: "IdUser");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Books_IdAuthor",
                 table: "Books",
                 column: "IdAuthor");
@@ -281,6 +236,11 @@ namespace PortaleBiblioteca.Server.Migrations
                 name: "IX_Items_IdShelf",
                 table: "Items",
                 column: "IdShelf");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Items_OwnerId",
+                table: "Items",
+                column: "OwnerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Loans_IdBook",
@@ -312,9 +272,6 @@ namespace PortaleBiblioteca.Server.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Attendances");
-
-            migrationBuilder.DropTable(
                 name: "Items");
 
             migrationBuilder.DropTable(
@@ -322,9 +279,6 @@ namespace PortaleBiblioteca.Server.Migrations
 
             migrationBuilder.DropTable(
                 name: "Reviews");
-
-            migrationBuilder.DropTable(
-                name: "Events");
 
             migrationBuilder.DropTable(
                 name: "Shelves");

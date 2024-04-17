@@ -1,5 +1,5 @@
 import { Card } from "react-bootstrap";
-import { formatData } from "../../../functions/utility";
+import { formatData } from "../../../Functions/utility";
 import { Link } from "react-router-dom";
 import { Review } from "../../../interfaces/review.interface";
 import userTemplateImage from "../../../assets/images/userTemplateImage.jpg";

@@ -1,8 +1,8 @@
 import { Button, Table } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../../functions/hooks";
+import { useAppDispatch, useAppSelector } from "../../../Functions/hooks";
 import { ItemsEntity } from "../../../interfaces/warehouse.interface";
-import { setMoveSource } from "../../../redux/slicers/warehouseSlice";
+import { setMoveSource } from "../../../Redux/slicers/warehouseSlice";
 import { useEffect } from "react";
 import { fetchItemsEntityByBookId } from "../../../api/warehouse/warehouseFetches";
 import InventoryTableNotPublic from "./InventoryTableNotPublic";

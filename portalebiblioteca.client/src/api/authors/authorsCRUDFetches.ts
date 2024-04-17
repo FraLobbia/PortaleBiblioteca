@@ -1,9 +1,9 @@
 import Swal from "sweetalert2";
-import { url } from "../../functions/config";
+import { url } from "../../Functions/config";
 import { fetchWithAuth } from "../interceptor";
-import { AppDispatch } from "../../redux/store/store";
+import { AppDispatch } from "../../Redux/Store/store";
 import { Author } from "../../interfaces/book.interface";
-import { setAuthors, setCurrentAuthor } from "../../redux/slicers/authorSlice";
+import { setAuthors, setCurrentAuthor } from "../../Redux/slicers/authorSlice";
 
 export const createGenreFetch = async (Author: Author) => {
 	try {

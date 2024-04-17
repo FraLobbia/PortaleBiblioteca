@@ -1,7 +1,7 @@
 import React from "react";
 import Sun from "../../assets/svg/Sun.svg";
 import Moon from "../../assets/svg/Moon.svg";
-import { setDarkMode, setLightMode } from "../../functions/utility";
+import { setDarkMode, setLightMode } from "../../Functions/utility";
 
 const DarkMode = () => {
 	const toggleTheme = (e: React.ChangeEvent<HTMLInputElement>) => {

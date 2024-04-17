@@ -7,7 +7,7 @@ import {
 	fetchGenreById,
 } from "../../api/genres/genresCRUDFetches";
 import BackButton from "../_miscellaneous/reusable/BackButton";
-import { useAppDispatch, useAppSelector } from "../../functions/hooks";
+import { useAppDispatch, useAppSelector } from "../../Functions/hooks";
 
 const EditGenre = () => {
 	// define hooks

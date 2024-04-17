@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { formatData, howManyDaysAgo } from "../../../functions/utility";
+import { formatData, howManyDaysAgo } from "../../../Functions/utility";
 import { Loan } from "../../../interfaces/loans.interface";
 
 interface LoansHistoryProps {

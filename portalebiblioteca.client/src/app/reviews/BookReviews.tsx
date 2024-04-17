@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import NewReview from "./components/NewReview";
-import { useAppDispatch, useAppSelector } from "../../functions/hooks";
+import { useAppDispatch, useAppSelector } from "../../Functions/hooks";
 import { useEffect } from "react";
 import { fetchBookById } from "../../api/booksCatalog/bookCRUDFetches";
 import { Accordion, Container } from "react-bootstrap";

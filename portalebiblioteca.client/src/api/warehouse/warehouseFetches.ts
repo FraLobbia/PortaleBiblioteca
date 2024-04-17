@@ -1,9 +1,9 @@
 import Swal from "sweetalert2";
-import { url } from "../../functions/config";
+import { url } from "../../Functions/config";
 import { fetchWithAuth } from "../interceptor";
-import { AppDispatch } from "../../redux/store/store";
+import { AppDispatch } from "../../Redux/Store/store";
 import { ItemsEntity, MoveObject } from "../../interfaces/warehouse.interface";
-import { setBookEntities } from "../../redux/slicers/bookSlice";
+import { setBookEntities } from "../../Redux/slicers/bookSlice";
 import { fetchBookById } from "../booksCatalog/bookCRUDFetches";
 import {
 	setBays,
@@ -11,7 +11,7 @@ import {
 	setLibrarianDesk,
 	setReservedToBePicked,
 	setSourceMaxQuantity,
-} from "../../redux/slicers/warehouseSlice";
+} from "../../Redux/slicers/warehouseSlice";
 
 export const fetchAddToWarehouse =
 	(quantity: number, idBook: number) => async (dispatch: AppDispatch) => {

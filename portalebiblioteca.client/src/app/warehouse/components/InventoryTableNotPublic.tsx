@@ -1,8 +1,8 @@
 import { Button, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { ItemsEntity } from "../../../interfaces/warehouse.interface";
-import { useAppDispatch, useAppSelector } from "../../../functions/hooks";
-import { setMoveSource } from "../../../redux/slicers/warehouseSlice";
+import { useAppDispatch, useAppSelector } from "../../../Functions/hooks";
+import { setMoveSource } from "../../../Redux/slicers/warehouseSlice";
 
 const InventoryTableNotPublic = () => {
 	// define hooks

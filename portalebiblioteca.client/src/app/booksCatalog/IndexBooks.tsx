@@ -4,13 +4,13 @@ import {
 	fetchBookList,
 } from "../../api/booksCatalog/bookCRUDFetches";
 import { Book, BookDTO } from "../../interfaces/book.interface";
-import { useAppDispatch, useAppSelector } from "../../functions/hooks";
+import { useAppDispatch, useAppSelector } from "../../Functions/hooks";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import Card from "react-bootstrap/Card";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { SyncLoader } from "react-spinners";
-import { truncateText } from "../../functions/utility";
+import { truncateText } from "../../Functions/utility";
 import Sidebar from "./components/Sidebar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -18,7 +18,7 @@ import {
 	faFeather,
 	faSliders,
 } from "@fortawesome/free-solid-svg-icons";
-import { intializePreferencesBooks } from "../../redux/slicers/preferencesSlice";
+import { intializePreferencesBooks } from "../../Redux/slicers/preferencesSlice";
 
 const IndexBooks = () => {
 	// define hooks

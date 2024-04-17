@@ -150,6 +150,8 @@ namespace PortaleBiblioteca.Server.Migrations
 
                     b.HasIndex("IdShelf");
 
+                    b.HasIndex("OwnerId");
+
                     b.ToTable("Items");
                 });
 
@@ -312,9 +314,17 @@ namespace PortaleBiblioteca.Server.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("PortaleBiblioteca.Server.Data.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Book");
 
                     b.Navigation("Shelf");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("PortaleBiblioteca.Server.Data.Models.Loan", b =>

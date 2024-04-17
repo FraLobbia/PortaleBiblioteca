@@ -1,9 +1,9 @@
 import Swal from "sweetalert2";
-import { url } from "../../functions/config";
+import { url } from "../../Functions/config";
 import { fetchWithAuth } from "../interceptor";
-import { setAisles } from "../../redux/slicers/warehouseSlice";
+import { setAisles } from "../../Redux/slicers/warehouseSlice";
 import { Aisle } from "../../interfaces/warehouse.interface";
-import { AppDispatch } from "../../redux/store/store";
+import { AppDispatch } from "../../Redux/Store/store";
 
 export const getAisles = () => async (dispatch: AppDispatch) => {
 	try {

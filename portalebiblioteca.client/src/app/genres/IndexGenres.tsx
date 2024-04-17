@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../functions/hooks";
+import { useAppDispatch, useAppSelector } from "../../Functions/hooks";
 import { fetchGenres } from "../../api/genres/genresCRUDFetches";
 import { Button, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";

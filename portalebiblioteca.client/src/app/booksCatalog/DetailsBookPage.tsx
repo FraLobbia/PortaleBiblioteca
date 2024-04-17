@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import BackButton from "../_miscellaneous/reusable/BackButton";
 import DetailsBook from "./components/DetailsBook";
-import { useAppDispatch, useAppSelector } from "../../functions/hooks";
+import { useAppDispatch, useAppSelector } from "../../Functions/hooks";
 import { fetchBookById } from "../../api/booksCatalog/bookCRUDFetches";
 import { useEffect } from "react";
 

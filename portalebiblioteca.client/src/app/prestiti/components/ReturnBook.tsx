@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useAppDispatch } from "../../../functions/hooks";
+import { useAppDispatch } from "../../../Functions/hooks";
 import { Loan } from "../../../interfaces/loans.interface";
 import { flagLoanAsReturned } from "../../../api/loans/loansFetches";
 import { Form } from "react-bootstrap";

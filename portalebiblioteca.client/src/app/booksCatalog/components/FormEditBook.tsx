@@ -1,5 +1,5 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../../functions/hooks";
+import { useAppDispatch, useAppSelector } from "../../../Functions/hooks";
 import { useEffect, useState } from "react";
 import {
 	fetchBookById,

@@ -1,4 +1,4 @@
-import { RootState, store } from "../redux/store/store";
+import { RootState, store } from "../Redux/Store/store";
 
 interface FetchWithAuthOptions extends RequestInit {
 	headers?: Record<string, string>;

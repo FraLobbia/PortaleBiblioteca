@@ -1,6 +1,6 @@
 import { Button, Container, Table } from "react-bootstrap";
-import { useAppDispatch, useAppSelector } from "../../functions/hooks";
-import { formatData } from "../../functions/utility";
+import { useAppDispatch, useAppSelector } from "../../Functions/hooks";
+import { formatData } from "../../Functions/utility";
 import {
 	fetchLoanByBookId,
 	flagLoanAsReturned,

@@ -12,7 +12,7 @@ import NotFound_404 from "./app/_miscellaneous/NotFound_404";
 import FormAddGenres from "./app/genres/CreateGenre";
 import IndexGenres from "./app/genres/IndexGenres";
 import FormEditGenres from "./app/genres/EditGenre";
-import { setDarkMode } from "./functions/utility";
+import { setDarkMode } from "./Functions/utility";
 import MyFooter from "./app/_miscellaneous/myFooter";
 import IndexAuthors from "./app/authors/IndexAuthors";
 import IndexReviews from "./app/reviews/IndexReviews";

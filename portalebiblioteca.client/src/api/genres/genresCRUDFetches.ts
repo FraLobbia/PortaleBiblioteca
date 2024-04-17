@@ -1,9 +1,9 @@
 import Swal from "sweetalert2";
-import { url } from "../../functions/config";
+import { url } from "../../Functions/config";
 import { fetchWithAuth } from "../interceptor";
-import { AppDispatch } from "../../redux/store/store";
+import { AppDispatch } from "../../Redux/Store/store";
 import { Genre } from "../../interfaces/genre.interface";
-import { setCurrentGenre, setGenres } from "../../redux/slicers/genreSlice";
+import { setCurrentGenre, setGenres } from "../../Redux/slicers/genreSlice";
 
 export const createGenreFetch = async (genre: Genre) => {
 	try {

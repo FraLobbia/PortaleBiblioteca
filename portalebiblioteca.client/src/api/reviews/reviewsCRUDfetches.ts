@@ -1,10 +1,10 @@
 import Swal from "sweetalert2";
-import { url } from "../../functions/config";
+import { url } from "../../Functions/config";
 import { Review } from "../../interfaces/review.interface";
 import { fetchWithAuth } from "../interceptor";
-import { AppDispatch } from "../../redux/store/store";
-import { setReviews } from "../../redux/slicers/reviewSlice";
-import { Toast } from "../../functions/utility";
+import { AppDispatch } from "../../Redux/Store/store";
+import { setReviews } from "../../Redux/slicers/reviewSlice";
+import { Toast } from "../../Functions/utility";
 
 export const fetchReviewList = () => async (dispatch: AppDispatch) => {
 	try {

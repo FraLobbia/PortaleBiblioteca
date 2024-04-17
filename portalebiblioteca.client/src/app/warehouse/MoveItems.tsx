@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Accordion, Button, Container, Form } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../functions/hooks";
+import { useAppDispatch, useAppSelector } from "../../Functions/hooks";
 import { fetchBookById } from "../../api/booksCatalog/bookCRUDFetches";
 import { getAisles } from "../../api/warehouse/AislesShelvesFetches";
 import BackButton from "../_miscellaneous/reusable/BackButton";
@@ -15,7 +15,7 @@ import {
 import { MoveObject } from "../../interfaces/warehouse.interface";
 import InventoryTable from "./components/InventoryTable";
 import DetailsBook from "../booksCatalog/components/DetailsBook";
-import { convertToAisleName } from "../../functions/utility";
+import { convertToAisleName } from "../../Functions/utility";
 
 const MoveItems = () => {
 	// define hooks

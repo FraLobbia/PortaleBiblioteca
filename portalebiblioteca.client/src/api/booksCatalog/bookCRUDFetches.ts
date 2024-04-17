@@ -1,10 +1,10 @@
 import Swal from "sweetalert2";
-import { url } from "../../functions/config";
+import { url } from "../../Functions/config";
 import { Book, BookDTO } from "../../interfaces/book.interface";
-import { setBooks, setCurrentBook } from "../../redux/slicers/bookSlice";
-import { AppDispatch } from "../../redux/store/store";
+import { setBooks, setCurrentBook } from "../../Redux/slicers/bookSlice";
+import { AppDispatch } from "../../Redux/Store/store";
 import { fetchWithAuth } from "../interceptor";
-import { Toast } from "../../functions/utility";
+import { Toast } from "../../Functions/utility";
 import { NavigateFunction } from "react-router-dom";
 
 export const fetchBookList = () => async (dispatch: AppDispatch) => {

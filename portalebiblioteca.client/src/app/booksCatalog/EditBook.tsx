@@ -1,7 +1,7 @@
 import { Container, Tab, Tabs } from "react-bootstrap";
 import FormEditBook from "./components/FormEditBook";
 import BackButton from "../_miscellaneous/reusable/BackButton";
-import { useAppSelector } from "../../functions/hooks";
+import { useAppSelector } from "../../Functions/hooks";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import BookLoans from "../prestiti/BookLoans";
 import InventoryTable from "../warehouse/components/InventoryTable";

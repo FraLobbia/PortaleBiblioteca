@@ -1,9 +1,9 @@
 import { Button, Col, Row } from "react-bootstrap";
-import { useAppDispatch, useAppSelector } from "../../../functions/hooks";
+import { useAppDispatch, useAppSelector } from "../../../Functions/hooks";
 import { loanObjForm } from "../../../interfaces/loans.interface";
 import { addLoanToUser } from "../../../api/loans/loansFetches";
 import { Link, useNavigate } from "react-router-dom";
-import { formatData } from "../../../functions/utility";
+import { formatData } from "../../../Functions/utility";
 import { Book } from "../../../interfaces/book.interface";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {

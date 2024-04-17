@@ -1,5 +1,5 @@
 import { Container } from "react-bootstrap";
-import { useAppDispatch, useAppSelector } from "../../functions/hooks";
+import { useAppDispatch, useAppSelector } from "../../Functions/hooks";
 import { useEffect } from "react";
 import { fetchReviewList } from "../../api/reviews/reviewsCRUDfetches";
 import { Review } from "../../interfaces/review.interface";

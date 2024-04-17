@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../functions/hooks";
+import { useAppDispatch, useAppSelector } from "../../Functions/hooks";
 import { Button, Container, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import BackButton from "../_miscellaneous/reusable/BackButton";
