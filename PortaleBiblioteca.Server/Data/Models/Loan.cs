@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace PortaleBiblioteca.Server.Data.Models
 {
@@ -17,6 +18,7 @@ namespace PortaleBiblioteca.Server.Data.Models
         [Required]
         [ForeignKey("User")]
         public int IdUser { get; set; }
+        [JsonInclude]
         public User User { get; set; }
 
         public ItemsEntity Item { get; set; }

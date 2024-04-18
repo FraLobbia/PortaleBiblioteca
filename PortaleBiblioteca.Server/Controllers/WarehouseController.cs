@@ -244,7 +244,9 @@ namespace PortaleBiblioteca.Server.Controllers
             int quantityToMove = data.Quantity;
             while (quantityToMove > 0)
             {
-                var item = sourceShelf.Items.FirstOrDefault();
+                var item = sourceShelf.Items
+                .Where(i => i.IdBook == data.IdBook)
+                .FirstOrDefault();
                 if (item == null)
                 {
                     return BadRequest(new { message = "Non ci sono libri nello scaffale" });
@@ -329,7 +331,6 @@ namespace PortaleBiblioteca.Server.Controllers
             var itemsEntities = await _context.Items
                 .Include(i => i.Shelf.Aisle)
                 .Include(i => i.Loan.User)
-
                 .Where(i =>
                     i.Status == ItemsEntity.ItemsEntityStatus.ReservedToBePicked)
                 .Select(i => new
@@ -361,9 +362,9 @@ namespace PortaleBiblioteca.Server.Controllers
                         i.Loan.User.IdUser,
                         i.Loan.User.FirstName,
                         i.Loan.User.LastName,
-                        i.Loan.User.Email,
                         i.Loan.User.UserImage
                     }
+
                 })
                 .ToListAsync();
 
@@ -447,9 +448,9 @@ namespace PortaleBiblioteca.Server.Controllers
                         i.Loan.User.IdUser,
                         i.Loan.User.FirstName,
                         i.Loan.User.LastName,
-                        i.Loan.User.Email,
                         i.Loan.User.UserImage
                     }
+
                 })
                 .ToListAsync();
 
@@ -478,10 +479,11 @@ namespace PortaleBiblioteca.Server.Controllers
 
             var item = await _context.Items
                 .Include(i => i.Shelf.Aisle)
+                .Where(i => i.Status == ItemsEntity.ItemsEntityStatus.AtLibrarianDesk)
                 .FirstOrDefaultAsync(i => i.IdItemsEntity == IdItemsEntityToVirtual);
             if (item == null)
             {
-                return NotFound(new { message = "Errore nel reperire l'item" });
+                return NotFound(new { message = "Errore nel reperire l'item dal desk" });
             }
 
             // update the status of the item

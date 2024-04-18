@@ -97,7 +97,7 @@ const MoveItems = () => {
 			shelfBay: choosenBay,
 			heightChar: choosenHeight,
 		};
-		dispatch(fetchMove(newMove)).then(() => {
+		fetchMove(newMove).then(() => {
 			navigate("/catalogo/edit/" + id + "?tab=Warehouse");
 		});
 	};

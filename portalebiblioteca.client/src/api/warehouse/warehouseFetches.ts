@@ -201,36 +201,35 @@ export const getMaxQuantityInTheShelf =
 		}
 	};
 
-export const fetchMove =
-	(move: MoveObject) => async (dispatch: AppDispatch) => {
-		try {
-			const response = await fetchWithAuth(url + "api/Warehouse/move", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify(move),
-			});
+export const fetchMove = async (move: MoveObject) => {
+	try {
+		const response = await fetchWithAuth(url + "api/Warehouse/move", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(move),
+		});
 
-			if (!response.ok) {
-				response.json().then((err) => {
-					Swal.fire({
-						title: `${err.message}`,
-						icon: "error",
-						footer: `Errore ${response.status}`,
-					});
-				});
-			} else {
+		if (!response.ok) {
+			response.json().then((err) => {
 				Swal.fire({
-					title: "Libro spostato!",
-					text: "Il libro è stato spostato con successo!",
-					icon: "success",
+					title: `${err.message}`,
+					icon: "error",
+					footer: `Errore ${response.status}`,
 				});
-			}
-		} catch (error) {
-			console.error(error);
+			});
+		} else {
+			Swal.fire({
+				title: "Libro spostato!",
+				text: "Il libro è stato spostato con successo!",
+				icon: "success",
+			});
 		}
-	};
+	} catch (error) {
+		console.error(error);
+	}
+};
 
 export const fetchReservedToBePicked = () => async (dispatch: AppDispatch) => {
 	try {
@@ -316,6 +315,39 @@ export const fetchBookAtLibrarianDesk = () => async (dispatch: AppDispatch) => {
 		} else {
 			const librarianDeskBooks: ItemsEntity[] = await response.json();
 			dispatch(setLibrarianDesk(librarianDeskBooks));
+		}
+	} catch (error) {
+		console.error(error);
+	}
+};
+
+export const fetchMoveToVirtualShelf = async (
+	IdItemsEntityToVirtual: number
+) => {
+	try {
+		const response = await fetchWithAuth(
+			url + "api/Warehouse/moveToVirtual/" + IdItemsEntityToVirtual,
+			{
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+			}
+		);
+		if (!response.ok) {
+			response.json().then((err) => {
+				Swal.fire({
+					title: `${err.message}`,
+					icon: "error",
+					footer: `Errore ${response.status}`,
+				});
+			});
+		} else {
+			Swal.fire({
+				title: "Libro spostato!",
+				text: "Il libro è stato consegnato all'utente. Il libro è stato inoltre spostato alla libreria virtuale con successo!",
+				icon: "success",
+			});
 		}
 	} catch (error) {
 		console.error(error);
