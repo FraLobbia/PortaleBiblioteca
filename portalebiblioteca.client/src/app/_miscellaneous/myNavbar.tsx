@@ -2,13 +2,14 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../Functions/hooks";
 import { logout } from "../../Redux/slicers/userSlice";
 import logo from "../../assets/images/logo.png";
 import userTemplateImage from "../../assets/images/userTemplateImage.jpg";
 import DarkMode from "./DarkMode";
-
+import { NavbarBrand } from "react-bootstrap";
+import "./myNavbar.scss";
 const MyNavbar = () => {
 	// define hooks
 	const dispatch = useAppDispatch();
@@ -27,77 +28,97 @@ const MyNavbar = () => {
 
 	return (
 		<Navbar
+			collapseOnSelect
 			variant="dark"
 			className="bg-mattone p-0"
 			fixed="top"
 			expand="lg">
-			<Container className=" justify-content-center">
-				<Navbar.Brand>
-					<Link to="/" className="nav-link">
+			<Container className="justify-content-center justify-content-sm-between">
+				<Nav.Link as={NavLink} eventKey="13" to="/">
+					<NavbarBrand>
 						<img
 							src={logo}
-							width="30"
-							height="30"
-							className="d-inline-block align-top me-3"
+							height={35}
+							className="me-2"
 							alt="logo della biblioteca"
 						/>
-						Biblioteca Quinto Vercellese
-					</Link>
-				</Navbar.Brand>
-				<Navbar.Toggle aria-controls="basic-navbar-nav" />
-				<Navbar.Collapse
-					className=" justify-content-lg-between"
-					id="basic-navbar-nav">
-					<Nav>
-						<NavLink className={"nav-link"} to="/">
+						<span id="NavbarBrandDefault">
+							Biblioteca Quinto Vercellese
+						</span>
+						<span id="NavbarBrandMiniMobile">
+							Biblioteca Quinto V.se
+						</span>
+					</NavbarBrand>
+				</Nav.Link>
+				<Navbar.Toggle />
+				<Navbar.Collapse>
+					<Nav className="align-items-center">
+						<Nav.Link as={NavLink} eventKey="13" to="/">
 							Home
-						</NavLink>
+						</Nav.Link>
 						{permissionsToEdit ? (
-							<NavDropdown
-								title="Catalogo"
-								id="basic-nav-dropdown">
-								<NavDropdown.Item as={NavLink} to="/catalogo">
+							<NavDropdown title="Catalogo">
+								<NavDropdown.Item
+									as={NavLink}
+									eventKey="1"
+									to="/catalogo">
 									Elenco libri
 								</NavDropdown.Item>
 
 								<NavDropdown.Item
 									as={NavLink}
+									eventKey="2"
 									to="/catalogo/add">
 									Crea nuovo libro
 								</NavDropdown.Item>
 								<NavDropdown.Divider />
-								<NavDropdown.Item as={NavLink} to="/generi">
+								<NavDropdown.Item
+									as={NavLink}
+									eventKey="3"
+									to="/generi">
 									Elenco generi
 								</NavDropdown.Item>
-								<NavDropdown.Item as={NavLink} to="/generi/add">
+								<NavDropdown.Item
+									as={NavLink}
+									eventKey="4"
+									to="/generi/add">
 									Aggiungi nuovo genere
 								</NavDropdown.Item>
 								<NavDropdown.Divider />
-								<NavDropdown.Item as={NavLink} to="/autori">
+								<NavDropdown.Item
+									as={NavLink}
+									eventKey="5"
+									to="/autori">
 									Elenco Autori
 								</NavDropdown.Item>
-								<NavDropdown.Item as={NavLink} to="/autori/add">
+								<NavDropdown.Item
+									as={NavLink}
+									eventKey="6"
+									to="/autori/add">
 									Aggiungi nuovo Autore
 								</NavDropdown.Item>
 							</NavDropdown>
 						) : (
-							<NavLink className={"nav-link"} to="/catalogo">
+							<Nav.Link as={NavLink} eventKey="7" to="/catalogo">
 								Catalogo
-							</NavLink>
+							</Nav.Link>
 						)}
-						<NavLink className={"nav-link"} to="/recensioni">
+						<Nav.Link as={NavLink} eventKey="8" to="/recensioni">
 							Recensioni
-						</NavLink>
+						</Nav.Link>
 
 						{permissionsToEdit && (
 							<>
-								<NavLink className={"nav-link"} to="/librarian">
+								<Nav.Link
+									as={NavLink}
+									eventKey="9"
+									to="/librarian">
 									Banco del bibliotecario
-								</NavLink>
+								</Nav.Link>
 							</>
 						)}
 					</Nav>
-					<Nav>
+					<Nav className="align-items-center">
 						{user ? (
 							<NavDropdown
 								title={
@@ -122,7 +143,10 @@ const MyNavbar = () => {
 									</span>
 								}
 								id="basic-nav-dropdown">
-								<NavDropdown.Item as={NavLink} to="/prestiti">
+								<NavDropdown.Item
+									as={NavLink}
+									eventKey="10"
+									to="/prestiti">
 									I tuoi libri in prestito
 								</NavDropdown.Item>
 
@@ -130,24 +154,30 @@ const MyNavbar = () => {
 
 								<DarkMode />
 
-								<NavDropdown.Item>
-									<Link to="/user/edit" className="nav-link">
-										Modifica il tuo profilo
-									</Link>
+								<NavDropdown.Item
+									as={NavLink}
+									eventKey="11"
+									to="/user/edit">
+									Modifica il tuo profilo
 								</NavDropdown.Item>
 								<NavDropdown.Item>
-									<Link
+									<Nav.Link
+										as={NavLink}
+										eventKey="12"
 										to="/"
-										className="nav-link text-danger"
+										className="text-danger"
 										onClick={() => handleLogout()}>
 										Logout
-									</Link>
+									</Nav.Link>
 								</NavDropdown.Item>
 							</NavDropdown>
 						) : (
-							<Link to="/user/login" className="nav-link">
+							<Nav.Link
+								as={NavLink}
+								eventKey="13"
+								to="/user/login">
 								Login
-							</Link>
+							</Nav.Link>
 						)}
 					</Nav>
 				</Navbar.Collapse>

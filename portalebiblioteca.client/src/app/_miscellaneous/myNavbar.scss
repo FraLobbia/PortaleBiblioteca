@@ -1,0 +1,16 @@
+#NavbarBrandDefault {
+	@media (max-width: 390px) {
+		display: none;
+	}
+}
+#NavbarBrandMiniMobile {
+	@media (min-width: 391px) {
+		display: none;
+	}
+}
+
+.navbar-brand > img {
+	@media (max-width: 330px) {
+		display: none !important;
+	}
+}

@@ -47,14 +47,14 @@ const IndexReservedToBePicked = () => {
 					<tr className="row-cols-4 m-0">
 						<th>Scaffali pubblici</th>
 						<th>Libro</th>
-						<th>Utente</th>
+						<th>Destinatario prestito</th>
 						<th></th>
 					</tr>
 				</thead>
 				<tbody className="text-center">
 					{reservedToBePicked.length <= 0 ? (
 						<tr>
-							<td colSpan={3}>Nessun libro da prendere</td>
+							<td colSpan={4}>Nessun libro da prendere</td>
 						</tr>
 					) : (
 						reservedToBePicked.map((item, index) => (
@@ -89,9 +89,7 @@ const IndexReservedToBePicked = () => {
 								<td>
 									<Button
 										onClick={() =>
-											dispatch(
-												moveToDesk(item.idItemsEntity)
-											)
+											moveToDesk(item.idItemsEntity)
 										}>
 										Sposta
 									</Button>
