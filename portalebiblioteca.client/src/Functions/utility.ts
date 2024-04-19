@@ -37,8 +37,9 @@ export function capitalizeFirstLetter(str: string) {
 	});
 }
 
-export const howManyDaysAgo = (date: string) => {
+export const howManyDaysAgo = (date: string | Date | undefined) => {
 	// 2024-04-05 12:04:59.9108221
+	if (date === undefined) return "Data non disponibile";
 	const today = new Date();
 	const dateToCheck = new Date(date);
 	const diffTime = Math.abs(today.getTime() - dateToCheck.getTime());

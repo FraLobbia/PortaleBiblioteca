@@ -165,6 +165,9 @@ namespace PortaleBiblioteca.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdLoan"));
 
+                    b.Property<int>("IdBook")
+                        .HasColumnType("int");
+
                     b.Property<int>("IdUser")
                         .HasColumnType("int");
 
@@ -178,6 +181,8 @@ namespace PortaleBiblioteca.Server.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("IdLoan");
+
+                    b.HasIndex("IdBook");
 
                     b.HasIndex("IdUser");
 
@@ -324,11 +329,19 @@ namespace PortaleBiblioteca.Server.Migrations
 
             modelBuilder.Entity("PortaleBiblioteca.Server.Data.Models.Loan", b =>
                 {
+                    b.HasOne("PortaleBiblioteca.Book", "Book")
+                        .WithMany("Loans")
+                        .HasForeignKey("IdBook")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("PortaleBiblioteca.Server.Data.Models.User", "User")
                         .WithMany("Loans")
                         .HasForeignKey("IdUser")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Book");
 
                     b.Navigation("User");
                 });
@@ -371,6 +384,8 @@ namespace PortaleBiblioteca.Server.Migrations
             modelBuilder.Entity("PortaleBiblioteca.Book", b =>
                 {
                     b.Navigation("Items");
+
+                    b.Navigation("Loans");
 
                     b.Navigation("Reviews");
                 });

@@ -15,5 +15,5 @@ export interface Loan {
 	idUser: number;
 	user: User;
 	item?: ItemsEntity;
-	book?: Book;
+	book: Book;
 }

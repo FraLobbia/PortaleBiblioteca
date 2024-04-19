@@ -23,5 +23,12 @@ namespace PortaleBiblioteca.Server.Data.Models
 
         public ItemsEntity Item { get; set; }
 
+        [Required]
+        [ForeignKey("Book")]
+        public int IdBook { get; set; }
+
+        [JsonIgnore]
+        public virtual Book Book { get; set; }
+
     }
 }

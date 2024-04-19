@@ -49,32 +49,47 @@ namespace PortaleBiblioteca.Server.Controllers
                 return NotFound(new { message = "Id utente non presente" });
             }
 
-            return Ok(await _context.Loans
-                    .Include(loan => loan.Item)
-                    .ThenInclude(item => item.Book)
-                    .Where(loan => loan.IdUser == id)
-                    .Select(loan => new
+            var loans = await _context.Loans
+                .Include(loan => loan.Item.Shelf.Aisle)
+                .Where(loan => loan.IdUser == id)
+                .Select(loan => new
+                {
+                    loan.IdLoan,
+                    loan.LoanDate,
+                    loan.Returned,
+                    loan.ReturnDate,
+                    loan.IdUser,
+                    Book = new
                     {
-                        loan.IdLoan,
-                        loan.LoanDate,
-                        loan.Returned,
-                        loan.ReturnDate,
-                        loan.IdUser,
-                        Book = new
-                        {
-                            loan.Item.Book.IdBook,
-                            loan.Item.Book.Author,
-                            loan.Item.Book.Title,
-                            loan.Item.Book.Description,
-                            loan.Item.Book.IdGenre,
-                            loan.Item.Book.PublicationDate,
-                            loan.Item.Book.ISBN,
-                            loan.Item.Book.CoverImage,
-                        }
-                    })
-                    .ToListAsync()
-            );
+                        loan.Book.IdBook,
+                        loan.Book.Author,
+                        loan.Book.Title,
+                        loan.Book.Description,
+                        loan.Book.IdGenre,
+                        loan.Book.PublicationDate,
+                        loan.Book.ISBN,
+                        loan.Book.CoverImage,
+                    },
 
+                    ItemsEntity = loan.Item != null ? new
+                    {
+                        loan.Item.IdItemsEntity,
+                        loan.Item.IdBook,
+                        loan.Item.Status,
+                        loan.Item.ChangeDate,
+                        loan.Item.IdShelf,
+                        loan.Item.IdLoan,
+                        Shelf = new
+                        {
+                            loan.Item.Shelf.IdShelf,
+                            loan.Item.Shelf.ShelfName,
+                        }
+                    } : null,
+                })
+                .ToListAsync();
+
+
+            return Ok(loans);
         }
 
         // GET: api/Loans/book/5
@@ -267,7 +282,8 @@ namespace PortaleBiblioteca.Server.Controllers
                         IdUser = formLoan.IdUser,
                         LoanDate = DateTime.Now,
                         Returned = false,
-                        ReturnDate = null
+                        ReturnDate = null,
+                        IdBook = formLoan.IdBook
                     }
                 };
 

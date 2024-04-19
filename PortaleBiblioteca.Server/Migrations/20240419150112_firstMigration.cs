@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PortaleBiblioteca.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class firstMig : Migration
+    public partial class firstMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -124,52 +124,16 @@ namespace PortaleBiblioteca.Server.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Items",
-                columns: table => new
-                {
-                    IdItemsEntity = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    OwnerId = table.Column<int>(type: "int", nullable: false),
-                    IdBook = table.Column<int>(type: "int", nullable: false),
-                    ChangeDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false),
-                    IdShelf = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Items", x => x.IdItemsEntity);
-                    table.ForeignKey(
-                        name: "FK_Items_Books_IdBook",
-                        column: x => x.IdBook,
-                        principalTable: "Books",
-                        principalColumn: "IdBook",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Items_Shelves_IdShelf",
-                        column: x => x.IdShelf,
-                        principalTable: "Shelves",
-                        principalColumn: "IdShelf",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Items_Users_OwnerId",
-                        column: x => x.OwnerId,
-                        principalTable: "Users",
-                        principalColumn: "IdUser",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Loans",
                 columns: table => new
                 {
                     IdLoan = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     LoanDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IdUser = table.Column<int>(type: "int", nullable: false),
-                    IdBook = table.Column<int>(type: "int", nullable: false),
                     Returned = table.Column<bool>(type: "bit", nullable: false),
-                    ReturnDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    ReturnDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IdUser = table.Column<int>(type: "int", nullable: false),
+                    IdBook = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -217,6 +181,41 @@ namespace PortaleBiblioteca.Server.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Items",
+                columns: table => new
+                {
+                    IdItemsEntity = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IdLoan = table.Column<int>(type: "int", nullable: true),
+                    IdBook = table.Column<int>(type: "int", nullable: false),
+                    ChangeDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    IdShelf = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Items", x => x.IdItemsEntity);
+                    table.ForeignKey(
+                        name: "FK_Items_Books_IdBook",
+                        column: x => x.IdBook,
+                        principalTable: "Books",
+                        principalColumn: "IdBook",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Items_Loans_IdLoan",
+                        column: x => x.IdLoan,
+                        principalTable: "Loans",
+                        principalColumn: "IdLoan");
+                    table.ForeignKey(
+                        name: "FK_Items_Shelves_IdShelf",
+                        column: x => x.IdShelf,
+                        principalTable: "Shelves",
+                        principalColumn: "IdShelf",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Books_IdAuthor",
                 table: "Books",
@@ -233,14 +232,16 @@ namespace PortaleBiblioteca.Server.Migrations
                 column: "IdBook");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Items_IdLoan",
+                table: "Items",
+                column: "IdLoan",
+                unique: true,
+                filter: "[IdLoan] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Items_IdShelf",
                 table: "Items",
                 column: "IdShelf");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Items_OwnerId",
-                table: "Items",
-                column: "OwnerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Loans_IdBook",
@@ -275,10 +276,10 @@ namespace PortaleBiblioteca.Server.Migrations
                 name: "Items");
 
             migrationBuilder.DropTable(
-                name: "Loans");
+                name: "Reviews");
 
             migrationBuilder.DropTable(
-                name: "Reviews");
+                name: "Loans");
 
             migrationBuilder.DropTable(
                 name: "Shelves");

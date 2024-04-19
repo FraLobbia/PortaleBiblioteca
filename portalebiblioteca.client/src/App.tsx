@@ -7,7 +7,6 @@ import DetailsBookPage from "./app/booksCatalog/DetailsBookPage";
 import SignUpPage from "./app/user/SignUpPage";
 import LoginPage from "./app/user/LoginPage";
 import EditProfile from "./app/user/EditProfile";
-import IndexAllLoans from "./app/prestiti/IndexAllLoans";
 import NotFound_404 from "./app/_miscellaneous/NotFound_404";
 import FormAddGenres from "./app/genres/CreateGenre";
 import IndexGenres from "./app/genres/IndexGenres";
@@ -23,6 +22,7 @@ import CreateBook from "./app/booksCatalog/CreateBook";
 import CreateGenres from "./app/genres/CreateGenre";
 import EditGenre from "./app/genres/EditGenre";
 import LibrarianDeskDashboard from "./app/librarianDesk/LibrarianDeskDashboard";
+import UserLoansDashboard from "./app/prestiti/UserLoansDashboard";
 
 function App() {
 	const selectedTheme = localStorage.getItem("selectedTheme");
@@ -72,7 +72,7 @@ function App() {
 					</Route>
 
 					<Route path="/prestiti">
-						<Route index element={<IndexAllLoans />} />
+						<Route index element={<UserLoansDashboard />} />
 					</Route>
 
 					<Route path="/warehouse">

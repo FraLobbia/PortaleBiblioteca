@@ -1,13 +1,12 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../Functions/hooks";
 import { fetchLoansByUserId } from "../../api/loans/loansFetches";
-import { Loan } from "../../interfaces/loans.interface";
 import { Container } from "react-bootstrap";
 import BackButton from "../_miscellaneous/reusable/BackButton";
-import LoansHistory from "./components/LoansHistory";
-import ReturnBookForm from "./components/ReturnBook";
+import LoansHistory from "./components/UserLoansHistory";
+import ReturnUserLoanForm from "./components/ReturnUserLoanForm";
 
-const IndexAllLoans = () => {
+const UserLoansDashboard = () => {
 	// define hooks
 	const dispatch = useAppDispatch();
 
@@ -15,12 +14,14 @@ const IndexAllLoans = () => {
 	const { user } = useAppSelector(
 		(state) => state.profileState.loggedProfile
 	);
-	const { loansCurrentUser } = useAppSelector((state) => state.loanState);
-	// separate active loans from the total loans
-	const activeLoans: Loan[] = (() => {
-		const loans = loansCurrentUser.filter((loan: Loan) => !loan.returned);
-		return loans;
-	})();
+	// const { loansCurrentUser } = useAppSelector((state) => state.loanState);
+	// // separate active loans from the total loans
+	// const activeLoans: ItemsEntity[] = (() => {
+	// 	const loans = loansCurrentUser.filter(
+	// 		(item: ItemsEntity) => !item.loan?.returned
+	// 	);
+	// 	return loans;
+	// })();
 
 	// What happens when the component mounts:
 	// fetch the loans of the user
@@ -33,14 +34,11 @@ const IndexAllLoans = () => {
 	return (
 		<Container>
 			<BackButton />
-			<ReturnBookForm activeLoans={activeLoans} />
+			<ReturnUserLoanForm />
 			<hr />
-			<LoansHistory
-				activeLoans={activeLoans}
-				loansCurrentUser={loansCurrentUser}
-			/>
+			<LoansHistory />
 		</Container>
 	);
 };
 
-export default IndexAllLoans;
+export default UserLoansDashboard;

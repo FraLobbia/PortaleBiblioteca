@@ -29,7 +29,14 @@ const EditBook = () => {
 
 	return (
 		<Container>
-			<BackButton />
+			<div className="d-flex align-items-center gap-3">
+				<BackButton />
+				<Link
+					to={"/librarian" + "?tab=Desk"}
+					className="btn btn-primary">
+					Vai al banco del bibliotecario
+				</Link>
+			</div>
 			<div className="alert alert-primary d-flex justify-content-between ">
 				<Link
 					to={"/catalogo/details/" + currentBook?.idBook}
@@ -61,6 +68,7 @@ const EditBook = () => {
 					</div>
 				</div>
 			</div>
+
 			<Tabs
 				defaultActiveKey={tab || "Edit"}
 				activeKey={tab ? tab : "Edit"}

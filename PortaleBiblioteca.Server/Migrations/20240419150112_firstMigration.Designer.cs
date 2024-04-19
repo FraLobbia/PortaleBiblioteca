@@ -12,8 +12,8 @@ using PortaleBiblioteca.Server.Data;
 namespace PortaleBiblioteca.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240417163212_firstMig")]
-    partial class firstMig
+    [Migration("20240419150112_firstMigration")]
+    partial class firstMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -135,10 +135,10 @@ namespace PortaleBiblioteca.Server.Migrations
                     b.Property<int>("IdBook")
                         .HasColumnType("int");
 
-                    b.Property<int>("IdShelf")
+                    b.Property<int?>("IdLoan")
                         .HasColumnType("int");
 
-                    b.Property<int>("OwnerId")
+                    b.Property<int>("IdShelf")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
@@ -151,9 +151,11 @@ namespace PortaleBiblioteca.Server.Migrations
 
                     b.HasIndex("IdBook");
 
-                    b.HasIndex("IdShelf");
+                    b.HasIndex("IdLoan")
+                        .IsUnique()
+                        .HasFilter("[IdLoan] IS NOT NULL");
 
-                    b.HasIndex("OwnerId");
+                    b.HasIndex("IdShelf");
 
                     b.ToTable("Items");
                 });
@@ -311,23 +313,21 @@ namespace PortaleBiblioteca.Server.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("PortaleBiblioteca.Server.Data.Models.Loan", "Loan")
+                        .WithOne("Item")
+                        .HasForeignKey("PortaleBiblioteca.Server.Data.Models.ItemsEntity", "IdLoan");
+
                     b.HasOne("PortaleBiblioteca.Server.Data.Models.Shelf", "Shelf")
                         .WithMany("Items")
                         .HasForeignKey("IdShelf")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PortaleBiblioteca.Server.Data.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Book");
 
-                    b.Navigation("Shelf");
+                    b.Navigation("Loan");
 
-                    b.Navigation("User");
+                    b.Navigation("Shelf");
                 });
 
             modelBuilder.Entity("PortaleBiblioteca.Server.Data.Models.Loan", b =>
@@ -401,6 +401,11 @@ namespace PortaleBiblioteca.Server.Migrations
             modelBuilder.Entity("PortaleBiblioteca.Server.Data.Models.Aisle", b =>
                 {
                     b.Navigation("Shelves");
+                });
+
+            modelBuilder.Entity("PortaleBiblioteca.Server.Data.Models.Loan", b =>
+                {
+                    b.Navigation("Item");
                 });
 
             modelBuilder.Entity("PortaleBiblioteca.Server.Data.Models.Shelf", b =>

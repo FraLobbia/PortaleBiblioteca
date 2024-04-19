@@ -24,6 +24,7 @@ const LibrarianDeskDashboard = () => {
 	return (
 		<Container>
 			<BackButton />
+			<h1>Banco del bibliotecario</h1>
 			<Tabs
 				defaultActiveKey={tab || "Desk"}
 				activeKey={tab ? tab : "Desk"}

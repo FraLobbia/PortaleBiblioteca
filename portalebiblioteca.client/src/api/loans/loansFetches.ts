@@ -4,6 +4,7 @@ import { Loan, loanObjForm } from "../../interfaces/loans.interface";
 import { AppDispatch } from "../../Redux/Store/store";
 import { fetchWithAuth } from "../interceptor";
 import { setLoansOfBook, setLoansOfUser } from "../../Redux/slicers/loanSlice";
+import { ItemsEntity } from "../../interfaces/warehouse.interface";
 
 export const addLoanToUser =
 	(loanObj: loanObjForm) => async (dispatch: AppDispatch) => {
@@ -24,8 +25,8 @@ export const addLoanToUser =
 					});
 				});
 			} else {
-				const UpdatedLoanList: Loan[] = await response.json();
-				dispatch(setLoansOfUser(UpdatedLoanList));
+				const UpdatedItemsLoaned: ItemsEntity[] = await response.json();
+				dispatch(setLoansOfUser(UpdatedItemsLoaned));
 				Swal.fire({
 					title: "Il libro verrà messo da parte!",
 					text: "Passa alla reception per ritirare il libro!",
@@ -48,9 +49,12 @@ export const fetchLoansByUserId =
 			});
 
 			if (response.ok) {
-				const loggedUserLoans: Loan[] = await response.json();
-				console.info("Prestiti dell'utente loggato: ", loggedUserLoans);
-				dispatch(setLoansOfUser(loggedUserLoans));
+				const loggedUserItemsLoaned: Loan[] = await response.json();
+				console.info(
+					"Prestiti dell'utente loggato: ",
+					loggedUserItemsLoaned
+				);
+				dispatch(setLoansOfUser(loggedUserItemsLoaned));
 			} else {
 				throw new Error("Errore nel recupero dei risultati");
 			}
@@ -73,7 +77,7 @@ export const flagLoanAsReturned =
 				}
 			);
 			if (response.ok) {
-				const UpdatedLoanList: Loan[] = await response.json();
+				const UpdatedLoanList: ItemsEntity[] = await response.json();
 				console.info(
 					"Lista aggiornata con libro restituito: ",
 					UpdatedLoanList
