@@ -2,6 +2,7 @@ import { Button, Table } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../../Functions/hooks";
 import { useEffect } from "react";
 import {
+	fetchBookAtLibrarianDesk,
 	fetchMoveToDesk,
 	fetchReservedToBePicked,
 } from "../../../api/warehouse/warehouseFetches";
@@ -32,7 +33,9 @@ const IndexReservedToBePicked = () => {
 		}).then((result) => {
 			if (result.isConfirmed) {
 				fetchMoveToDesk(idItemsEntity);
-				navigate("/librarian");
+				dispatch(fetchBookAtLibrarianDesk()).then(() =>
+					navigate("/librarian")
+				);
 			}
 		});
 	};
@@ -91,7 +94,7 @@ const IndexReservedToBePicked = () => {
 										onClick={() =>
 											moveToDesk(item.idItemsEntity)
 										}>
-										Sposta
+										Ritira sul desk
 									</Button>
 								</td>
 							</tr>

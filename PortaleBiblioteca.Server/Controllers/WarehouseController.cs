@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PortaleBiblioteca.Server.Data;
 using PortaleBiblioteca.Server.Data.Models;
+
 namespace PortaleBiblioteca.Server.Controllers
 {
     [Route("api/[controller]")]
@@ -443,13 +444,13 @@ namespace PortaleBiblioteca.Server.Controllers
                         i.Book.Description,
                         i.Book.CoverImage
                     },
-                    User = new
+                    User = i.Loan != null ? new
                     {
                         i.Loan.User.IdUser,
                         i.Loan.User.FirstName,
                         i.Loan.User.LastName,
                         i.Loan.User.UserImage
-                    }
+                    } : null
 
                 })
                 .ToListAsync();
@@ -496,6 +497,58 @@ namespace PortaleBiblioteca.Server.Controllers
             await _context.SaveChangesAsync();
 
             return Ok(item);
+        }
+
+        // GET: api/Warehouse/Virtual
+        [HttpGet("Virtual")]
+        public async Task<IActionResult> GetVirtual()
+        {
+            var itemsEntities = await _context.Items
+                .Include(i => i.Shelf.Aisle)
+                .Include(i => i.Loan.User)
+                .Where(i =>
+                    i.Status == ItemsEntity.ItemsEntityStatus.CheckedOutForLoan)
+                .Select(i => new
+                {
+                    i.IdItemsEntity,
+                    i.IdLoan,
+                    i.Quantity,
+                    Status = i.Status.ToString(),
+                    Shelf = new
+                    {
+                        i.Shelf.IdShelf,
+                        ShelfHeight = i.Shelf.ShelfHeight.ToString(),
+                        i.Shelf.ShelfBay,
+                        i.Shelf.ShelfName,
+                        ShelfType = i.Shelf.ShelfType.ToString(),
+                    },
+                    Book = new
+                    {
+                        i.Book.IdBook,
+                        i.Book.Title,
+                        i.Book.Author,
+                        i.Book.ISBN,
+                        i.Book.Genre,
+                        i.Book.Description,
+                        i.Book.CoverImage
+                    },
+                    User = new
+                    {
+                        i.Loan.User.IdUser,
+                        i.Loan.User.FirstName,
+                        i.Loan.User.LastName,
+                        i.Loan.User.UserImage
+                    }
+
+                })
+                .ToListAsync();
+
+            if (itemsEntities == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(itemsEntities);
         }
 
     }

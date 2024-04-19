@@ -11,6 +11,7 @@ import {
 	setLibrarianDesk,
 	setReservedToBePicked,
 	setSourceMaxQuantity,
+	setVirtualShelves,
 } from "../../Redux/slicers/warehouseSlice";
 
 export const fetchAddToWarehouse =
@@ -353,3 +354,33 @@ export const fetchMoveToVirtualShelf = async (
 		console.error(error);
 	}
 };
+
+export const fetchAllItemsInVirtualShelf =
+	() => async (dispatch: AppDispatch) => {
+		try {
+			const response = await fetchWithAuth(
+				url + "api/Warehouse/Virtual",
+				{
+					method: "GET",
+					headers: {
+						"Content-Type": "application/json",
+					},
+				}
+			);
+
+			if (!response.ok) {
+				response.json().then((err) => {
+					Swal.fire({
+						title: `${err.message}`,
+						icon: "error",
+						footer: `Errore ${response.status}`,
+					});
+				});
+			} else {
+				const virtualShelfBooks: ItemsEntity[] = await response.json();
+				dispatch(setVirtualShelves(virtualShelfBooks));
+			}
+		} catch (error) {
+			console.error(error);
+		}
+	};

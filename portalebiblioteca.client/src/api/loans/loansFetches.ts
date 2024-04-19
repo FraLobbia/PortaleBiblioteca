@@ -61,7 +61,7 @@ export const fetchLoansByUserId =
 	};
 
 export const flagLoanAsReturned =
-	(idLoan: string) => async (dispatch: AppDispatch) => {
+	(idLoan: number) => async (dispatch: AppDispatch) => {
 		try {
 			const response = await fetchWithAuth(
 				url + "api/Loans/return/" + idLoan,

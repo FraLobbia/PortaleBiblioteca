@@ -132,9 +132,24 @@ namespace PortaleBiblioteca.Server.Controllers
                     }
                 }
 
+                var item = await _context.Items
+                    .Where(item => item.IdLoan == loan.IdLoan)
+                    .FirstOrDefaultAsync();
+
+                // return to "Available" status
+                // return to shelf 5001 (Librarian Desk)
+                // remove the loan id from the item
+                item.Status = ItemsEntity.ItemsEntityStatus.AtLibrarianDesk;
+                item.ChangeDate = DateTime.Now;
+                item.IdLoan = null;
+                item.IdShelf = 5001; // 5001 is the shelf id for "Librarian Desk"
+                _context.Entry(item).State = EntityState.Modified;
+
+                // flag the loan as returned
                 loan.Returned = true;
                 loan.ReturnDate = DateTime.Now;
                 _context.Entry(loan).State = EntityState.Modified;
+
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)

@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import BackButton from "../_miscellaneous/reusable/BackButton";
 import IndexReservedToBePicked from "./components/IndexReservedToBePicked";
 import IndexLibrarianDesk from "./components/IndexLibrarianDesk";
+import AllVirtualShelfIndex from "./components/AllVirtualShelfIndex";
 
 const LibrarianDeskDashboard = () => {
 	// define hooks
@@ -35,7 +36,7 @@ const LibrarianDeskDashboard = () => {
 					<IndexReservedToBePicked />
 				</Tab>
 				<Tab eventKey="Receive" title="Prestiti in corso">
-					<p>rgwergwe</p>
+					<AllVirtualShelfIndex />
 				</Tab>
 			</Tabs>
 		</Container>

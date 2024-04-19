@@ -13,6 +13,7 @@ interface warehouseState {
 	moveSource: string;
 	reservedToBePicked: ItemsEntity[];
 	librarianDesk: ItemsEntity[];
+	virtualShelves: ItemsEntity[];
 	sourceMaxQuantity: number;
 	moveSourceShelfId: number;
 }
@@ -25,6 +26,7 @@ const initialState: warehouseState = {
 	moveSource: "",
 	reservedToBePicked: [],
 	librarianDesk: [],
+	virtualShelves: [],
 	sourceMaxQuantity: 0,
 	moveSourceShelfId: 0,
 };
@@ -55,6 +57,9 @@ const warehouseSlice = createSlice({
 		setLibrarianDesk(state, action: { payload: ItemsEntity[] }) {
 			state.librarianDesk = action.payload;
 		},
+		setVirtualShelves(state, action: { payload: ItemsEntity[] }) {
+			state.virtualShelves = action.payload;
+		},
 		setSourceMaxQuantity(state, action: { payload: number }) {
 			state.sourceMaxQuantity = action.payload;
 		},
@@ -70,5 +75,6 @@ export const {
 	setSourceMaxQuantity,
 	setReservedToBePicked,
 	setLibrarianDesk,
+	setVirtualShelves,
 } = warehouseSlice.actions;
 export default warehouseSlice.reducer;
