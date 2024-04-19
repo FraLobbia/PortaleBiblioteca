@@ -78,7 +78,9 @@ const AllVirtualShelfIndex = () => {
 				<tbody className="text-center">
 					{virtualShelves.length <= 0 ? (
 						<tr>
-							<td colSpan={3}>Nessun libro da prendere</td>
+							<td colSpan={3}>
+								Nessun prestito attivo al momento
+							</td>
 						</tr>
 					) : (
 						virtualShelves

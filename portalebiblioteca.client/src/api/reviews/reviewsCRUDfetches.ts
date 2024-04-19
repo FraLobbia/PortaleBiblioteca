@@ -32,32 +32,35 @@ export const fetchReviewList = () => async (dispatch: AppDispatch) => {
 	}
 };
 
-export const createReviewFetch = async (review: Review) => {
-	try {
-		const response = await fetchWithAuth(url + "api/Reviews", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(review),
-		});
-		if (!response.ok) {
-			response.json().then((err) => {
-				Swal.fire({
-					title: `${err.message}`,
-					icon: "error",
-					footer: `Errore ${response.status}`,
+export const createReviewFetch =
+	(review: Review) => async (dispatch: AppDispatch) => {
+		try {
+			const response = await fetchWithAuth(url + "api/Reviews", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(review),
+			});
+			if (!response.ok) {
+				response.json().then((err) => {
+					Swal.fire({
+						title: `${err.message}`,
+						icon: "error",
+						footer: `Errore ${response.status}`,
+					});
 				});
-			});
-		} else {
-			Swal.fire({
-				title: "Recensione aggiunta!",
-				text: "La tua recensione è stata postata!",
-				icon: "success",
-				timer: 1500,
-			});
+			} else {
+				Swal.fire({
+					title: "Recensione aggiunta!",
+					text: "La tua recensione è stata postata!",
+					icon: "success",
+					timer: 1500,
+				});
+				const updatedReviewsList: Review[] = await response.json();
+				dispatch(setReviews(updatedReviewsList));
+			}
+		} catch (error) {
+			console.error(error);
 		}
-	} catch (error) {
-		console.error(error);
-	}
-};
+	};

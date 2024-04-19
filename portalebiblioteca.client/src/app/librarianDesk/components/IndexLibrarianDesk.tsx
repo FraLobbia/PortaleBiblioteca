@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 import { setMoveSource } from "../../../Redux/slicers/warehouseSlice";
+import { ItemsEntity } from "../../../interfaces/warehouse.interface";
 
 const IndexLibrarianDesk = () => {
 	// define hooks
@@ -51,6 +52,19 @@ const IndexLibrarianDesk = () => {
 				item.user?.lastName.toLowerCase().includes(search.toLowerCase())
 		)
 		.filter((item) => item.user === null);
+
+	// Raggruppa gli elementi in un oggetto in cui
+	// la chiave è il nome dello scaffale
+	// e il valore è un array di ItemsEntity
+	type GroupedItems = { [key: string]: ItemsEntity[] };
+	const groupedItems: GroupedItems = itemsWithoutLoan.reduce((acc, item) => {
+		const bookData = item.book.title + " " + item.book.author.name;
+		if (!acc[bookData]) {
+			acc[bookData] = [];
+		}
+		acc[bookData].push(item);
+		return acc;
+	}, {} as GroupedItems);
 
 	useEffect(() => {
 		dispatch(fetchBookAtLibrarianDesk());
@@ -156,7 +170,7 @@ const IndexLibrarianDesk = () => {
 				<thead className="container text-center">
 					<tr className="row-cols-4 m-0">
 						<th>Libro</th>
-
+						<th>Quantità</th>
 						<th></th>
 					</tr>
 				</thead>
@@ -168,46 +182,60 @@ const IndexLibrarianDesk = () => {
 							</td>
 						</tr>
 					) : (
-						itemsWithoutLoan.map((item, index) => (
-							<tr key={index}>
-								<td>
-									<Link
-										to={`/catalogo/details/${item.book.idBook}`}
-										className="d-flex align-items-center gap-2 justify-content-center">
-										<img
-											className="d-none d-md-block"
-											src={item.book.coverImage}
-											height={50}
-											alt="copertina libro"
-										/>
-										<div>
-											<p>{item.book.title} </p>
-											<p>{item.book.author.name}</p>
-										</div>
-									</Link>
-								</td>
-
-								<td>
-									<Link
-										to={
-											"/warehouse/move/" +
-											item.book.idBook
-										}>
-										<Button
-											onClick={() =>
-												dispatch(
-													setMoveSource([
-														item.shelf.shelfName,
-														item.shelf.idShelf,
-													])
-												)
+						groupedItems &&
+						Object.keys(groupedItems).map((bookData, index) => {
+							const items = groupedItems[bookData];
+							const firstItem = items[0];
+							return (
+								<tr key={index} className="row-cols-4 m-0">
+									<td>
+										<Link
+											to={`/catalogo/details/${firstItem.book.idBook}`}
+											className="d-flex align-items-center gap-2 justify-content-center">
+											<img
+												className="d-none d-md-block"
+												src={firstItem.book.coverImage}
+												height={50}
+												alt="copertina libro"
+											/>
+											<div>
+												<p>{firstItem.book.title} </p>
+												<p>
+													{firstItem.book.author.name}
+												</p>
+											</div>
+										</Link>
+									</td>
+									<td>
+										{items.reduce(
+											(acc, item) => acc + item.quantity,
+											0
+										)}
+									</td>
+									<td>
+										<Link
+											to={
+												"/warehouse/move/" +
+												firstItem.book.idBook
 											}>
-											Sposta in corsia
-										</Button>
-									</Link>
-								</td>
-							</tr>
-						))
+											<Button
+												onClick={() =>
+													dispatch(
+														setMoveSource([
+															firstItem.shelf
+																.shelfName,
+															firstItem.shelf
+																.idShelf,
+														])
+													)
+												}>
+												Sposta in corsia
+											</Button>
+										</Link>
+									</td>
+								</tr>
+							);
+						})
 					)}
 				</tbody>
 			</Table>

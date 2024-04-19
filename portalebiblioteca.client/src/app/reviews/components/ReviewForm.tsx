@@ -1,5 +1,5 @@
 import { Card, Container, Form } from "react-bootstrap";
-import { useAppSelector } from "../../../Functions/hooks";
+import { useAppDispatch, useAppSelector } from "../../../Functions/hooks";
 import { Review } from "../../../interfaces/review.interface";
 import { useState } from "react";
 import { createReviewFetch } from "../../../api/reviews/reviewsCRUDfetches";
@@ -12,6 +12,7 @@ interface ReviewFormProps {
 const ReviewForm = ({ idBook }: ReviewFormProps) => {
 	// define hooks
 	const navigate = useNavigate();
+	const dispatch = useAppDispatch();
 
 	// variables
 	const [reviewTitle, setReviewTitle] = useState<string>("");
@@ -33,8 +34,9 @@ const ReviewForm = ({ idBook }: ReviewFormProps) => {
 			reviewTitle,
 			reviewBody,
 		};
-		createReviewFetch(newReview);
-		navigate("/recensioni");
+		dispatch(createReviewFetch(newReview)).then(() => {
+			navigate("/recensioni");
+		});
 	};
 	return (
 		<Card className="border border-3 border-mattone p-3">

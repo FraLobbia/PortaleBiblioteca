@@ -107,7 +107,36 @@ namespace PortaleBiblioteca.Server.Controllers
             _context.Reviews.Add(review);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetReview", new { id = review.IdReview }, review);
+            var reviews = await _context.Reviews
+                .Include(r => r.Book)
+                .Include(r => r.User)
+                .Select(r => new ReviewDTO
+                {
+                    IdReview = r.IdReview,
+                    IdBook = r.IdBook,
+                    IdUser = r.IdUser,
+                    ReviewTitle = r.ReviewTitle,
+                    ReviewDate = r.ReviewDate,
+                    ReviewBody = r.ReviewBody,
+                    Book = new Book
+                    {
+                        IdBook = r.Book.IdBook,
+                        Title = r.Book.Title,
+                        Author = r.Book.Author,
+                        Genre = r.Book.Genre,
+                        CoverImage = r.Book.CoverImage
+
+                    },
+                    User = new User
+                    {
+                        IdUser = r.User.IdUser,
+                        FirstName = r.User.FirstName,
+                        UserImage = r.User.UserImage
+                    }
+                })
+                .ToListAsync();
+
+            return CreatedAtAction("GetReview", new { id = review.IdReview }, reviews);
         }
 
         // DELETE: api/Reviews/5
