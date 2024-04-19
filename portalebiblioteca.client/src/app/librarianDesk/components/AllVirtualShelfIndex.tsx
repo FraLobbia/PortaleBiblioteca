@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../Functions/hooks";
-import { fetchAllItemsInVirtualShelf } from "../../../api/warehouse/warehouseFetches";
+import {
+	fetchAllItemsInVirtualShelf,
+	fetchBookAtLibrarianDesk,
+} from "../../../api/warehouse/warehouseFetches";
 import { Button, Form, Table } from "react-bootstrap";
 import { flagLoanAsReturned } from "../../../api/loans/loansFetches";
 import Swal from "sweetalert2";
@@ -42,7 +45,9 @@ const AllVirtualShelfIndex = () => {
 		}).then((result) => {
 			if (result.isConfirmed) {
 				dispatch(flagLoanAsReturned(idLoan)).then(() => {
-					dispatch(fetchAllItemsInVirtualShelf());
+					dispatch(fetchAllItemsInVirtualShelf()).then(() =>
+						dispatch(fetchBookAtLibrarianDesk())
+					);
 				});
 			}
 		});

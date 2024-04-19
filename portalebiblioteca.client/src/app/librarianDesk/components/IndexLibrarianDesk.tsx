@@ -2,6 +2,7 @@ import { Button, Form, Table } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../../Functions/hooks";
 import { useEffect, useState } from "react";
 import {
+	fetchAllItemsInVirtualShelf,
 	fetchBookAtLibrarianDesk,
 	fetchMoveToVirtualShelf,
 } from "../../../api/warehouse/warehouseFetches";
@@ -64,8 +65,10 @@ const IndexLibrarianDesk = () => {
 			cancelButtonText: `No`,
 		}).then((result) => {
 			if (result.isConfirmed) {
-				fetchMoveToVirtualShelf(IdItemsEntityToVirtual);
-				navigate("/librarian?tab=Desk");
+				fetchMoveToVirtualShelf(IdItemsEntityToVirtual)
+					.then(() => dispatch(fetchAllItemsInVirtualShelf()))
+					.then(() => dispatch(fetchBookAtLibrarianDesk()))
+					.then(() => navigate("/librarian?tab=Desk"));
 			}
 		});
 	};

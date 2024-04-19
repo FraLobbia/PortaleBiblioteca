@@ -6,13 +6,11 @@ import {
 	fetchMoveToDesk,
 	fetchReservedToBePicked,
 } from "../../../api/warehouse/warehouseFetches";
-import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const IndexReservedToBePicked = () => {
 	// define hooks
 	const dispatch = useAppDispatch();
-	const navigate = useNavigate();
 
 	// store variables
 	const { reservedToBePicked } = useAppSelector(
@@ -32,13 +30,15 @@ const IndexReservedToBePicked = () => {
 			cancelButtonText: `No`,
 		}).then((result) => {
 			if (result.isConfirmed) {
-				fetchMoveToDesk(idItemsEntity);
-				dispatch(fetchBookAtLibrarianDesk()).then(() =>
-					navigate("/librarian")
+				fetchMoveToDesk(idItemsEntity).then(() =>
+					dispatch(fetchReservedToBePicked()).then(() =>
+						dispatch(fetchBookAtLibrarianDesk())
+					)
 				);
 			}
 		});
 	};
+
 	return (
 		<>
 			<h3>Inventario</h3>
@@ -94,7 +94,7 @@ const IndexReservedToBePicked = () => {
 										onClick={() =>
 											moveToDesk(item.idItemsEntity)
 										}>
-										Ritira sul desk
+										Riponi al desk
 									</Button>
 								</td>
 							</tr>

@@ -180,6 +180,7 @@ namespace PortaleBiblioteca.Server.Controllers
             }
 
             return Ok(await _context.Loans
+                    .Include(loan => loan.Book)
                     .Where(loan => loan.IdUser == user.IdUser)
                     .Select(loan => new
                     {
@@ -190,14 +191,14 @@ namespace PortaleBiblioteca.Server.Controllers
                         loan.IdUser,
                         Book = new
                         {
-                            loan.Item.Book.IdBook,
-                            loan.Item.Book.Author,
-                            loan.Item.Book.Title,
-                            loan.Item.Book.Description,
-                            loan.Item.Book.IdGenre,
-                            loan.Item.Book.PublicationDate,
-                            loan.Item.Book.ISBN,
-                            loan.Item.Book.CoverImage,
+                            loan.Book.IdBook,
+                            loan.Book.Author,
+                            loan.Book.Title,
+                            loan.Book.Description,
+                            loan.Book.IdGenre,
+                            loan.Book.PublicationDate,
+                            loan.Book.ISBN,
+                            loan.Book.CoverImage,
                         }
                     })
                     .ToListAsync()
@@ -306,7 +307,7 @@ namespace PortaleBiblioteca.Server.Controllers
             }
 
             return StatusCode(201, await _context.Loans
-                    .Include(loan => loan.Item)
+                    .Include(loan => loan.Book)
                     .Where(loan => loan.IdUser == user.IdUser)
                     .Select(loan => new
                     {
@@ -317,14 +318,14 @@ namespace PortaleBiblioteca.Server.Controllers
                         loan.IdUser,
                         Book = new
                         {
-                            loan.Item.Book.IdBook,
-                            loan.Item.Book.Author,
-                            loan.Item.Book.Title,
-                            loan.Item.Book.Description,
-                            loan.Item.Book.IdGenre,
-                            loan.Item.Book.PublicationDate,
-                            loan.Item.Book.ISBN,
-                            loan.Item.Book.CoverImage,
+                            loan.Book.IdBook,
+                            loan.Book.Author,
+                            loan.Book.Title,
+                            loan.Book.Description,
+                            loan.Book.IdGenre,
+                            loan.Book.PublicationDate,
+                            loan.Book.ISBN,
+                            loan.Book.CoverImage,
                         }
                     })
                     .ToListAsync()

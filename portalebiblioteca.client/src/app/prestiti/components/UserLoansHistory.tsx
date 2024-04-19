@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { formatData, howManyDaysAgo } from "../../../Functions/utility";
 import { useAppSelector } from "../../../Functions/hooks";
 import { Loan } from "../../../interfaces/loans.interface";
+import { Table } from "react-bootstrap";
 
 const UserLoansHistory = () => {
 	// state variables
@@ -39,7 +40,12 @@ const UserLoansHistory = () => {
 							}
 						/>
 					</div>
-					<table className="table text-center">
+					<Table
+						striped
+						hover
+						bordered
+						responsive
+						className="text-center">
 						<thead>
 							<tr>
 								<th className="text-start">Titolo del libro</th>
@@ -119,7 +125,7 @@ const UserLoansHistory = () => {
 								</tr>
 							))}
 						</tbody>
-					</table>
+					</Table>
 				</>
 			) : (
 				<>

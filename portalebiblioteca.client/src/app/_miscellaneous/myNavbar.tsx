@@ -51,7 +51,7 @@ const MyNavbar = () => {
 					</NavbarBrand>
 				</Nav.Link>
 				<Navbar.Toggle />
-				<Navbar.Collapse>
+				<Navbar.Collapse className="justify-content-between">
 					<Nav className="align-items-center">
 						<Nav.Link as={NavLink} eventKey="13" to="/">
 							Home
