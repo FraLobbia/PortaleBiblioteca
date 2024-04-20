@@ -3,7 +3,7 @@ import { Loan } from "./loans.interface";
 import { Review } from "./review.interface";
 
 export interface Author {
-	idAuthor: number;
+	idAuthor?: number | null;
 	name: string;
 	biography: string;
 	books?: Book[];

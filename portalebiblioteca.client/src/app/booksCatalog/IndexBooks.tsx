@@ -81,6 +81,7 @@ const IndexBooks = () => {
 								placeholder="Cerca un libro per titolo o autore"
 								className="mb-3"
 								value={search}
+								onSubmit={(e) => e.preventDefault()}
 								onChange={(e) => setSearch(e.target.value)}
 							/>
 						</Form>
@@ -89,13 +90,13 @@ const IndexBooks = () => {
 								// 1° filter: exclude by genre
 								.filter(
 									(book) =>
-										!GenreToExclude.includes(book.idGenre)
+										!GenreToExclude?.includes(book.idGenre)
 								)
 								// 2° filter: exclude by author
 								.filter(
 									(book) =>
-										!AuthorsToExclude.includes(
-											book.author.idAuthor
+										!AuthorsToExclude?.includes(
+											book.author.idAuthor as number
 										)
 								)
 								// 3° filter: search input in title and author

@@ -94,7 +94,7 @@ const IndexReservedToBePicked = () => {
 										onClick={() =>
 											moveToDesk(item.idItemsEntity)
 										}>
-										Riponi al desk
+										Prendi e porta al desk
 									</Button>
 								</td>
 							</tr>

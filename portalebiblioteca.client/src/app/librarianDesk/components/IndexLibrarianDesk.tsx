@@ -164,7 +164,7 @@ const IndexLibrarianDesk = () => {
 
 			<hr />
 
-			<h2>Libri da riporre in corsia</h2>
+			<h2>Libri restituiti da riporre in corsia</h2>
 
 			<Table striped bordered hover responsive>
 				<thead className="container text-center">

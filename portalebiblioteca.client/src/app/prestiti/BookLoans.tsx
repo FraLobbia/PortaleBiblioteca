@@ -66,6 +66,7 @@ const BookLoans = () => {
 							<tr>
 								<th>Data</th>
 								<th>Utente</th>
+								<th>Locazione</th>
 								<th></th>
 							</tr>
 						</thead>
@@ -85,6 +86,7 @@ const BookLoans = () => {
 											{loan.user?.lastName}
 										</div>
 									</td>
+									<td>{loan.item?.shelf.shelfName}</td>
 									<td>
 										<Button
 											variant="primary"

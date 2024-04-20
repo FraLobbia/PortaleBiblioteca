@@ -75,6 +75,9 @@ const CreateBook = () => {
 						))}
 					</Form.Select>
 				</Form.Group>
+				<Link to="/autori/add" className="btn btn-link p-0 mb-3">
+					Autore non presente? Clicca qui per aggiungerlo
+				</Link>
 
 				<Form.Group className="mb-3">
 					<Form.Label>Titolo</Form.Label>

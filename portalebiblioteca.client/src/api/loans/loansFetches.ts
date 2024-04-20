@@ -4,7 +4,6 @@ import { Loan, loanObjForm } from "../../interfaces/loans.interface";
 import { AppDispatch } from "../../Redux/Store/store";
 import { fetchWithAuth } from "../interceptor";
 import { setLoansOfBook, setLoansOfUser } from "../../Redux/slicers/loanSlice";
-import { ItemsEntity } from "../../interfaces/warehouse.interface";
 
 export const addLoanToUser =
 	(loanObj: loanObjForm) => async (dispatch: AppDispatch) => {
@@ -25,8 +24,8 @@ export const addLoanToUser =
 					});
 				});
 			} else {
-				const UpdatedItemsLoaned: ItemsEntity[] = await response.json();
-				dispatch(setLoansOfUser(UpdatedItemsLoaned));
+				const UpdatedLoanList: Loan[] = await response.json();
+				dispatch(setLoansOfUser(UpdatedLoanList));
 				Swal.fire({
 					title: "Il libro verrà messo da parte!",
 					text: "Passa alla reception per ritirare il libro!",
@@ -40,7 +39,7 @@ export const addLoanToUser =
 	};
 
 export const fetchLoansByUserId =
-	(id: string) => async (dispatch: AppDispatch) => {
+	(id: number) => async (dispatch: AppDispatch) => {
 		try {
 			const response = await fetchWithAuth(url + "api/Loans/user/" + id, {
 				headers: {
@@ -65,7 +64,7 @@ export const fetchLoansByUserId =
 	};
 
 export const flagLoanAsReturned =
-	(idLoan: number) => async (dispatch: AppDispatch) => {
+	(idLoan: number | string) => async (dispatch: AppDispatch) => {
 		try {
 			const response = await fetchWithAuth(
 				url + "api/Loans/return/" + idLoan,
@@ -77,7 +76,7 @@ export const flagLoanAsReturned =
 				}
 			);
 			if (response.ok) {
-				const UpdatedLoanList: ItemsEntity[] = await response.json();
+				const UpdatedLoanList: Loan[] = await response.json();
 				console.info(
 					"Lista aggiornata con libro restituito: ",
 					UpdatedLoanList

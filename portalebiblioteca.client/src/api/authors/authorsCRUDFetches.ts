@@ -5,7 +5,7 @@ import { AppDispatch } from "../../Redux/Store/store";
 import { Author } from "../../interfaces/book.interface";
 import { setAuthors, setCurrentAuthor } from "../../Redux/slicers/authorSlice";
 
-export const createGenreFetch = async (Author: Author) => {
+export const createAuthorFetch = async (Author: Author) => {
 	try {
 		const response = await fetchWithAuth(url + "api/authors/add", {
 			method: "POST",
@@ -24,8 +24,8 @@ export const createGenreFetch = async (Author: Author) => {
 			});
 		} else {
 			Swal.fire({
-				title: "Genere aggiunto!",
-				text: "Il genere è stato aggiunto correttamente!",
+				title: "Autore aggiunto!",
+				text: "L'autore è stato aggiunto correttamente!",
 				icon: "success",
 				timer: 1500,
 			});
@@ -53,7 +53,6 @@ export const fetchAuthors = () => async (dispatch: AppDispatch) => {
 			});
 		} else {
 			const authors: Author[] = await response.json();
-			console.log("Generi: ", authors);
 			dispatch(setAuthors(authors));
 		}
 	} catch (error) {
@@ -61,7 +60,7 @@ export const fetchAuthors = () => async (dispatch: AppDispatch) => {
 	}
 };
 
-export const editGenreFetch = async (Author: Author) => {
+export const editAuthorFetch = async (Author: Author) => {
 	try {
 		const response = await fetchWithAuth(
 			url + "api/authors/" + Author.idAuthor,
@@ -83,8 +82,8 @@ export const editGenreFetch = async (Author: Author) => {
 			});
 		} else {
 			Swal.fire({
-				title: "Genere modificato!",
-				text: "Il genere è stato modificato correttamente!",
+				title: "Autore modificato!",
+				text: "L'autore è stato modificato correttamente!",
 				icon: "success",
 				timer: 1500,
 			});
@@ -124,7 +123,7 @@ export const deleteAuthorFetch = async (idAuthor: number) => {
 };
 
 export const fetchAuthorById =
-	(idAuthor: string) => async (dispatch: AppDispatch) => {
+	(idAuthor: number | string) => async (dispatch: AppDispatch) => {
 		try {
 			const response = await fetchWithAuth(
 				url + "api/authors/" + idAuthor,

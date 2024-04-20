@@ -12,6 +12,7 @@ import Swal from "sweetalert2";
 import { fetchGenres } from "../../../api/genres/genresCRUDFetches";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { fetchAuthors } from "../../../api/authors/authorsCRUDFetches";
 
 const FormEditBook = () => {
 	// define hooks
@@ -75,16 +76,17 @@ const FormEditBook = () => {
 	useEffect(() => {
 		if (id) dispatch(fetchBookById(id));
 		dispatch(fetchGenres());
+		dispatch(fetchAuthors());
 	}, []);
 
 	// what happens when the component is mount and every time the book changes
 	useEffect(() => {
 		if (book) {
-			setAutoreID(book.author.idAuthor);
+			setAutoreID(book.author.idAuthor || 0);
 			setTitolo(book.title);
 			setDescrizione(book.description || "");
 			setGenere(book.idGenre || 0);
-			//setDataPubblicazione(book.publicationDate || new Date());
+			setDataPubblicazione(book.publicationDate || new Date());
 			setIsbn(book.isbn || "");
 			setImmagineCopertina(book.coverImage || "");
 		}
@@ -117,12 +119,18 @@ const FormEditBook = () => {
 								{authors.map((author) => (
 									<option
 										key={"author-" + author.idAuthor}
-										value={author.idAuthor}>
+										value={author.idAuthor as number}>
 										{author.name}
 									</option>
 								))}
 							</Form.Select>
 						</Form.Group>
+						<Link
+							to="/autori/add"
+							className="btn btn-link p-0 mb-3">
+							Autore non presente? Clicca qui per aggiungerlo
+						</Link>
+
 						<Form.Group className="mb-3">
 							<Form.Label>Titolo</Form.Label>
 							<Form.Control
@@ -175,7 +183,7 @@ const FormEditBook = () => {
 								type="date"
 								value={
 									dataPubblicazione
-										? dataPubblicazione
+										? new Date(dataPubblicazione)
 												.toISOString()
 												.split("T")[0]
 										: ""

@@ -14,20 +14,12 @@ const UserLoansDashboard = () => {
 	const { user } = useAppSelector(
 		(state) => state.profileState.loggedProfile
 	);
-	// const { loansCurrentUser } = useAppSelector((state) => state.loanState);
-	// // separate active loans from the total loans
-	// const activeLoans: ItemsEntity[] = (() => {
-	// 	const loans = loansCurrentUser.filter(
-	// 		(item: ItemsEntity) => !item.loan?.returned
-	// 	);
-	// 	return loans;
-	// })();
 
 	// What happens when the component mounts:
 	// fetch the loans of the user
 	useEffect(() => {
 		if (user) {
-			dispatch(fetchLoansByUserId(user.idUser.toString()));
+			dispatch(fetchLoansByUserId(user.idUser));
 		}
 	}, [user]);
 

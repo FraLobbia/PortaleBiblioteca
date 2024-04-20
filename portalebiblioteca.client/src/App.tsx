@@ -8,9 +8,7 @@ import SignUpPage from "./app/user/SignUpPage";
 import LoginPage from "./app/user/LoginPage";
 import EditProfile from "./app/user/EditProfile";
 import NotFound_404 from "./app/_miscellaneous/NotFound_404";
-import FormAddGenres from "./app/genres/CreateGenre";
 import IndexGenres from "./app/genres/IndexGenres";
-import FormEditGenres from "./app/genres/EditGenre";
 import { setDarkMode } from "./Functions/utility";
 import MyFooter from "./app/_miscellaneous/myFooter";
 import IndexAuthors from "./app/authors/IndexAuthors";
@@ -23,6 +21,8 @@ import CreateGenres from "./app/genres/CreateGenre";
 import EditGenre from "./app/genres/EditGenre";
 import LibrarianDeskDashboard from "./app/librarianDesk/LibrarianDeskDashboard";
 import UserLoansDashboard from "./app/prestiti/UserLoansDashboard";
+import CreateAuthors from "./app/authors/CreateAuthors";
+import EditAuthors from "./app/authors/EditAuthors";
 
 function App() {
 	const selectedTheme = localStorage.getItem("selectedTheme");
@@ -55,14 +55,14 @@ function App() {
 
 					<Route path="/autori">
 						<Route index element={<IndexAuthors />} />
-						<Route path="add" element={<FormAddGenres />} />
-						<Route path="edit/:id" element={<FormEditGenres />} />
+						<Route path="add" element={<CreateAuthors />} />
+						<Route path="edit/:id" element={<EditAuthors />} />
 					</Route>
 
 					<Route path="/recensioni">
 						<Route index element={<IndexReviews />} />
 						<Route path=":id" element={<BookReviews />} />
-						<Route path="edit/:id" element={<FormEditGenres />} />
+						<Route path="edit/:id" element={<EditGenre />} />
 					</Route>
 
 					<Route path="/user">

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Offcanvas } from "react-bootstrap";
+import { Button, Form, Offcanvas } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../../Functions/hooks";
 import { Genre } from "../../../interfaces/genre.interface";
 import { fetchGenres } from "../../../api/genres/genresCRUDFetches";
@@ -37,14 +37,14 @@ const Sidebar = () => {
 
 	// function to handle the GENRE choice and update the store redux
 	const handleGenreChoice = (idGenre: number): void => {
-		if (!GenreToExclude.includes(idGenre)) {
+		if (!GenreToExclude?.includes(idGenre)) {
 			// if is NOT in the list, dispatch the list plus the genre
 			dispatch(setGenreToExclude([...GenreToExclude, idGenre]));
 		} else {
 			// if is in the list, dispatch the list without the genre
 			dispatch(
 				setGenreToExclude(
-					GenreToExclude.filter((genre) => genre !== idGenre)
+					GenreToExclude?.filter((genre) => genre !== idGenre)
 				)
 			);
 		}
@@ -82,6 +82,7 @@ const Sidebar = () => {
 				</Offcanvas.Header>
 				<Offcanvas.Body className="d-flex flex-column gap-2 mt-5">
 					<h3 className="mt-5">Generi</h3>
+
 					{genres &&
 						genres.map((genre: Genre) => (
 							<div key={"genre-" + genre.idGenre}>
@@ -95,7 +96,9 @@ const Sidebar = () => {
 											: ""
 									}
 									onChange={() =>
-										handleGenreChoice(genre.idGenre)
+										handleGenreChoice(
+											genre.idGenre as number
+										)
 									}
 								/>
 								<label
@@ -142,7 +145,7 @@ const Sidebar = () => {
 										}
 										onChange={() =>
 											handleAuthorChoice(
-												book.author.idAuthor
+												book.author.idAuthor as number
 											)
 										}
 									/>

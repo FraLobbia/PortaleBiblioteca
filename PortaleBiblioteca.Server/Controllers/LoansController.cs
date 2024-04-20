@@ -105,6 +105,8 @@ namespace PortaleBiblioteca.Server.Controllers
 
             return Ok(await _context.Loans
                     .Include(loan => loan.User)
+                    .Include(loan => loan.Item)
+                    .ThenInclude(item => item.Shelf.Aisle)
                     .Where(loan => loan.Item.IdBook == id
                         && !loan.Returned)
                     .Select(loan => new
@@ -120,7 +122,21 @@ namespace PortaleBiblioteca.Server.Controllers
                             loan.User.FirstName,
                             loan.User.LastName,
                             loan.User.UserImage
+                        },
+                        Item = new
+                        {
+                            loan.Item.IdItemsEntity,
+                            loan.Item.IdBook,
+                            loan.Item.Status,
+                            loan.Item.ChangeDate,
+                            loan.Item.IdShelf,
+                            Shelf = new
+                            {
+                                loan.Item.Shelf.IdShelf,
+                                loan.Item.Shelf.ShelfName,
+                            }
                         }
+
                     })
                     .ToListAsync()
             );
