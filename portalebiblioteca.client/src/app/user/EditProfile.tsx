@@ -6,6 +6,7 @@ import { fetchEditUser } from "../../api/users/userFetches";
 import { UserToEdit } from "../../interfaces/profile.interface";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
+import BackButton from "../_miscellaneous/reusable/BackButton";
 
 const EditProfile = () => {
 	const dispatch = useAppDispatch();
@@ -47,9 +48,10 @@ const EditProfile = () => {
 	}, [user]);
 
 	return (
-		<Container>
-			<Form onSubmit={handleSignUp}>
-				<Row className="justify-content-center">
+		<Form onSubmit={handleSignUp}>
+			<Container>
+				<BackButton />
+				<Row>
 					<h1>Modifica il tuo profilo</h1>
 					<Col xs={12}>
 						<Form.Group className="mb-3">
@@ -138,8 +140,8 @@ const EditProfile = () => {
 						</Button>
 					</Col>
 				</Row>
-			</Form>
-		</Container>
+			</Container>
+		</Form>
 	);
 };
 

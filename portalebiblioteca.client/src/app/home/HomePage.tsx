@@ -1,6 +1,6 @@
 import {
 	faBook,
-	faCalendarDay,
+	faCompass,
 	faFeather,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -34,7 +34,7 @@ const HomePage = () => {
 		infinite: true,
 		autoplay: true,
 		speed: 500,
-		slidesToShow: 16,
+		slidesToShow: 12,
 		slidesToScroll: 4,
 		nextArrow: <NextArrow opacity="1" />,
 		prevArrow: <PrevArrow opacity="1" />,
@@ -73,6 +73,7 @@ const HomePage = () => {
 		dots: false,
 		infinite: true,
 		speed: 500,
+		adaptiveHeight: true, // to avoid clone
 		slidesToShow: 1,
 		slidesToScroll: 1,
 		nextArrow: <NextArrow opacity="1" />,
@@ -89,7 +90,7 @@ const HomePage = () => {
 	return (
 		<div className="home-page container">
 			<header>
-				<h1 className="text-center display-2">
+				<h1 className="text-center display-2 mb-0">
 					Benvenuti nella Biblioteca del <br /> Castello di Quinto
 				</h1>
 			</header>
@@ -103,13 +104,13 @@ const HomePage = () => {
 				</Col>
 				<Col md={6}>
 					<section className="collections">
-						<h2 className="mt-4">Le nostre collezioni</h2>
-						<p className="pb-1">
+						<h2 className="mt-4 text-end">Le nostre collezioni</h2>
+						<p className="pb-1 text-end">
 							Esplora le nostre collezioni di libri, suddivise per
 							genere e autore. Oppure leggi le recensioni dei
 							nostri utenti.
 						</p>
-						<div className="d-flex gap-2 flex-wrap">
+						<div className="d-flex gap-2 flex-wrap justify-content-end">
 							<Link
 								to="/catalogo"
 								className="btn btn-mattone shadow">
@@ -126,7 +127,8 @@ const HomePage = () => {
 							</Link>
 						</div>
 					</section>
-					<section className="section services">
+
+					<section>
 						<h2 className="mt-4">I nostri servizi</h2>
 						<p className="pb-1">
 							Esplore le ricchezze della biblioteca: dal prestito
@@ -134,16 +136,18 @@ const HomePage = () => {
 							un mondo di conoscenza e avventura letteraria!
 						</p>
 						<Link to="/features" className="btn btn-mattone shadow">
-							<FontAwesomeIcon icon={faCalendarDay} />
+							<FontAwesomeIcon icon={faCompass} />
 							<span className="ms-2">Che cosa facciamo</span>
 						</Link>
 					</section>
 				</Col>
 			</main>
+
 			<hr />
+
 			<section id="potrebbe-interessarti">
 				<h2>Potrebbe interessarti...</h2>
-				<Slider className="my-3" {...settingsSlider}>
+				<Slider className="my-3 px-5" {...settingsSlider}>
 					{books.map((book) => (
 						<Link
 							to={"/catalogo/details/" + book.idBook}
@@ -160,20 +164,30 @@ const HomePage = () => {
 
 			<hr />
 
-			<section id="ituoiprestiti">
+			<section id="lascia-una-recensione">
 				{loansCurrentUser.length ? (
 					<>
-						<h2>Lascia una recensione per i tuoi libri letti</h2>
+						<h2 className="text-end">
+							...lasciare una recensione per un libro che hai
+							letto di recente
+						</h2>
 						<Slider className="my-3" {...settingsSliderLoans}>
 							{loansCurrentUser.map((loan: Loan) => (
 								<div
-									className="d-flex flex-column flex-md-row justify-content-around align-items-center gap-3"
+									className="px-5 d-flex flex-column flex-md-row justify-content-around align-items-center gap-3"
 									key={"loan-" + loan.book.idBook}>
-									<img
-										src={loan.book.coverImage}
-										alt={loan.book.title}
-										className="img-thumbnail border-0"
-									/>
+									<Link
+										to={
+											"/catalogo/details/" +
+											loan.book.idBook
+										}>
+										<img
+											src={loan.book.coverImage}
+											alt={loan.book.title}
+											width={200}
+											className="img-thumbnail border-0"
+										/>
+									</Link>
 									<div className="flex-grow-1">
 										<NewReview book={loan.book} />
 									</div>

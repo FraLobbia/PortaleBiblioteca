@@ -34,8 +34,8 @@ const BookReviews = () => {
 				to={"/catalogo/details/" + currentBook?.idBook}
 				className="text-decoration-none">
 				<h1 className="alert-dark alert shadow">
-					<div className="alert alert-dark border-5 border shadow">
-						<div className="justify-content-center d-flex flex-column flex-sm-row align-items-center gap-3">
+					<div className="alert-dark alert border-5 border shadow">
+						<div className="justify-content-center px-5 d-flex flex-column flex-sm-row align-items-center gap-3">
 							<img
 								className="mx-auto img-thumbnail border-0 d-block"
 								src={currentBook?.coverImage}

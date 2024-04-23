@@ -13,11 +13,12 @@ function NextArrow({
 }: NextArrowProps) {
 	return (
 		<div
-			className={className}
+			className={className + " py-3 align-content-center"}
 			style={{
 				...style,
 				display: "block",
 				transform: "scale(3)",
+				marginTop: "-20px",
 				opacity: opacity,
 				marginRight: "3rem",
 				zIndex: "3",
