@@ -25,6 +25,8 @@ const Sidebar = () => {
 
 	// variables
 	const [show, setShow] = useState(false);
+	const [buttonGenText, setButtonGenText] = useState("Deseleziona tutti");
+	const [buttonAutText, setButtonAutText] = useState("Deseleziona tutti");
 
 	// functions to handle the offcanvas
 	const handleClose = () => setShow(false);
@@ -65,6 +67,38 @@ const Sidebar = () => {
 		}
 	};
 
+	// function to handle the select all genres button
+	const handleSelectAllGenres = () => {
+		if (buttonGenText === "Seleziona tutti") {
+			dispatch(setGenreToExclude([]));
+			setButtonGenText("Deseleziona tutti");
+			return;
+		} else {
+			const deselectAllGenres = [] as number[];
+			books.forEach((book: Book) => {
+				deselectAllGenres.push(book.idGenre);
+			});
+			dispatch(setGenreToExclude(deselectAllGenres));
+			setButtonGenText("Seleziona tutti");
+		}
+	};
+
+	// function to handle the select all authors button
+	const handleSelectAllAuthors = () => {
+		if (buttonAutText === "Seleziona tutti") {
+			dispatch(setAuthorsToExclude([]));
+			setButtonAutText("Deseleziona tutti");
+			return;
+		} else {
+			const deselectAllAuthors = [] as number[];
+			books.forEach((book: Book) => {
+				deselectAllAuthors.push(book.author.idAuthor as number);
+			});
+			dispatch(setAuthorsToExclude(deselectAllAuthors));
+			setButtonAutText("Seleziona tutti");
+		}
+	};
+
 	return (
 		<>
 			<Button
@@ -82,14 +116,22 @@ const Sidebar = () => {
 				</Offcanvas.Header>
 				<Offcanvas.Body className="d-flex flex-column gap-2 mt-5">
 					<h3 className="mt-5">Generi</h3>
-
+					<Button
+						variant="outline-secondary"
+						onClick={handleSelectAllGenres}>
+						{buttonGenText}
+					</Button>
 					{genres &&
 						genres.map((genre: Genre) => (
 							<div key={"genre-" + genre.idGenre}>
 								<input
 									className="form-check-input bg-secondary border-0 me-4"
 									type="checkbox"
-									defaultChecked={true}
+									checked={
+										!GenreToExclude.includes(
+											genre.idGenre as number
+										)
+									}
 									id={
 										genre.idGenre
 											? genre.idGenre.toString()
@@ -112,6 +154,11 @@ const Sidebar = () => {
 							</div>
 						))}
 					<h3 className="mt-5">Autori</h3>
+					<Button
+						variant="outline-secondary"
+						onClick={handleSelectAllAuthors}>
+						{buttonAutText}
+					</Button>
 					{books &&
 						books
 							.filter(
@@ -137,7 +184,11 @@ const Sidebar = () => {
 									<input
 										className="form-check-input bg-secondary border-0 me-4"
 										type="checkbox"
-										defaultChecked={true}
+										checked={
+											!AuthorsToExclude.includes(
+												book.author.idAuthor as number
+											)
+										}
 										id={
 											book.author.idAuthor
 												? book.author.idAuthor.toString()

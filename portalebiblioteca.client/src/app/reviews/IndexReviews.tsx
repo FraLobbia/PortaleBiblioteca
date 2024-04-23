@@ -31,7 +31,6 @@ const IndexReviews = () => {
 						type="text"
 						placeholder="Cerca per titolo, testo o autore"
 						value={search}
-						onSubmit={(e) => e.preventDefault()}
 						onChange={(e) => setSearch(e.target.value)}
 					/>
 				</Form.Group>
@@ -39,10 +38,21 @@ const IndexReviews = () => {
 			{reviews
 				.filter(
 					(review: Review) =>
-						review.reviewTitle.includes(search) ||
-						review.reviewBody.includes(search) ||
-						review.user?.firstName.includes(search) ||
-						review.user?.lastName.includes(search)
+						review.book.title
+							.toLowerCase()
+							.includes(search.toLowerCase()) ||
+						review.reviewTitle
+							.toLowerCase()
+							.includes(search.toLowerCase()) ||
+						review.reviewBody
+							.toLowerCase()
+							.includes(search.toLowerCase()) ||
+						review.book.author.name
+							.toLowerCase()
+							.includes(search.toLowerCase()) ||
+						review.user.firstName
+							.toLowerCase()
+							.includes(search.toLowerCase())
 				)
 				.map((review: Review) => (
 					<SingleReview

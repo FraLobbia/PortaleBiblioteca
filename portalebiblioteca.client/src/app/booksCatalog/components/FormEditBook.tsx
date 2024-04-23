@@ -116,13 +116,17 @@ const FormEditBook = () => {
 									setAutoreID(parseInt(e.target.value))
 								}>
 								<option value="">Seleziona un autore</option>
-								{authors.map((author) => (
-									<option
-										key={"author-" + author.idAuthor}
-										value={author.idAuthor as number}>
-										{author.name}
-									</option>
-								))}
+								{[...authors]
+									.sort((a, b) =>
+										a.name.localeCompare(b.name)
+									)
+									.map((author) => (
+										<option
+											key={"author-" + author.idAuthor}
+											value={author.idAuthor as number}>
+											{author.name}
+										</option>
+									))}
 							</Form.Select>
 						</Form.Group>
 						<Link
@@ -161,13 +165,17 @@ const FormEditBook = () => {
 									setGenere(parseInt(e.target.value))
 								}>
 								<option value="">Seleziona un genere</option>
-								{genres.map((genre) => (
-									<option
-										key={"genre-" + genre.idGenre}
-										value={genre.idGenre}>
-										{genre.name}
-									</option>
-								))}
+								{[...genres]
+									.sort((a, b) =>
+										a.name.localeCompare(b.name)
+									)
+									.map((genre) => (
+										<option
+											key={"genre-" + genre.idGenre}
+											value={genre.idGenre as number}>
+											{genre.name}
+										</option>
+									))}
 							</Form.Select>
 						</Form.Group>
 						<Link

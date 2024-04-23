@@ -23,7 +23,8 @@ import LibrarianDeskDashboard from "./app/librarianDesk/LibrarianDeskDashboard";
 import UserLoansDashboard from "./app/prestiti/UserLoansDashboard";
 import CreateAuthors from "./app/authors/CreateAuthors";
 import EditAuthors from "./app/authors/EditAuthors";
-
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 function App() {
 	const selectedTheme = localStorage.getItem("selectedTheme");
 

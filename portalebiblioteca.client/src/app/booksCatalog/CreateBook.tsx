@@ -66,13 +66,15 @@ const CreateBook = () => {
 						value={autoreID}
 						onChange={(e) => setAutoreID(parseInt(e.target.value))}>
 						<option value="">Seleziona un autore</option>
-						{authors.map((author) => (
-							<option
-								key={"autho-" + author.idAuthor}
-								value={author.idAuthor}>
-								{author.name}
-							</option>
-						))}
+						{[...authors]
+							.sort((a, b) => a.name.localeCompare(b.name))
+							.map((author) => (
+								<option
+									key={"author-" + author.idAuthor}
+									value={author.idAuthor as number}>
+									{author.name}
+								</option>
+							))}
 					</Form.Select>
 				</Form.Group>
 				<Link to="/autori/add" className="btn btn-link p-0 mb-3">
@@ -107,13 +109,15 @@ const CreateBook = () => {
 						value={genere}
 						onChange={(e) => setGenere(parseInt(e.target.value))}>
 						<option value="">Seleziona un genere</option>
-						{genres.map((genre) => (
-							<option
-								key={"genre-" + genre.idGenre}
-								value={genre.idGenre}>
-								{genre.name}
-							</option>
-						))}
+						{[...genres]
+							.sort((a, b) => a.name.localeCompare(b.name))
+							.map((genre) => (
+								<option
+									key={"genre-" + genre.idGenre}
+									value={genre.idGenre}>
+									{genre.name}
+								</option>
+							))}
 					</Form.Select>
 				</Form.Group>
 				<Link to="/generi/add" className="btn btn-link p-0 mb-3">

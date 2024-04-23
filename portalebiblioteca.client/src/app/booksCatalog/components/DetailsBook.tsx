@@ -58,14 +58,20 @@ const DetailsBook = ({ book }: DetailsBookProps) => {
 						<dd>{book.availableQuantity}</dd>
 						{!isWarehouse ? (
 							<div className="d-flex flex-column gap-3">
-								<Button
-									onClick={createLoan}
-									variant="mattone"
-									className="d-flex
+								{book.availableQuantity === 0 ? (
+									<Button disabled>
+										Libro non disponibile
+									</Button>
+								) : (
+									<Button
+										onClick={createLoan}
+										variant="mattone"
+										className="d-flex
 										justify-content-center align-items-center gap-2">
-									<FontAwesomeIcon icon={faBookOpen} />
-									<span>Prendi in prestito</span>
-								</Button>
+										<FontAwesomeIcon icon={faBookOpen} />
+										<span>Prendi in prestito</span>
+									</Button>
+								)}
 								<Link
 									className="btn btn-primary d-flex
 										justify-content-center align-items-center gap-2"
@@ -100,7 +106,7 @@ const DetailsBook = ({ book }: DetailsBookProps) => {
 						<dt>Descrizione:</dt>
 						<dd>{book.description}</dd>
 						<dt>Genere:</dt>
-						<dd>{book.idGenre}</dd>
+						<dd>{book.genre.name}</dd>
 						<dt>Data di pubblicazione:</dt>
 						<dd>{formatData(book.publicationDate?.toString())}</dd>
 						<dt>ISBN:</dt>

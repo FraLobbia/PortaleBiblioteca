@@ -113,6 +113,7 @@ export const fetchEditUser =
 				dispatch(setLoggedProfile(editedProfileData));
 				Toast.fire({
 					icon: "success",
+
 					title: "Profilo modificato!",
 				});
 			}

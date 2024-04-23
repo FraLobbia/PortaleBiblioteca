@@ -12,7 +12,7 @@ using PortaleBiblioteca.Server.Data;
 namespace PortaleBiblioteca.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240419150112_firstMigration")]
+    [Migration("20240420110401_firstMigration")]
     partial class firstMigration
     {
         /// <inheritdoc />

@@ -24,7 +24,7 @@ const IndexAuthors = () => {
 		<Container>
 			<BackButton />
 			<h1 className="text-center">Elenco Autori</h1>
-			<Link to="/generi/add" className="btn btn-success my-3">
+			<Link to="/autori/add" className="btn btn-success my-3">
 				Aggiungi nuovo Autore
 			</Link>
 			<Form className="my-3">

@@ -35,7 +35,7 @@ footer {
 }
 
 [data-theme="dark"] {
-	--bs-body-bg: #333;
+	--bs-body-bg: #2d2626;
 	--bs-body-color: #f5f5f5;
 	--bs-secondary-color: #6c757d;
 	--bs-link-color: #ffcc89;
@@ -52,4 +52,12 @@ footer {
 
 body {
 	transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+#indexBook--card--img {
+	transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+	&:hover {
+		width: 10%;
+		height: 10%;
+	}
 }

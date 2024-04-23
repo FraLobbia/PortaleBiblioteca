@@ -88,11 +88,10 @@ const IndexLibrarianDesk = () => {
 	};
 	return (
 		<>
-			<Form>
+			<Form className="my-3">
 				<Form.Control
 					type="text"
-					placeholder="Cerca un libro per titolo, autore o utente"
-					className="my-3"
+					placeholder="Cerca un libro al banco del bibliotecario"
 					value={search}
 					onChange={(e) => setSearch(e.target.value)}
 				/>
@@ -177,7 +176,7 @@ const IndexLibrarianDesk = () => {
 				<tbody className="text-center">
 					{itemsWithoutLoan.length <= 0 ? (
 						<tr>
-							<td colSpan={2}>
+							<td colSpan={3}>
 								Nessun libro da riporre in corsia
 							</td>
 						</tr>

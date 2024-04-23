@@ -7,7 +7,7 @@ export interface Review {
 	idUser: number;
 	reviewTitle: string;
 	reviewBody: string;
-	reviewDate?: Date;
-	book?: Book;
-	user?: User;
+	reviewDate: Date;
+	book: Book;
+	user: User;
 }

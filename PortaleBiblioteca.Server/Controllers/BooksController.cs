@@ -47,8 +47,6 @@ namespace PortaleBiblioteca.Server.Controllers
             {
                 return NotFound();
             }
-
-
             return book;
         }
 

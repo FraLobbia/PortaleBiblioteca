@@ -6,7 +6,65 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import Slider from "react-slick";
+import NextArrow from "../_miscellaneous/reusable/NextArrow";
+import PrevArrow from "../_miscellaneous/reusable/PrevArrow";
+import { useAppDispatch, useAppSelector } from "../../Functions/hooks";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import { useEffect } from "react";
+import { fetchBookList } from "../../api/booksCatalog/bookCRUDFetches";
 const HomePage = () => {
+	// define hooks
+	const dispathc = useAppDispatch();
+
+	// store variable
+	const { books } = useAppSelector((state) => state.bookState);
+
+	const settingsSlider = {
+		dots: false,
+		infinite: true,
+		speed: 500,
+		slidesToShow: 9,
+		slidesToScroll: 1,
+		nextArrow: <NextArrow />,
+		prevArrow: <PrevArrow />,
+		responsive: [
+			{
+				breakpoint: 1200,
+				settings: {
+					slidesToShow: 7,
+					slidesToScroll: 1,
+				},
+			},
+			{
+				breakpoint: 1024,
+				settings: {
+					slidesToShow: 5,
+					slidesToScroll: 1,
+				},
+			},
+			{
+				breakpoint: 576,
+				settings: {
+					slidesToShow: 4,
+					slidesToScroll: 1,
+				},
+			},
+			{
+				breakpoint: 480,
+				settings: {
+					slidesToShow: 2,
+					slidesToScroll: 1,
+				},
+			},
+		],
+	};
+
+	// what happens at mount
+	useEffect(() => {
+		dispathc(fetchBookList());
+	}, []);
 	return (
 		<div className="home-page container">
 			<header>
@@ -43,19 +101,6 @@ const HomePage = () => {
 							</Link>
 						</div>
 					</section>
-					{/* <section className="section events">
-						<h2 className="mt-4">Eventi e attività</h2>
-						<p className="pb-1">
-							Esplore le ricchezze della biblioteca: dal prestito
-							dei libri alle recensioni più appassionanti.
-						</p>
-						<Link to="/events" className="btn btn-mattone">
-							<FontAwesomeIcon icon={faCalendarDay} />
-							<span className="ms-2">
-								Controlla il calendario
-							</span>
-						</Link>
-					</section> */}
 					<section className="section services">
 						<h2 className="mt-4">I nostri servizi</h2>
 						<p className="pb-1">
@@ -70,6 +115,23 @@ const HomePage = () => {
 					</section>
 				</Col>
 			</main>
+			<hr />
+			<section>
+				<h2>Potrebbe interessarti</h2>
+				<Slider className="my-3" {...settingsSlider}>
+					{books.map((book) => (
+						<div key={"book-" + book.idBook}>
+							<img
+								src={book.coverImage}
+								alt={book.title}
+								height={100}
+								width={100}
+								className="img-thumbnail object-fit-cover	"
+							/>
+						</div>
+					))}
+				</Slider>
+			</section>
 		</div>
 	);
 };

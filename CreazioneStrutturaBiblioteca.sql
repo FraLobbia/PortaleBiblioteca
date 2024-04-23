@@ -66,24 +66,33 @@ END;
 
 -- Inserimento dei generi
 INSERT INTO Genres (Name, Description)
-VALUES ('Fantasy', 'Libri di genere fantasy'),
-       ('Mystery', 'Libri di genere mistero'),
-       -- Aggiungi altri generi qui...
-       ('Science Fiction', 'Libri di genere fantascientifico');
+VALUES  ('Fantasy', 'Libri di genere fantasy'),
+        ('Mystery', 'Libri di genere mistero'),
+        ('Science Fiction', 'Libri di genere fantascientifico'),
+		('Romance', 'Libri di genere romantico'),
+		('Thriller', 'Libri di genere thriller e suspense'),
+		('Historical Fiction', 'Libri di genere storico'),
+		('Horror', 'Libri di genere horror'),
+		('Adventure', 'Libri di genere avventura'),
+		('Young Adult', 'Libri di genere per giovani adulti'),
+		('Crime', 'Libri di genere crime e poliziesco');
 
 -- inserimento degli authors
 INSERT INTO Authors (Name, Biography)
-VALUES ('J.R.R. Tolkien', 'John Ronald Reuel Tolkien, meglio conosciuto come J.R.R. Tolkien, è stato uno dei più grandi scrittori del ventesimo secolo, famoso principalmente per il suo lavoro nel campo della letteratura fantasy. Nato il 3 gennaio 1892 a Bloemfontein, nell('')attuale Sudafrica, da genitori inglesi, la sua famiglia tornò in Inghilterra quando era ancora giovane. Tolkien mostrò fin da piccolo un('')inclinazione per la lingua e la letteratura, sviluppando un amore per le lingue antiche e la mitologia.'),
-       ('Arthur Conan Doyle', 'Arthur Conan Doyle è stato uno scrittore scozzese, nato il 22 maggio 1859 a Edimburgo, Scozia. È principalmente noto per essere il creatore del celebre detective Sherlock Holmes, uno dei personaggi più iconici della letteratura mondiale.
-
-Conan Doyle studiò medicina presso l('')Università di Edimburgo e iniziò la sua carriera come medico. Tuttavia, fu la sua attività di scrittore a portargli fama e successo. La sua prima opera pubblicata, "A Study in Scarlet" (Un caso di identità), pubblicata nel 1887, introduceva per la prima volta il detective Sherlock Holmes e il suo fedele amico il dottor Watson.'),
-       ('Isaac Asimov', '
-Isaac Asimov è stato uno scrittore e biochimico americano, nato il 2 gennaio 1920 a Petrovichi, Russia, e emigrato negli Stati Uniti con la sua famiglia all('')età di tre anni. È noto principalmente per i suoi contributi alla fantascienza e per essere uno dei più prolifici autori del genere.
-
-Asimov era un uomo di vasta cultura, laureato in chimica presso la Columbia University e in biochimica presso l('')Università di Columbia. Ha insegnato biochimica presso la School of Medicine dell('')Università di Boston per molti anni.
-
-Tuttavia, è nel campo della scrittura che Asimov ha lasciato il segno più indelebile. È l('')autore di una vasta gamma di opere, tra cui romanzi, racconti brevi, saggi scientifici e divulgativi, e opere di critica letteraria. Le sue opere spaziano dalla fantascienza al mistero, passando per la storia e la religione.');
-
+VALUES  ('J.R.R. Tolkien', 'John Ronald Reuel Tolkien, meglio conosciuto come J.R.R. Tolkien, è stato uno dei più grandi scrittori del ventesimo secolo, famoso principalmente per il suo lavoro nel campo della letteratura fantasy. Nato il 3 gennaio 1892 a Bloemfontein, nell('')attuale Sudafrica, da genitori inglesi, la sua famiglia tornò in Inghilterra quando era ancora giovane. Tolkien mostrò fin da piccolo un('')inclinazione per la lingua e la letteratura, sviluppando un amore per le lingue antiche e la mitologia.'),
+        ('Arthur Conan Doyle', 'Arthur Conan Doyle è stato uno scrittore scozzese, nato il 22 maggio 1859 a Edimburgo, Scozia. È principalmente noto per essere il creatore del celebre detective Sherlock Holmes, uno dei personaggi più iconici della letteratura mondiale. Conan Doyle studiò medicina presso l('')Università di Edimburgo e iniziò la sua carriera come medico. Tuttavia, fu la sua attività di scrittore a portargli fama e successo. La sua prima opera pubblicata, "A Study in Scarlet" (Un caso di identità), pubblicata nel 1887, introduceva per la prima volta il detective Sherlock Holmes e il suo fedele amico il dottor Watson.'),
+        ('Isaac Asimov', 'Isaac Asimov è stato uno scrittore e biochimico americano, nato il 2 gennaio 1920 a Petrovichi, Russia, e emigrato negli Stati Uniti con la sua famiglia all('')età di tre anni. È noto principalmente per i suoi contributi alla fantascienza e per essere uno dei più prolifici autori del genere.Asimov era un uomo di vasta cultura, laureato in chimica presso la Columbia University e in biochimica presso l('')Università di Columbia. Ha insegnato biochimica presso la School of Medicine dell('')Università di Boston per molti anni. Tuttavia, è nel campo della scrittura che Asimov ha lasciato il segno più indelebile. È l('')autore di una vasta gamma di opere, tra cui romanzi, racconti brevi, saggi scientifici e divulgativi, e opere di critica letteraria. Le sue opere spaziano dalla fantascienza al mistero, passando per la storia e la religione.'),
+		('Jane Austen', 'Jane Austen è stata una scrittrice inglese, nata il 16 dicembre 1775 a Steventon, nel Hampshire, Inghilterra. È nota principalmente per i suoi romanzi comici di osservazione sociale, che offrono un''acutezza psicologica e un umorismo sottile. Tra i suoi lavori più famosi ci sono "Orgoglio e pregiudizio" e "Emma". Austen ha trascorso la maggior parte della sua vita in una piccola comunità rurale del sud dell''Inghilterra, dove ha avuto ampi spazi per osservare e satirizzare i costumi e le convenzioni della società dell''epoca.'),
+		('Leo Tolstoy', 'Leo Tolstoy è stato uno scrittore russo, nato il 9 settembre 1828 a Iasnaia Poliana, nell''Impero russo. È considerato uno dei più grandi romanzieri di tutti i tempi, noto per opere come "Guerra e pace" e "Anna Karenina". Tolstoy proveniva da una famiglia nobile e visse gran parte della sua vita in campagna, dedicandosi alla scrittura e alla riflessione filosofica. Le sue opere sono celebri per la loro profondità psicologica, il realismo e la critica sociale.'),
+		('Charles Dickens', 'Charles Dickens è stato uno scrittore inglese, nato il 7 febbraio 1812 a Portsmouth, Inghilterra. È considerato uno dei più grandi romanzieri dell''età vittoriana, noto per opere come "Grandi speranze", "Canto di Natale" e "David Copperfield". Dickens ha scritto numerosi romanzi seriali che sono diventati popolari grazie alla loro critica sociale, al loro umorismo e alla loro capacità di creare personaggi memorabili.'),
+		('Fyodor Dostoevsky', 'Fyodor Dostoevsky è stato uno scrittore russo, nato il 11 novembre 1821 a Mosca, nell''Impero russo. È noto per i suoi romanzi psicologici, tra cui "Delitto e castigo" e "I fratelli Karamazov". Dostoevsky ha esplorato le profondità della mente umana, affrontando temi come la moralità, la religione e la psicologia.'),
+		('Charlotte Brontë', 'Charlotte Brontë è stata una scrittrice inglese, nata il 21 aprile 1816 a Thornton, nel West Yorkshire, Inghilterra. È conosciuta principalmente per il suo romanzo "Jane Eyre", che è diventato un classico della letteratura inglese. Brontë ha scritto anche altri romanzi, tra cui "Shirley" e "Villette". La sua scrittura esplora temi come l''individualità, l''indipendenza e l''emancipazione femminile.'),
+		('George Orwell', 'George Orwell è stato uno scrittore e giornalista inglese, nato il 25 giugno 1903 a Motihari, nell''India britannica. È noto per i suoi romanzi "1984" e "La fattoria degli animali", che offrono visioni distopiche del futuro e della società. Orwell ha anche scritto numerosi saggi e articoli di giornale, esprimendo le sue opinioni politiche e sociali.'),
+		('Emily Dickinson', 'Emily Dickinson è stata una poetessa americana, nata il 10 dicembre 1830 a Amherst, nel Massachusetts, Stati Uniti. È nota per la sua poesia sperimentale e la sua sensibilità emotiva. Dickinson trascorse la maggior parte della sua vita in solitudine, scrivendo poesie che esplorano temi come la morte, l''amore e la natura. La sua opera è stata riconosciuta postuma come una delle più importanti della letteratura americana.'),
+		('Oscar Wilde', 'Oscar Wilde è stato uno scrittore e drammaturgo irlandese, nato il 16 ottobre 1854 a Dublino, Irlanda. È noto per i suoi epigrammi, le sue commedie e il suo unico romanzo "Il ritratto di Dorian Gray". Wilde è stato una figura chiave nel movimento dell''estetismo, che promuoveva l''arte per l''arte e la bellezza come valore supremo.'),
+		('Virginia Woolf', 'Virginia Woolf è stata una scrittrice britannica, nata il 25 gennaio 1882 a Londra, Inghilterra. È considerata una delle più importanti figure della letteratura modernista del XX secolo. Woolf è nota per i suoi romanzi sperimentali, tra cui "La signora Dalloway" e "Al faro", che esplorano la coscienza e l''interiorità dei personaggi. È anche famosa per i suoi saggi, in cui affronta temi come il femminismo, la letteratura e la creatività.'),
+		('Gabriel García Márquez', 'Gabriel García Márquez è stato uno scrittore colombiano, nato il 6 marzo 1927 a Aracataca, Colombia. È noto principalmente per il suo romanzo "Cent''anni di solitudine", che è considerato uno dei capolavori della letteratura mondiale. García Márquez è stato insignito del Premio Nobel per la Letteratura nel 1982 per il suo contributo alla letteratura latinoamericana e per aver creato "un''opera narrativa che coniuga la storia, il mito e la fantasia in un mondo proprio".')
+;
 
 -- Inserimento dei libri
 INSERT INTO Books (IdAuthor, Title, Description, PublicationDate, ISBN, IdGenre,CoverImage)
