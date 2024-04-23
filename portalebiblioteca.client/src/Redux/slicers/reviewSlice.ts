@@ -4,10 +4,12 @@ import { Review } from "../../interfaces/review.interface";
 
 interface ReviewState {
 	reviews: Review[];
+	bookReviews: Review[];
 }
 
 const initialState: ReviewState = {
 	reviews: [],
+	bookReviews: [],
 };
 //=================================================================================
 const bookSlice = createSlice({
@@ -17,8 +19,11 @@ const bookSlice = createSlice({
 		setReviews(state, action: { payload: Review[] }) {
 			state.reviews = action.payload;
 		},
+		setBookReviews(state, action: { payload: Review[] }) {
+			state.bookReviews = action.payload;
+		},
 	},
 });
 //=================================================================================
-export const { setReviews } = bookSlice.actions;
+export const { setReviews, setBookReviews } = bookSlice.actions;
 export default bookSlice.reducer;

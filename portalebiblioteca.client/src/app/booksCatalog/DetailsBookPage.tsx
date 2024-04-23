@@ -24,7 +24,7 @@ const DetailsBookPage = () => {
 	return (
 		<Container>
 			<BackButton />
-			<h1>Dettagli libro</h1>
+			<h1>{book?.title}</h1>
 			{book && <DetailsBook book={book} />}
 		</Container>
 	);

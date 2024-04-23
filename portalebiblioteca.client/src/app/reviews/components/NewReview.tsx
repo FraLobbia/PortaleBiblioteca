@@ -1,49 +1,56 @@
 import ReviewForm from "./ReviewForm";
 import { Book } from "../../../interfaces/book.interface";
-import { useAppSelector } from "../../../Functions/hooks";
+import { useAppDispatch, useAppSelector } from "../../../Functions/hooks";
 import { Review } from "../../../interfaces/review.interface";
 import { useEffect, useState } from "react";
 import SingleReview from "./SingleReview";
+import { fetchReviewListByBookId } from "../../../api/reviews/reviewsCRUDfetches";
 interface NewReviewProps {
 	book: Book;
 }
 
 const NewReview = ({ book }: NewReviewProps) => {
+	// define hooks
+	const dispatch = useAppDispatch();
+
 	// store variables
 	const { user } = useAppSelector(
 		(state) => state.profileState.loggedProfile
 	);
+	const { bookReviews } = useAppSelector((state) => state.reviewState);
 
 	// variables
 	const [review, setReview] = useState<Review | null>(null);
 
-	const userReview = book.reviews?.find(
-		(review: Review) => review.idUser === user?.idUser
+	const reviewAlreadyWritten: Review | undefined = bookReviews?.find(
+		(review: Review) => review.user.idUser === user?.idUser
 	);
 
 	// what happens when the component mounts:
 	// set the review object
 	useEffect(() => {
-		if (userReview) {
-			setReview({
-				...userReview,
-				book: book,
-			});
+		dispatch(fetchReviewListByBookId(book.idBook));
+	}, []);
+
+	useEffect(() => {
+		if (reviewAlreadyWritten) {
+			setReview(reviewAlreadyWritten);
 		}
-	}, [userReview, book]);
+	}, [bookReviews]);
 
 	return (
 		<>
-			{userReview ? (
+			{reviewAlreadyWritten?.idBook === book.idBook ? (
 				<>
-					<h3>
-						Hai già recensito questo libro, <br /> ecco la tua
-						recensione!
-					</h3>
-					{review && <SingleReview review={review} user={user} />}
+					<div className="alert alert-secondary ">
+						<h3>Ecco la tua recensione</h3>
+						{review && <SingleReview review={review} user={user} />}
+					</div>
 				</>
 			) : (
-				<ReviewForm idBook={book.idBook} />
+				<div className="alert border-mattone shadow">
+					<ReviewForm idBook={book.idBook} />
+				</div>
 			)}
 		</>
 	);

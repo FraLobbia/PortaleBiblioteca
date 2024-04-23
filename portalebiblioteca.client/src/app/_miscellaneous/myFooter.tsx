@@ -1,6 +1,7 @@
 import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Col, Row } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 const MyFooter = () => {
 	return (
@@ -8,20 +9,28 @@ const MyFooter = () => {
 			<div className="container text-center">
 				<Row>
 					<Col>
-						<h3>Informazioni sulla biblioteca</h3>
+						<h3>Informazioni su questo sito</h3>
 						<ul>
 							<li>
 								<a
 									target="_blank"
 									href="https://www.fralobbia.com">
-									Chi siamo
+									Il mio portfolio
 								</a>
 							</li>
 							<li>
-								<a href="/orari">Orari di apertura</a>
+								<a
+									target="_blank"
+									href="https://www.linkedin.com/in/francesco-lobbia/">
+									LinkedIn
+								</a>
 							</li>
 							<li>
-								<a href="/mappa">Mappa e indicazioni</a>
+								<a
+									target="_blank"
+									href="https://www.google.com/maps/place/Castello+di+Quinto+Vercellese/@45.3799459,8.3094902,13z/data=!4m10!1m2!2m1!1scastello+quinto!3m6!1s0x47864960cfc3ed6d:0xdf4a2ef8963f32cc!8m2!3d45.3783395!4d8.3619516!15sCg9jYXN0ZWxsbyBxdWludG9aESIPY2FzdGVsbG8gcXVpbnRvkgEGY2FzdGxlmgEjQ2haRFNVaE5NRzluUzBWSlEwRm5TVU41TFdKaFFXRlJFQUXgAQA!16s%2Fg%2F11gyd1lvs_?hl=it&entry=ttu">
+									Dove si trova questo castello?
+								</a>
 							</li>
 						</ul>
 					</Col>
@@ -29,42 +38,22 @@ const MyFooter = () => {
 						<h3>Servizi offerti</h3>
 						<ul>
 							<li>
-								<a href="/prestito-libri">Prestito libri</a>
+								<Link to="/catalogo">Catalogo online</Link>
 							</li>
 							<li>
-								<a href="/catalogo-online">Catalogo online</a>
+								<Link to="/prestiti">Prestito libri</Link>
 							</li>
 							<li>
-								<a href="/ricerca-bibliografica">
-									Ricerca bibliografica
-								</a>
+								<Link to="/recensioni">Recensioni</Link>
 							</li>
 							<li>
-								<a href="/sale-studio">Sale studio e spazi</a>
+								<Link to="/features">
+									Che cosa puoi fare su questo sito
+								</Link>
 							</li>
 						</ul>
 					</Col>
 
-					<Col className="footer-section">
-						<h3>Eventi e attività</h3>
-						<ul>
-							<li>
-								<a href="/calendario-eventi">
-									Calendario degli eventi
-								</a>
-							</li>
-							<li>
-								<a href="/letture-presentazioni">
-									Letture e presentazioni
-								</a>
-							</li>
-							<li>
-								<a href="/mostre-esposizioni">
-									Mostre ed esposizioni
-								</a>
-							</li>
-						</ul>
-					</Col>
 					<Col className="footer-section">
 						<h3>Supporto e assistenza</h3>
 						<ul>
@@ -72,10 +61,10 @@ const MyFooter = () => {
 								<a href="/faq">FAQ</a>
 							</li>
 							<li>
-								<a href="/guida-utilizzo">Guida all'utilizzo</a>
+								<Link to={"/features"}>Guida all'utilizzo</Link>
 							</li>
 							<li>
-								<a href="/contatti-assistenza">
+								<a href="mailto:fralobbia@gmail.com">
 									Assistenza e contatti
 								</a>
 							</li>
@@ -98,26 +87,6 @@ const MyFooter = () => {
 							<li>
 								<a href="/termini-utilizzo">
 									Termini di utilizzo
-								</a>
-							</li>
-						</ul>
-					</Col>
-					<Col className="footer-section">
-						<h3>Seguici sui social media</h3>
-						<ul>
-							<li>
-								<a href="https://www.facebook.com/bibliotecacastelloquinto">
-									Facebook
-								</a>
-							</li>
-							<li>
-								<a href="https://twitter.com/bibliotecaquinto">
-									Twitter
-								</a>
-							</li>
-							<li>
-								<a href="https://www.instagram.com/bibliotecacastelloquinto">
-									Instagram
 								</a>
 							</li>
 						</ul>

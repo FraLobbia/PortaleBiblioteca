@@ -3,7 +3,7 @@ import { url } from "../../Functions/config";
 import { Review } from "../../interfaces/review.interface";
 import { fetchWithAuth } from "../interceptor";
 import { AppDispatch } from "../../Redux/Store/store";
-import { setReviews } from "../../Redux/slicers/reviewSlice";
+import { setBookReviews, setReviews } from "../../Redux/slicers/reviewSlice";
 import { Toast } from "../../Functions/utility";
 
 export const fetchReviewList = () => async (dispatch: AppDispatch) => {
@@ -31,6 +31,35 @@ export const fetchReviewList = () => async (dispatch: AppDispatch) => {
 		console.error("Errore nel fetch:", error);
 	}
 };
+
+export const fetchReviewListByBookId =
+	(idBook: number) => async (dispatch: AppDispatch) => {
+		try {
+			const response = await fetchWithAuth(
+				url + `api/Reviews/book/${idBook}`,
+				{
+					headers: {
+						"Content-Type": "application/json",
+					},
+				}
+			);
+
+			if (!response.ok) {
+				response.json().then((err) => {
+					Toast.fire({
+						icon: "error",
+						title: `${err.message}`,
+					});
+				});
+			} else {
+				const reviewList: Review[] = await response.json();
+				dispatch(setBookReviews(reviewList));
+			}
+		} catch (error) {
+			// Handle errors here, if necessary
+			console.error("Errore nel fetch:", error);
+		}
+	};
 
 export const createReviewFetch =
 	(review: Review) => async (dispatch: AppDispatch) => {

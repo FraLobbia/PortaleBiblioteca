@@ -1,11 +1,16 @@
 type NextArrowProps = {
 	className?: string;
-	style?: any;
+	style?: { [key: string]: string };
 	onClick?: () => void;
+	opacity?: string;
 };
 
-function PrevArrow(props: NextArrowProps) {
-	const { className, style, onClick } = props;
+function PrevArrow({
+	className,
+	style,
+	onClick,
+	opacity = "0.6",
+}: NextArrowProps) {
 	return (
 		<div
 			className={className}
@@ -13,7 +18,7 @@ function PrevArrow(props: NextArrowProps) {
 				...style,
 				display: "block",
 				transform: "scale(3)",
-				opacity: "0.3",
+				opacity: opacity,
 				marginLeft: "3rem",
 				zIndex: "3",
 			}}

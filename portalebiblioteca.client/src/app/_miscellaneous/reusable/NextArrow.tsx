@@ -1,11 +1,16 @@
 type NextArrowProps = {
 	className?: string;
-	style?: any;
+	style?: { [key: string]: string };
 	onClick?: () => void;
+	opacity?: string;
 };
 
-function NextArrow(props: NextArrowProps) {
-	const { className, style, onClick } = props;
+function NextArrow({
+	className,
+	style,
+	onClick,
+	opacity = "0.6",
+}: NextArrowProps) {
 	return (
 		<div
 			className={className}
@@ -13,7 +18,7 @@ function NextArrow(props: NextArrowProps) {
 				...style,
 				display: "block",
 				transform: "scale(3)",
-				opacity: "0.3",
+				opacity: opacity,
 				marginRight: "3rem",
 				zIndex: "3",
 			}}

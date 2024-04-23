@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PortaleBiblioteca.Server.Data;
 using PortaleBiblioteca.Server.Data.Models;
@@ -65,6 +64,43 @@ namespace PortaleBiblioteca.Server.Controllers
             }
 
             return review;
+        }
+
+        //GET api/Reviews/Book/5
+        [HttpGet("Book/{id}")]
+        public async Task<ActionResult<IEnumerable<ReviewDTO>>> GetReviewsByBook(int id)
+        {
+            var reviews = await _context.Reviews
+                .Include(r => r.Book)
+                .Include(r => r.User)
+                .Where(r => r.IdBook == id)
+                .Select(r => new ReviewDTO
+                {
+                    IdReview = r.IdReview,
+                    IdBook = r.IdBook,
+                    IdUser = r.IdUser,
+                    ReviewTitle = r.ReviewTitle,
+                    ReviewDate = r.ReviewDate,
+                    ReviewBody = r.ReviewBody,
+                    Book = new Book
+                    {
+                        IdBook = r.Book.IdBook,
+                        Title = r.Book.Title,
+                        Author = r.Book.Author,
+                        Genre = r.Book.Genre,
+                        CoverImage = r.Book.CoverImage
+
+                    },
+                    User = new User
+                    {
+                        IdUser = r.User.IdUser,
+                        FirstName = r.User.FirstName,
+                        UserImage = r.User.UserImage
+                    }
+                })
+                .ToListAsync();
+
+            return reviews;
         }
 
         // PUT: api/Reviews/5

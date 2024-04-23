@@ -99,6 +99,7 @@ const DetailsBook = ({ book }: DetailsBookProps) => {
 						)}
 					</Col>
 					<Col xs={9}>
+						<h4>Dettagli libro</h4>
 						<dt>Autore:</dt>
 						<dd>{book.author.name}</dd>
 						<dt>Titolo:</dt>

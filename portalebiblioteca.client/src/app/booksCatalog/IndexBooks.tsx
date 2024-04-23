@@ -48,7 +48,7 @@ const IndexBooks = () => {
 							<Form.Control
 								type="text"
 								placeholder="Cerca un libro per titolo o autore"
-								className="mb-3"
+								className="mb-3 shadow"
 								value={search}
 								onSubmit={(e) => e.preventDefault()}
 								onChange={(e) => setSearch(e.target.value)}

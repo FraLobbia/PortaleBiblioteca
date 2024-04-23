@@ -1,4 +1,4 @@
-import { Card, Col } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { truncateText } from "../../../Functions/utility";
 import {
@@ -17,7 +17,9 @@ const SingelIndexBook = ({ book }: { book: Book }) => {
 	);
 
 	return (
-		<Card id="indexBook--card" className="flex-lg-row align-items-center">
+		<Card
+			id="indexBook--card"
+			className="flex-lg-row align-items-center shadow-lg">
 			<Link to={"details/" + book.idBook}>
 				<Card.Img
 					id="indexBook--card--img"

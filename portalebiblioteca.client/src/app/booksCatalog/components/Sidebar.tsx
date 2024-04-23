@@ -103,7 +103,7 @@ const Sidebar = () => {
 		<>
 			<Button
 				variant="outline-secondary"
-				className="d-lg-none mb-2"
+				className="d-lg-none mb-2 shadow-sm"
 				onClick={handleShow}>
 				<FontAwesomeIcon icon={faFilter} />
 			</Button>
@@ -118,6 +118,7 @@ const Sidebar = () => {
 					<h3 className="mt-5">Generi</h3>
 					<Button
 						variant="outline-secondary"
+						className="shadow-sm"
 						onClick={handleSelectAllGenres}>
 						{buttonGenText}
 					</Button>
@@ -156,6 +157,7 @@ const Sidebar = () => {
 					<h3 className="mt-5">Autori</h3>
 					<Button
 						variant="outline-secondary"
+						className="shadow-sm"
 						onClick={handleSelectAllAuthors}>
 						{buttonAutText}
 					</Button>

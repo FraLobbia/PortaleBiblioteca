@@ -14,62 +14,83 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useEffect } from "react";
 import { fetchBookList } from "../../api/booksCatalog/bookCRUDFetches";
+import { Loan } from "../../interfaces/loans.interface";
+import { fetchLoansByUserId } from "../../api/loans/loansFetches";
+import NewReview from "../reviews/components/NewReview";
+
 const HomePage = () => {
 	// define hooks
-	const dispathc = useAppDispatch();
+	const dispatch = useAppDispatch();
 
 	// store variable
 	const { books } = useAppSelector((state) => state.bookState);
+	const { loansCurrentUser } = useAppSelector((state) => state.loanState);
+	const { user } = useAppSelector(
+		(state) => state.profileState.loggedProfile
+	);
 
 	const settingsSlider = {
 		dots: false,
 		infinite: true,
+		autoplay: true,
 		speed: 500,
-		slidesToShow: 9,
-		slidesToScroll: 1,
-		nextArrow: <NextArrow />,
-		prevArrow: <PrevArrow />,
+		slidesToShow: 16,
+		slidesToScroll: 4,
+		nextArrow: <NextArrow opacity="1" />,
+		prevArrow: <PrevArrow opacity="1" />,
 		responsive: [
 			{
 				breakpoint: 1200,
 				settings: {
-					slidesToShow: 7,
-					slidesToScroll: 1,
+					slidesToShow: 12,
+					slidesToScroll: 4,
 				},
 			},
 			{
 				breakpoint: 1024,
 				settings: {
-					slidesToShow: 5,
-					slidesToScroll: 1,
+					slidesToShow: 9,
+					slidesToScroll: 3,
 				},
 			},
 			{
 				breakpoint: 576,
 				settings: {
-					slidesToShow: 4,
-					slidesToScroll: 1,
+					slidesToShow: 6,
+					slidesToScroll: 3,
 				},
 			},
 			{
 				breakpoint: 480,
 				settings: {
-					slidesToShow: 2,
-					slidesToScroll: 1,
+					slidesToShow: 4,
+					slidesToScroll: 2,
 				},
 			},
 		],
 	};
+	const settingsSliderLoans = {
+		dots: false,
+		infinite: true,
+		speed: 500,
+		slidesToShow: 1,
+		slidesToScroll: 1,
+		nextArrow: <NextArrow opacity="1" />,
+		prevArrow: <PrevArrow opacity="1" />,
+	};
 
 	// what happens at mount
 	useEffect(() => {
-		dispathc(fetchBookList());
-	}, []);
+		dispatch(fetchBookList());
+		if (!user) return;
+		dispatch(fetchLoansByUserId(user.idUser));
+	}, [user]);
+
 	return (
 		<div className="home-page container">
 			<header>
-				<h1 className="text-center">
-					Benvenuti nella Biblioteca del Castello di Quinto
+				<h1 className="text-center display-2">
+					Benvenuti nella Biblioteca del <br /> Castello di Quinto
 				</h1>
 			</header>
 			<main className="row">
@@ -89,11 +110,15 @@ const HomePage = () => {
 							nostri utenti.
 						</p>
 						<div className="d-flex gap-2 flex-wrap">
-							<Link to="/catalogo" className="btn btn-mattone">
+							<Link
+								to="/catalogo"
+								className="btn btn-mattone shadow">
 								<FontAwesomeIcon icon={faBook} />
 								<span className="ms-2">Vai al catalogo</span>
 							</Link>
-							<Link to="/recensioni" className="btn btn-primary">
+							<Link
+								to="/recensioni"
+								className="btn btn-primary shadow">
 								<FontAwesomeIcon icon={faFeather} />
 								<span className="ms-2">
 									Leggi le recensioni
@@ -108,7 +133,7 @@ const HomePage = () => {
 							dei libri alle recensioni più appassionanti. Scopri
 							un mondo di conoscenza e avventura letteraria!
 						</p>
-						<Link to="/events" className="btn btn-mattone">
+						<Link to="/features" className="btn btn-mattone shadow">
 							<FontAwesomeIcon icon={faCalendarDay} />
 							<span className="ms-2">Che cosa facciamo</span>
 						</Link>
@@ -116,21 +141,53 @@ const HomePage = () => {
 				</Col>
 			</main>
 			<hr />
-			<section>
-				<h2>Potrebbe interessarti</h2>
+			<section id="potrebbe-interessarti">
+				<h2>Potrebbe interessarti...</h2>
 				<Slider className="my-3" {...settingsSlider}>
 					{books.map((book) => (
-						<div key={"book-" + book.idBook}>
+						<Link
+							to={"/catalogo/details/" + book.idBook}
+							key={"book-" + book.idBook}>
 							<img
 								src={book.coverImage}
 								alt={book.title}
-								height={100}
-								width={100}
-								className="img-thumbnail object-fit-cover	"
+								className="img-thumbnail border-0"
 							/>
-						</div>
+						</Link>
 					))}
 				</Slider>
+			</section>
+
+			<hr />
+
+			<section id="ituoiprestiti">
+				{loansCurrentUser.length ? (
+					<>
+						<h2>Lascia una recensione per i tuoi libri letti</h2>
+						<Slider className="my-3" {...settingsSliderLoans}>
+							{loansCurrentUser.map((loan: Loan) => (
+								<div
+									className="d-flex flex-column flex-md-row justify-content-around align-items-center gap-3"
+									key={"loan-" + loan.book.idBook}>
+									<img
+										src={loan.book.coverImage}
+										alt={loan.book.title}
+										className="img-thumbnail border-0"
+									/>
+									<div className="flex-grow-1">
+										<NewReview book={loan.book} />
+									</div>
+								</div>
+							))}
+						</Slider>
+					</>
+				) : user ? (
+					<p>
+						Non hai ancora effettuato prestiti. Vai al{" "}
+						<Link to="/catalogo">catalogo</Link> e scegli il tuo
+						prossimo libro!
+					</p>
+				) : null}
 			</section>
 		</div>
 	);

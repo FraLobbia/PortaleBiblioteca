@@ -5,8 +5,9 @@ import { useEffect } from "react";
 import { fetchBookById } from "../../api/booksCatalog/bookCRUDFetches";
 import { Accordion, Container } from "react-bootstrap";
 import DetailsBook from "../booksCatalog/components/DetailsBook";
-import IndexReviews from "./IndexReviews";
 import BackButton from "../_miscellaneous/reusable/BackButton";
+import ReviewsList from "./components/ReviewsList";
+import { Link } from "react-router-dom";
 
 const BookReviews = () => {
 	// define hooks
@@ -21,19 +22,48 @@ const BookReviews = () => {
 	}, []);
 
 	// store variables
-	const book = useAppSelector((state) => state.bookState.currentBook);
+	const { currentBook } = useAppSelector((state) => state.bookState);
+	const { reviews, bookReviews } = useAppSelector(
+		(state) => state.reviewState
+	);
 
 	return (
 		<Container>
 			<BackButton />
-			<h1>
-				Recensioni
-				<br />
-				{book?.title}
-			</h1>
-			{book && (
+			<Link
+				to={"/catalogo/details/" + currentBook?.idBook}
+				className="text-decoration-none">
+				<h1 className="alert-dark alert shadow">
+					<div className="alert alert-dark border-5 border shadow">
+						<div className="justify-content-center d-flex flex-column flex-sm-row align-items-center gap-3">
+							<img
+								className="mx-auto img-thumbnail border-0 d-block"
+								src={currentBook?.coverImage}
+								width={200}
+								alt=""
+							/>
+
+							<div className="d-flex flex-column">
+								<span>Recensioni </span>
+								<span className="display-2">
+									{currentBook?.title}
+								</span>
+								<span className="text-muted fs-3">
+									di {currentBook?.author.name}
+								</span>
+							</div>
+						</div>
+					</div>
+				</h1>
+			</Link>
+			{currentBook && (
 				<>
-					<NewReview book={book} />
+					<NewReview book={currentBook} />
+
+					<h2 className="mt-5 border-top border-4  pt-2">
+						Recensioni di altri utenti
+					</h2>
+					<ReviewsList reviews={bookReviews} />
 
 					<hr />
 
@@ -43,16 +73,16 @@ const BookReviews = () => {
 								Dettagli del libro
 							</Accordion.Header>
 							<Accordion.Body>
-								<DetailsBook book={book} />
+								<DetailsBook book={currentBook} />
 							</Accordion.Body>
 						</Accordion.Item>
 
 						<Accordion.Item eventKey="1">
 							<Accordion.Header>
-								Altre recensioni
+								Recensioni di altri libri
 							</Accordion.Header>
 							<Accordion.Body>
-								<IndexReviews />
+								<ReviewsList reviews={reviews} />
 							</Accordion.Body>
 						</Accordion.Item>
 					</Accordion>

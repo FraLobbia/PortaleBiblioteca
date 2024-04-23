@@ -12,7 +12,6 @@ import IndexGenres from "./app/genres/IndexGenres";
 import { setDarkMode } from "./Functions/utility";
 import MyFooter from "./app/_miscellaneous/myFooter";
 import IndexAuthors from "./app/authors/IndexAuthors";
-import IndexReviews from "./app/reviews/IndexReviews";
 import BookReviews from "./app/reviews/BookReviews";
 import EditBook from "./app/booksCatalog/EditBook";
 import MoveItems from "./app/warehouse/MoveItems";
@@ -25,6 +24,7 @@ import CreateAuthors from "./app/authors/CreateAuthors";
 import EditAuthors from "./app/authors/EditAuthors";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import HomeReviews from "./app/reviews/HomeReviews";
 function App() {
 	const selectedTheme = localStorage.getItem("selectedTheme");
 
@@ -61,7 +61,7 @@ function App() {
 					</Route>
 
 					<Route path="/recensioni">
-						<Route index element={<IndexReviews />} />
+						<Route index element={<HomeReviews />} />
 						<Route path=":id" element={<BookReviews />} />
 						<Route path="edit/:id" element={<EditGenre />} />
 					</Route>
