@@ -10,9 +10,11 @@ import {
 import { AppDispatch, RootState, store } from "../../Redux/Store/store";
 import { fetchWithAuth } from "../interceptor";
 import { Toast } from "../../Functions/utility";
+import { setLoading } from "../../Redux/slicers/loadingSlice";
 // fetch per ottenere il token di autenticazione
 export const fetchLogin =
 	(loginObj: LoginModel) => async (dispatch: AppDispatch) => {
+		dispatch(setLoading(true));
 		try {
 			const response = await fetch(url + "Auth/token", {
 				method: "POST",
@@ -41,11 +43,14 @@ export const fetchLogin =
 		} catch (error) {
 			// Puoi gestire gli errori qui, se necessario
 			console.error("Errore nel fetch:", error);
+		} finally {
+			dispatch(setLoading(false));
 		}
 	};
 
 export const fetchCreateUser =
 	(user: SignUpModel) => async (dispatch: AppDispatch) => {
+		dispatch(setLoading(true));
 		try {
 			const response = await fetchWithAuth(url + "Users/signup", {
 				method: "POST",
@@ -72,11 +77,14 @@ export const fetchCreateUser =
 		} catch (error) {
 			// Puoi gestire gli errori qui, se necessario
 			console.error("Errore nel fetch:", error);
+		} finally {
+			dispatch(setLoading(false));
 		}
 	};
 
 export const fetchEditUser =
 	(user: UserToEdit, id?: string) => async (dispatch: AppDispatch) => {
+		dispatch(setLoading(true));
 		try {
 			const state = store.getState() as RootState;
 			const loggedUserData = state.profileState.loggedProfile.user;
@@ -120,10 +128,13 @@ export const fetchEditUser =
 		} catch (error) {
 			// Puoi gestire gli errori qui, se necessario
 			console.error("Errore nel fetch:", error);
+		} finally {
+			dispatch(setLoading(false));
 		}
 	};
 
 export const fetchAllUsers = () => async (dispatch: AppDispatch) => {
+	dispatch(setLoading(true));
 	try {
 		const response = await fetchWithAuth(url + "Users", {
 			method: "GET",
@@ -147,5 +158,7 @@ export const fetchAllUsers = () => async (dispatch: AppDispatch) => {
 	} catch (error) {
 		// Puoi gestire gli errori qui, se necessario
 		console.error("Errore nel fetch:", error);
+	} finally {
+		dispatch(setLoading(false));
 	}
 };

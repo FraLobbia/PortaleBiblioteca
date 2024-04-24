@@ -17,6 +17,8 @@ import { fetchBookList } from "../../api/booksCatalog/bookCRUDFetches";
 import { Loan } from "../../interfaces/loans.interface";
 import { fetchLoansByUserId } from "../../api/loans/loansFetches";
 import NewReview from "../reviews/components/NewReview";
+import { SyncLoader } from "react-spinners";
+import LoadingComponent from "../_miscellaneous/reusable/LoadingComponent";
 
 const HomePage = () => {
 	// define hooks
@@ -28,6 +30,7 @@ const HomePage = () => {
 	const { user } = useAppSelector(
 		(state) => state.profileState.loggedProfile
 	);
+	const { isLoading } = useAppSelector((state) => state.loadingState);
 
 	const settingsSlider = {
 		dots: false,
@@ -35,6 +38,7 @@ const HomePage = () => {
 		autoplay: true,
 		speed: 500,
 		slidesToShow: 12,
+		adaptiveHeight: true, // to avoid clone
 		slidesToScroll: 4,
 		nextArrow: <NextArrow opacity="1" />,
 		prevArrow: <PrevArrow opacity="1" />,
@@ -107,8 +111,8 @@ const HomePage = () => {
 						<h2 className="mt-4 text-end">Le nostre collezioni</h2>
 						<p className="pb-1 text-end">
 							Esplora le nostre collezioni di libri, suddivise per
-							genere e autore. Oppure leggi le recensioni dei
-							nostri utenti.
+							genere e autore. <br /> Oppure leggi le recensioni
+							dei nostri utenti.
 						</p>
 						<div className="d-flex gap-2 flex-wrap justify-content-end">
 							<Link
@@ -132,8 +136,9 @@ const HomePage = () => {
 						<h2 className="mt-4">I nostri servizi</h2>
 						<p className="pb-1">
 							Esplore le ricchezze della biblioteca: dal prestito
-							dei libri alle recensioni più appassionanti. Scopri
-							un mondo di conoscenza e avventura letteraria!
+							dei libri alle recensioni più appassionanti. <br />{" "}
+							Scopri un mondo di conoscenza e avventura
+							letteraria!
 						</p>
 						<Link to="/features" className="btn btn-mattone shadow">
 							<FontAwesomeIcon icon={faCompass} />
@@ -148,24 +153,30 @@ const HomePage = () => {
 			<section id="potrebbe-interessarti">
 				<h2>Potrebbe interessarti...</h2>
 				<Slider className="my-3 px-5" {...settingsSlider}>
-					{books.map((book) => (
-						<Link
-							to={"/catalogo/details/" + book.idBook}
-							key={"book-" + book.idBook}>
-							<img
-								src={book.coverImage}
-								alt={book.title}
-								className="img-thumbnail border-0"
-							/>
-						</Link>
-					))}
+					{isLoading ? (
+						<LoadingComponent />
+					) : (
+						books.map((book) => (
+							<Link
+								to={"/catalogo/details/" + book.idBook}
+								key={"book-" + book.idBook}>
+								<img
+									src={book.coverImage}
+									alt={book.title}
+									className="img-thumbnail border-0"
+								/>
+							</Link>
+						))
+					)}
 				</Slider>
 			</section>
 
 			<hr />
 
 			<section id="lascia-una-recensione">
-				{loansCurrentUser.length ? (
+				{isLoading ? (
+					<LoadingComponent />
+				) : loansCurrentUser.length ? (
 					<>
 						<h2 className="text-end">
 							...lasciare una recensione per un libro che hai

@@ -6,8 +6,10 @@ import { AppDispatch } from "../../Redux/Store/store";
 import { fetchWithAuth } from "../interceptor";
 import { Toast } from "../../Functions/utility";
 import { NavigateFunction } from "react-router-dom";
+import { setLoading } from "../../Redux/slicers/loadingSlice";
 
 export const fetchBookList = () => async (dispatch: AppDispatch) => {
+	dispatch(setLoading(true));
 	try {
 		const response = await fetchWithAuth(url + "Books", {
 			headers: {
@@ -30,11 +32,14 @@ export const fetchBookList = () => async (dispatch: AppDispatch) => {
 	} catch (error) {
 		// Handle errors here, if necessary
 		console.error("Errore nel fetch:", error);
+	} finally {
+		dispatch(setLoading(false));
 	}
 };
 
 export const fetchBookById =
 	(id: string | number) => async (dispatch: AppDispatch) => {
+		dispatch(setLoading(true));
 		try {
 			const response = await fetchWithAuth(url + "Books/" + id, {
 				headers: {
@@ -52,11 +57,14 @@ export const fetchBookById =
 		} catch (error) {
 			// Handle errors here, if necessary
 			console.error("Errore nel fetch:", error);
+		} finally {
+			dispatch(setLoading(false));
 		}
 	};
 
 export const fetchBookCreate =
 	(newBook: BookDTO) => async (dispatch: AppDispatch) => {
+		dispatch(setLoading(true));
 		try {
 			const response = await fetchWithAuth(url + "Books/add", {
 				method: "POST",
@@ -79,12 +87,15 @@ export const fetchBookCreate =
 		} catch (error) {
 			// Handle errors here, if necessary
 			console.error("Errore nel fetch:", error);
+		} finally {
+			dispatch(setLoading(false));
 		}
 	};
 
 export const fetchBookEdit =
 	(editedBook: BookDTO, navigate: NavigateFunction) =>
 	async (dispatch: AppDispatch) => {
+		dispatch(setLoading(true));
 		try {
 			const response = await fetchWithAuth(
 				url + "Books/" + editedBook.idBook,
@@ -118,6 +129,7 @@ export const fetchBookEdit =
 		} catch (error) {
 			console.error(error);
 		} finally {
+			dispatch(setLoading(false));
 			navigate("/catalogo");
 		}
 	};
@@ -125,6 +137,7 @@ export const fetchBookEdit =
 export const fetchBookDelete =
 	(id: string, navigate: NavigateFunction) =>
 	async (dispatch: AppDispatch) => {
+		dispatch(setLoading(true));
 		try {
 			const response = await fetchWithAuth(url + "Books/" + id, {
 				method: "DELETE",
@@ -153,6 +166,7 @@ export const fetchBookDelete =
 		} catch (error) {
 			console.error(error);
 		} finally {
+			dispatch(setLoading(false));
 			navigate("/catalogo");
 		}
 	};

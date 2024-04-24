@@ -12,6 +12,7 @@ import preferencesSlice from "../slicers/preferencesSlice";
 import authorSlice from "../slicers/authorSlice";
 import reviewSlice from "../slicers/reviewSlice";
 import loanSlice from "../slicers/loanSlice";
+import loadingSlice from "../slicers/loadingSlice";
 
 const persistConfig = {
 	key: "root",
@@ -39,6 +40,7 @@ const rootReducer = combineSlices({
 	authorState: authorSlice,
 	reviewState: reviewSlice,
 	loanState: loanSlice,
+	loadingState: loadingSlice,
 });
 //2) =================================================================================
 // Infer the `RootState` type from the root reducer

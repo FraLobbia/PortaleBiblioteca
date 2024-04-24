@@ -50,6 +50,7 @@ const UserLoansHistory = () => {
 							<tr>
 								<th className="text-start">Titolo del libro</th>
 								<th>Da quando?</th>
+								<td>Disponibile al ritiro?</td>
 								{ShowAlsoReturned && (
 									<>
 										<th>Restituito?</th>
@@ -89,6 +90,15 @@ const UserLoansHistory = () => {
 										<p>{formatData(loan?.loanDate)}</p>
 										<hr className="m-0" />
 										<p>{howManyDaysAgo(loan?.loanDate)}</p>
+									</td>
+									<td>
+										{loan?.item?.shelf.shelfName.includes(
+											"Banco"
+										) ? (
+											<p className="text-success">Sì</p>
+										) : (
+											<p className="text-danger">No</p>
+										)}
 									</td>
 									{ShowAlsoReturned && (
 										<>

@@ -4,9 +4,11 @@ import { Loan, loanObjForm } from "../../interfaces/loans.interface";
 import { AppDispatch } from "../../Redux/Store/store";
 import { fetchWithAuth } from "../interceptor";
 import { setLoansOfBook, setLoansOfUser } from "../../Redux/slicers/loanSlice";
+import { setLoading } from "../../Redux/slicers/loadingSlice";
 
 export const addLoanToUser =
 	(loanObj: loanObjForm) => async (dispatch: AppDispatch) => {
+		dispatch(setLoading(true));
 		try {
 			const response = await fetchWithAuth(url + "api/Loans/add", {
 				method: "POST",
@@ -35,11 +37,14 @@ export const addLoanToUser =
 			}
 		} catch (error) {
 			console.error(error);
+		} finally {
+			dispatch(setLoading(false));
 		}
 	};
 
 export const fetchLoansByUserId =
 	(id: number) => async (dispatch: AppDispatch) => {
+		dispatch(setLoading(true));
 		try {
 			const response = await fetchWithAuth(url + "api/Loans/user/" + id, {
 				headers: {
@@ -60,11 +65,14 @@ export const fetchLoansByUserId =
 		} catch (error) {
 			// Handle errors here, if necessary
 			console.error("Errore nel fetch:", error);
+		} finally {
+			dispatch(setLoading(false));
 		}
 	};
 
 export const flagLoanAsReturned =
 	(idLoan: number | string) => async (dispatch: AppDispatch) => {
+		dispatch(setLoading(true));
 		try {
 			const response = await fetchWithAuth(
 				url + "api/Loans/return/" + idLoan,
@@ -93,11 +101,14 @@ export const flagLoanAsReturned =
 		} catch (error) {
 			// Handle errors here, if necessary
 			console.error("Errore nel fetch:", error);
+		} finally {
+			dispatch(setLoading(false));
 		}
 	};
 
 export const fetchLoanByBookId =
 	(idBook: string) => async (dispatch: AppDispatch) => {
+		dispatch(setLoading(true));
 		try {
 			const response = await fetchWithAuth(
 				url + "api/Loans/book/" + idBook,
@@ -118,5 +129,7 @@ export const fetchLoanByBookId =
 		} catch (error) {
 			// Handle errors here, if necessary
 			console.error("Errore nel fetch:", error);
+		} finally {
+			dispatch(setLoading(false));
 		}
 	};

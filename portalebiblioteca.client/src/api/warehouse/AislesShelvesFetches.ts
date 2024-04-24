@@ -4,8 +4,10 @@ import { fetchWithAuth } from "../interceptor";
 import { setAisles } from "../../Redux/slicers/warehouseSlice";
 import { Aisle } from "../../interfaces/warehouse.interface";
 import { AppDispatch } from "../../Redux/Store/store";
+import { setLoading } from "../../Redux/slicers/loadingSlice";
 
 export const getAisles = () => async (dispatch: AppDispatch) => {
+	dispatch(setLoading(true));
 	try {
 		const response = await fetchWithAuth(url + "api/Warehouse/aisle", {
 			method: "GET",
@@ -28,5 +30,7 @@ export const getAisles = () => async (dispatch: AppDispatch) => {
 		}
 	} catch (error) {
 		console.error(error);
+	} finally {
+		dispatch(setLoading(false));
 	}
 };

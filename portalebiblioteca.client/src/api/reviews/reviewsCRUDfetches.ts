@@ -5,6 +5,7 @@ import { fetchWithAuth } from "../interceptor";
 import { AppDispatch } from "../../Redux/Store/store";
 import { setBookReviews, setReviews } from "../../Redux/slicers/reviewSlice";
 import { Toast } from "../../Functions/utility";
+import { setLoading } from "../../Redux/slicers/loadingSlice";
 
 export const fetchReviewList = () => async (dispatch: AppDispatch) => {
 	try {
@@ -34,6 +35,7 @@ export const fetchReviewList = () => async (dispatch: AppDispatch) => {
 
 export const fetchReviewListByBookId =
 	(idBook: number) => async (dispatch: AppDispatch) => {
+		dispatch(setLoading(true));
 		try {
 			const response = await fetchWithAuth(
 				url + `api/Reviews/book/${idBook}`,
@@ -58,11 +60,14 @@ export const fetchReviewListByBookId =
 		} catch (error) {
 			// Handle errors here, if necessary
 			console.error("Errore nel fetch:", error);
+		} finally {
+			dispatch(setLoading(false));
 		}
 	};
 
 export const createReviewFetch =
 	(review: Review) => async (dispatch: AppDispatch) => {
+		dispatch(setLoading(true));
 		try {
 			const response = await fetchWithAuth(url + "api/Reviews", {
 				method: "POST",
@@ -91,5 +96,7 @@ export const createReviewFetch =
 			}
 		} catch (error) {
 			console.error(error);
+		} finally {
+			dispatch(setLoading(false));
 		}
 	};

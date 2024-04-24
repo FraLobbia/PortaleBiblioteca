@@ -71,7 +71,7 @@ namespace PortaleBiblioteca.Server.Controllers
                         loan.Book.CoverImage,
                     },
 
-                    ItemsEntity = loan.Item != null ? new
+                    Item = loan.Item != null ? new
                     {
                         loan.Item.IdItemsEntity,
                         loan.Item.IdBook,
@@ -303,16 +303,6 @@ namespace PortaleBiblioteca.Server.Controllers
                         IdBook = formLoan.IdBook
                     }
                 };
-
-                // // create a new loan
-                // Loan newLoan = new Loan
-                // {
-                //     IdUser = formLoan.IdUser,
-                //     LoanDate = DateTime.Now,
-                //     Returned = false,
-                //     ReturnDate = null
-
-                // };
 
                 _context.Items.Add(newItem);
                 await _context.SaveChangesAsync();

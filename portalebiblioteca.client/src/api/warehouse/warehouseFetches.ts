@@ -13,9 +13,11 @@ import {
 	setSourceMaxQuantity,
 	setVirtualShelves,
 } from "../../Redux/slicers/warehouseSlice";
+import { setLoading } from "../../Redux/slicers/loadingSlice";
 
 export const fetchAddToWarehouse =
 	(quantity: number, idBook: number) => async (dispatch: AppDispatch) => {
+		dispatch(setLoading(true));
 		try {
 			const response = await fetchWithAuth(
 				url + "api/Warehouse/receive",
@@ -51,10 +53,13 @@ export const fetchAddToWarehouse =
 			}
 		} catch (error) {
 			console.error(error);
+		} finally {
+			dispatch(setLoading(false));
 		}
 	};
 
-export const fetchAllWarehouse = async () => {
+export const fetchAllWarehouse = () => async (dispatch: AppDispatch) => {
+	dispatch(setLoading(true));
 	try {
 		const response = await fetchWithAuth(url + "api/Warehouse", {
 			method: "GET",
@@ -76,11 +81,14 @@ export const fetchAllWarehouse = async () => {
 		}
 	} catch (error) {
 		console.error(error);
+	} finally {
+		dispatch(setLoading(false));
 	}
 };
 
 export const fetchItemsEntityByBookId =
 	(idBook: number) => async (dispatch: AppDispatch) => {
+		dispatch(setLoading(true));
 		try {
 			const response = await fetchWithAuth(
 				url + `api/Warehouse/book/${idBook}`,
@@ -107,11 +115,14 @@ export const fetchItemsEntityByBookId =
 			}
 		} catch (error) {
 			console.error(error);
+		} finally {
+			dispatch(setLoading(false));
 		}
 	};
 
 export const fetchBaysByAisleId =
 	(idAisle: number) => async (dispatch: AppDispatch) => {
+		dispatch(setLoading(true));
 		try {
 			const response = await fetchWithAuth(
 				url + `api/Warehouse/${idAisle}/bays`,
@@ -138,11 +149,14 @@ export const fetchBaysByAisleId =
 			}
 		} catch (error) {
 			console.error(error);
+		} finally {
+			dispatch(setLoading(false));
 		}
 	};
 
 export const fetchHeightsByBayId =
 	(idAisle: number, idBay: number) => async (dispatch: AppDispatch) => {
+		dispatch(setLoading(true));
 		try {
 			const response = await fetchWithAuth(
 				url + `api/Warehouse/${idAisle}/${idBay}/heights`,
@@ -168,11 +182,14 @@ export const fetchHeightsByBayId =
 			}
 		} catch (error) {
 			console.error(error);
+		} finally {
+			dispatch(setLoading(false));
 		}
 	};
 
 export const getMaxQuantityInTheShelf =
 	(IdShelf: number, idBook: number) => async (dispatch: AppDispatch) => {
+		dispatch(setLoading(true));
 		try {
 			const response = await fetchWithAuth(
 				url + `api/Warehouse/${IdShelf}/book/${idBook}`,
@@ -199,40 +216,47 @@ export const getMaxQuantityInTheShelf =
 			}
 		} catch (error) {
 			console.error(error);
+		} finally {
+			dispatch(setLoading(false));
 		}
 	};
 
-export const fetchMove = async (move: MoveObject) => {
-	try {
-		const response = await fetchWithAuth(url + "api/Warehouse/move", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(move),
-		});
+export const fetchMove =
+	(move: MoveObject) => async (dispatch: AppDispatch) => {
+		dispatch(setLoading(true));
+		try {
+			const response = await fetchWithAuth(url + "api/Warehouse/move", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(move),
+			});
 
-		if (!response.ok) {
-			response.json().then((err) => {
-				Swal.fire({
-					title: `${err.message}`,
-					icon: "error",
-					footer: `Errore ${response.status}`,
+			if (!response.ok) {
+				response.json().then((err) => {
+					Swal.fire({
+						title: `${err.message}`,
+						icon: "error",
+						footer: `Errore ${response.status}`,
+					});
 				});
-			});
-		} else {
-			Swal.fire({
-				title: "Libro spostato!",
-				text: "Il libro è stato spostato con successo!",
-				icon: "success",
-			});
+			} else {
+				Swal.fire({
+					title: "Libro spostato!",
+					text: "Il libro è stato spostato con successo!",
+					icon: "success",
+				});
+			}
+		} catch (error) {
+			console.error(error);
+		} finally {
+			dispatch(setLoading(false));
 		}
-	} catch (error) {
-		console.error(error);
-	}
-};
+	};
 
 export const fetchReservedToBePicked = () => async (dispatch: AppDispatch) => {
+	dispatch(setLoading(true));
 	try {
 		const response = await fetchWithAuth(
 			url + "api/Warehouse/reservedToBePicked",
@@ -258,42 +282,49 @@ export const fetchReservedToBePicked = () => async (dispatch: AppDispatch) => {
 		}
 	} catch (error) {
 		console.error(error);
+	} finally {
+		dispatch(setLoading(false));
 	}
 };
 
-export const fetchMoveToDesk = async (idItemsEntity: number) => {
-	try {
-		const response = await fetchWithAuth(
-			url + `api/Warehouse/moveToLibrarianDesk/${idItemsEntity}`,
-			{
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-			}
-		);
+export const fetchMoveToDesk =
+	(idItemsEntity: number) => async (dispatch: AppDispatch) => {
+		dispatch(setLoading(true));
+		try {
+			const response = await fetchWithAuth(
+				url + `api/Warehouse/moveToLibrarianDesk/${idItemsEntity}`,
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+				}
+			);
 
-		if (!response.ok) {
-			response.json().then((err) => {
-				Swal.fire({
-					title: `${err.message}`,
-					icon: "error",
-					footer: `Errore ${response.status}`,
+			if (!response.ok) {
+				response.json().then((err) => {
+					Swal.fire({
+						title: `${err.message}`,
+						icon: "error",
+						footer: `Errore ${response.status}`,
+					});
 				});
-			});
-		} else {
-			Swal.fire({
-				title: "Libro spostato!",
-				text: "Il libro è stato spostato al desk con successo!",
-				icon: "success",
-			});
+			} else {
+				Swal.fire({
+					title: "Libro spostato!",
+					text: "Il libro è stato spostato al desk con successo!",
+					icon: "success",
+				});
+			}
+		} catch (error) {
+			console.error(error);
+		} finally {
+			dispatch(setLoading(false));
 		}
-	} catch (error) {
-		console.error(error);
-	}
-};
+	};
 
 export const fetchBookAtLibrarianDesk = () => async (dispatch: AppDispatch) => {
+	dispatch(setLoading(true));
 	try {
 		const response = await fetchWithAuth(
 			url + "api/Warehouse/LibrarianDesk",
@@ -319,44 +350,49 @@ export const fetchBookAtLibrarianDesk = () => async (dispatch: AppDispatch) => {
 		}
 	} catch (error) {
 		console.error(error);
+	} finally {
+		dispatch(setLoading(false));
 	}
 };
 
-export const fetchMoveToVirtualShelf = async (
-	IdItemsEntityToVirtual: number
-) => {
-	try {
-		const response = await fetchWithAuth(
-			url + "api/Warehouse/moveToVirtual/" + IdItemsEntityToVirtual,
-			{
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-			}
-		);
-		if (!response.ok) {
-			response.json().then((err) => {
-				Swal.fire({
-					title: `${err.message}`,
-					icon: "error",
-					footer: `Errore ${response.status}`,
+export const fetchMoveToVirtualShelf =
+	(IdItemsEntityToVirtual: number) => async (dispatch: AppDispatch) => {
+		dispatch(setLoading(true));
+		try {
+			const response = await fetchWithAuth(
+				url + "api/Warehouse/moveToVirtual/" + IdItemsEntityToVirtual,
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+				}
+			);
+			if (!response.ok) {
+				response.json().then((err) => {
+					Swal.fire({
+						title: `${err.message}`,
+						icon: "error",
+						footer: `Errore ${response.status}`,
+					});
 				});
-			});
-		} else {
-			Swal.fire({
-				title: "Libro spostato!",
-				text: "Il libro è stato consegnato all'utente. Il libro è stato inoltre spostato alla libreria virtuale con successo!",
-				icon: "success",
-			});
+			} else {
+				Swal.fire({
+					title: "Libro spostato!",
+					text: "Il libro è stato consegnato all'utente. Il libro è stato inoltre spostato alla libreria virtuale con successo!",
+					icon: "success",
+				});
+			}
+		} catch (error) {
+			console.error(error);
+		} finally {
+			dispatch(setLoading(false));
 		}
-	} catch (error) {
-		console.error(error);
-	}
-};
+	};
 
 export const fetchAllItemsInVirtualShelf =
 	() => async (dispatch: AppDispatch) => {
+		dispatch(setLoading(true));
 		try {
 			const response = await fetchWithAuth(
 				url + "api/Warehouse/Virtual",
@@ -382,5 +418,7 @@ export const fetchAllItemsInVirtualShelf =
 			}
 		} catch (error) {
 			console.error(error);
+		} finally {
+			dispatch(setLoading(false));
 		}
 	};
