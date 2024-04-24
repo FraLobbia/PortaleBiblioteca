@@ -4,6 +4,7 @@
 @import "./assets/_bootswatch.scss";
 @import url("https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap");
+
 p {
 	margin: 0;
 }
@@ -27,18 +28,13 @@ footer {
 		text-align: left;
 	}
 	* {
-		color: #5d4848;
+		color: $mattone-dark;
 		font-size: 0.8rem;
 	}
 }
 
 .tab-text {
 	@extend .fs-3;
-}
-
-:root {
-	--body_background: #f5f5f5;
-	--body_color: #5d4848;
 }
 
 [data-theme="dark"] {
@@ -51,13 +47,16 @@ footer {
 	--bs-border-color-translucent: white;
 	--bs-emphasis-color-rgb: 245, 245, 245;
 	.tab-text {
+		color: $mattone-light;
+	}
+	h1 {
 		color: #ffcc89;
 	}
 }
 
 [data-theme="light"] {
 	--bs-body-bg: #f5f5f5;
-	--bs-body-color: #333;
+	--bs-body-color: $mattone-dark;
 	.tab-text {
 		color: $mattone-dark;
 	}

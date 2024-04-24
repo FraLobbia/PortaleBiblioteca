@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../Functions/hooks";
 import { fetchGenres } from "../../api/genres/genresCRUDFetches";
-import { Button, Container } from "react-bootstrap";
+import { Button, Container, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import BackButton from "../_miscellaneous/reusable/BackButton";
 
@@ -19,7 +19,7 @@ const IndexGenres = () => {
 			<Link to="/generi/add" className="btn btn-success my-3">
 				Aggiungi nuovo genere
 			</Link>
-			<table className="table table-light">
+			<Table bordered hover striped>
 				<thead>
 					<tr>
 						<th>Nome</th>
@@ -45,7 +45,7 @@ const IndexGenres = () => {
 						</tr>
 					))}
 				</tbody>
-			</table>
+			</Table>
 		</Container>
 	);
 };
