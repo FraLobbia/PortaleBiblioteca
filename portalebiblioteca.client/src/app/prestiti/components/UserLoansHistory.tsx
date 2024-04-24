@@ -54,7 +54,7 @@ const UserLoansHistory = () => {
 							<tr>
 								<th className="text-start">Titolo del libro</th>
 								<th>Da quando?</th>
-								<td>Disponibile al ritiro?</td>
+								<th>Disponibile al ritiro?</th>
 								{ShowAlsoReturned && (
 									<>
 										<th>Restituito?</th>
@@ -108,17 +108,17 @@ const UserLoansHistory = () => {
 												</td>
 											)}
 											<td>
-												{loan?.returnDate ? (
+												{loan.returnDate ? (
 													<>
 														<p>
 															{formatData(
-																loan?.returnDate.toString()
+																loan.returnDate
 															)}
 														</p>
 														<hr className="m-0" />
 														<p>
 															{howManyDaysAgo(
-																loan?.returnDate.toString()
+																loan.returnDate
 															)}
 														</p>
 													</>

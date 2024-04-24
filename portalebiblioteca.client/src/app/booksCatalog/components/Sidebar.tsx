@@ -126,7 +126,7 @@ const Sidebar = () => {
 						genres.map((genre: Genre) => (
 							<div key={"genre-" + genre.idGenre}>
 								<input
-									className="form-check-input bg-secondary border-0 me-4"
+									className="form-check-input border-0 me-4"
 									type="checkbox"
 									checked={
 										!GenreToExclude.includes(

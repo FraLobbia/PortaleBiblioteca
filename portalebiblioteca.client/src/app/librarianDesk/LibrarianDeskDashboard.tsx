@@ -40,42 +40,46 @@ const LibrarianDeskDashboard = () => {
 				<Tab
 					eventKey="Desk"
 					title={
-						<>
-							<span>Desk</span>
-							<span className="badge bg-danger ms-2">
+						<div className="d-flex align-items-center">
+							<span className="tab-text">Desk</span>
+							<span className="badge bg-mattone ms-2">
 								{activeLoans.length > 0
 									? activeLoans.length
 									: ""}
 							</span>
-						</>
+						</div>
 					}>
 					<IndexLibrarianDesk />
 				</Tab>
 				<Tab
 					eventKey="toPick"
 					title={
-						<>
-							<span>Da prendere sulle corsie</span>
-							<span className="badge bg-danger ms-2">
+						<div className="d-flex align-items-center">
+							<span className="tab-text">
+								Da prendere sulle corsie
+							</span>
+							<span className="badge bg-mattone ms-2">
 								{reservedToBePicked.length > 0
 									? reservedToBePicked.length
 									: ""}
 							</span>
-						</>
+						</div>
 					}>
 					<IndexReservedToBePicked />
 				</Tab>
 				<Tab
 					eventKey="Receive"
 					title={
-						<>
-							<span>Prestiti in corso</span>
-							<span className="badge bg-light ms-2">
+						<div className="d-flex align-items-center">
+							<span className="tab-text">
+								Fuori sede in prestito
+							</span>
+							<span className="badge bg-warning ms-2">
 								{virtualShelves.length > 0
 									? virtualShelves.length
 									: ""}
 							</span>
-						</>
+						</div>
 					}>
 					<AllVirtualShelfIndex />
 				</Tab>

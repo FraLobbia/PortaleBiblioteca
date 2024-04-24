@@ -65,7 +65,7 @@ const InventoryTableNotPublic = () => {
 							return (
 								<tr key={index} className="row-cols-4 m-0">
 									<td>{shelfName}</td>
-									<td>
+									<td className="fs-3">
 										{items.reduce(
 											(acc, item) => acc + item.quantity,
 											0
@@ -109,7 +109,7 @@ const InventoryTableNotPublic = () => {
 							return (
 								<tr key={index} className="row-cols-4 m-0">
 									<td>{shelfName}</td>
-									<td>
+									<td className="fs-3">
 										{items.reduce(
 											(acc, item) => acc + item.quantity,
 											0
@@ -152,7 +152,7 @@ const InventoryTableNotPublic = () => {
 							return (
 								<tr key={index} className="row-cols-4 m-0">
 									<td>{shelfName}</td>
-									<td>
+									<td className="fs-3">
 										{items.reduce(
 											(acc, item) => acc + item.quantity,
 											0

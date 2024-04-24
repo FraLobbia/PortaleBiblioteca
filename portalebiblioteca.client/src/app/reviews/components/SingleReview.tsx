@@ -1,4 +1,4 @@
-import { Card } from "react-bootstrap";
+import { Card, Col, Container, Row } from "react-bootstrap";
 import { formatData } from "../../../Functions/utility";
 import { Link } from "react-router-dom";
 import { Review } from "../../../interfaces/review.interface";
@@ -12,9 +12,9 @@ interface SingleReviewProps {
 const SingleReview = ({ review, user }: SingleReviewProps) => {
 	return (
 		<Card className="border-primary mb-3" key={"review-" + review.idReview}>
-			<Card.Header>
+			<Card.Header className="bg-mattone-light">
 				<div className="d-flex justify-content-between align-items-center">
-					<p className=" fw-bold">
+					<p className="fw-bold">
 						<span>
 							<img
 								src={
@@ -35,21 +35,39 @@ const SingleReview = ({ review, user }: SingleReviewProps) => {
 							{user?.firstName}
 						</span>
 					</p>
-					<p className="text-muted">
-						{formatData(review.reviewDate)}
-					</p>
+					<p>{formatData(review.reviewDate)}</p>
 				</div>
 				<p>
 					<Link
-						className="text-muted"
+						className="text-mattone-dark"
 						to={"/catalogo/details/" + review.book?.idBook}>
 						{review.book?.title} - {review.book?.author.name}
 					</Link>
 				</p>
 			</Card.Header>
 			<Card.Body>
-				<Card.Title>{review.reviewTitle}</Card.Title>
-				<Card.Text>{review.reviewBody}</Card.Text>
+				<Container>
+					<Row>
+						<Col xs={12} sm={11}>
+							<Card.Title>{review.reviewTitle}</Card.Title>
+							<Card.Text>{review.reviewBody}</Card.Text>
+						</Col>
+						<Col sm={1} className="d-none d-sm-block">
+							<Link
+								to={"/catalogo/details/" + review.book?.idBook}>
+								<img
+									src={review.book?.coverImage}
+									className="img-thumbnail border-0 shadow"
+									style={{
+										objectFit: "cover",
+										width: "100px",
+									}}
+									alt="immagine libro"
+								/>
+							</Link>
+						</Col>
+					</Row>
+				</Container>
 			</Card.Body>
 		</Card>
 	);

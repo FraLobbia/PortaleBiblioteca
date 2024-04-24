@@ -74,16 +74,42 @@ const EditBook = () => {
 				activeKey={tab ? tab : "Edit"}
 				id="uncontrolled-tab-example"
 				onSelect={handleSelect}>
-				<Tab eventKey="Edit" title="Modifica dettagli">
+				<Tab
+					eventKey="Edit"
+					title={
+						<>
+							<span className="tab-text">Modifica dettagli</span>
+						</>
+					}>
 					<FormEditBook />
 				</Tab>
-				<Tab eventKey="Warehouse" title="Magazzino">
+				<Tab
+					eventKey="Warehouse"
+					title={
+						<>
+							<span className="tab-text">Magazzino</span>
+						</>
+					}>
 					<InventoryTable />
 				</Tab>
-				<Tab eventKey="Receive" title="Ricevi nuovi libri">
+				<Tab
+					eventKey="Receive"
+					title={
+						<>
+							<span className="tab-text">Ricevi nuovi libri</span>
+						</>
+					}>
 					<ReceiveBooks />
 				</Tab>
-				<Tab eventKey="Loans" title="Visualizza prestiti">
+				<Tab
+					eventKey="Loans"
+					title={
+						<>
+							<span className="tab-text">
+								Visualizza prestiti
+							</span>
+						</>
+					}>
 					<BookLoans />
 				</Tab>
 			</Tabs>

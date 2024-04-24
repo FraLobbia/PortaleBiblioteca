@@ -9,8 +9,14 @@
 $warning: #ecb465;
 $primary: #a2b7b7;
 $mattone: #5d4848;
+$mattone-light: lighten($mattone, 30%);
+$mattone-dark: darken($mattone, 10%);
 $font-family-sans-serif: "Cabin Sketch", cursive;
 $font-sans-serif: "Cabin Sketch", cursive;
+$table-bg: $mattone-light;
+$link-color: $mattone-light;
+$link-color-dark: #d8c3a7;
+
 // 3. Include remainder of required Bootstrap stylesheets (including any separate color mode stylesheets)
 @import "../../node_modules/bootstrap/scss/variables";
 @import "../../node_modules/bootstrap/scss/variables-dark";
@@ -19,6 +25,8 @@ $font-sans-serif: "Cabin Sketch", cursive;
 
 $custom-theme-colors: (
 	"mattone": $mattone,
+	"mattone-light": $mattone-light,
+	"mattone-dark": $mattone-dark,
 	"tertiary": #c6c5c5,
 );
 $theme-colors: map-merge($theme-colors, $custom-theme-colors);

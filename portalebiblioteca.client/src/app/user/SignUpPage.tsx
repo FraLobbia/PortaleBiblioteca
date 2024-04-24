@@ -90,13 +90,10 @@ const SignUpPage = () => {
 				</Form.Group>
 				{error && <p className="text-danger">{error}</p>}
 
-				<Button variant="primary" type="submit">
+				<Button variant="success" type="submit">
 					Registrati
 				</Button>
 			</Form>
-			<div className="mt-4">
-				<Link to="/signup">Non sei registrato? Registrati</Link>
-			</div>
 		</Container>
 	);
 };

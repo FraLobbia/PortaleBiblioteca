@@ -240,7 +240,7 @@ const IndexLibrarianDesk = () => {
 											</Row>
 										</Container>
 									</td>
-									<td>
+									<td className="fs-3">
 										{items.reduce(
 											(acc, item) => acc + item.quantity,
 											0

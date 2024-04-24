@@ -93,7 +93,7 @@ const HomePage = () => {
 	return (
 		<div className="home-page container">
 			<header>
-				<h1 className="text-center display-2 mb-0">
+				<h1 className="text-center display-2">
 					Benvenuti nella Biblioteca del <br /> Castello di Quinto
 				</h1>
 			</header>

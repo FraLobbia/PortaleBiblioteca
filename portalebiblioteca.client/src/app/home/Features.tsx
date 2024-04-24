@@ -1,4 +1,4 @@
-import { Container, Row, Col, Card, Button } from "react-bootstrap";
+import { Container, Row, Col, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 const Features = () => {
@@ -22,6 +22,7 @@ const Features = () => {
 							</Card.Text>
 						</Card.Body>
 					</Card>
+
 					<Card className="mb-3">
 						<Card.Body>
 							<Link to={"/recensioni"}>
@@ -50,7 +51,8 @@ const Features = () => {
 								<span className="text-muted fst-italic">
 									La quantità di libri in magazzino è
 									considerata non disponibile finchè non
-									vengono spostati sulle corsie pubbliche.
+									vengono spostati sulle corsie pubbliche dal
+									bibliotecario.
 								</span>
 							</Card.Text>
 						</Card.Body>
@@ -90,23 +92,10 @@ const Features = () => {
 					</Card>
 				</Col>
 			</Row>
+			<hr />
 			<Row>
 				<h2>Punti chiave</h2>
 				<Col>
-					<Card className="mb-3">
-						<Card.Body>
-							<Card.Title>
-								Autenticazione con <strong>JWT</strong>
-							</Card.Title>
-							<Card.Text>
-								La sicurezza è garantita attraverso
-								l'autenticazione con JWT token. Ogni fetch al
-								server contiene un token di autenticazione
-								criptato lato server per verificare l'identità
-								ed i permessi dell'utente.
-							</Card.Text>
-						</Card.Body>
-					</Card>
 					<Card className="mb-3">
 						<Card.Body>
 							<Card.Title>
@@ -140,6 +129,127 @@ const Features = () => {
 										ai prestiti.
 									</li>
 								</ol>
+							</Card.Text>
+						</Card.Body>
+					</Card>
+					<Card className="mb-3">
+						<Card.Body>
+							<Card.Title>
+								Gestione dei <strong>prestiti</strong>
+							</Card.Title>
+							<Card.Text>
+								I prestiti passano attraverso 4 step:
+								<ol>
+									<li>
+										Attraverso la consultazone del{" "}
+										<strong>catalogo </strong>
+										si possono prenotare i libri, se
+										disponibili
+									</li>
+									<li>
+										La prenotazione ricade su un libro nelle
+										corsie, quindi il libro{" "}
+										<strong>deve essere preso</strong> dal
+										bibliotecario e portato al banco
+										attraverso l'apposita funzione
+									</li>
+									<li>
+										Una volta che il libro{" "}
+										<strong> si trova al banco </strong>
+										può essere consegnato al richiedente
+									</li>
+									<li>
+										Quando il libro viene{" "}
+										<strong>restituito</strong>, viene posto
+										sul banco del bibliotecario in attesa di
+										essere rimesso in corsia o in magazzino.
+										Non avendo questo una prenotazione verrà
+										diviso in una sezione del banco
+										apposita.
+									</li>
+								</ol>
+							</Card.Text>
+						</Card.Body>
+					</Card>
+					<Card className="mb-3">
+						<Card.Body>
+							<Card.Title>
+								Gestione dell'<strong>inventario </strong>da
+								parte del bibliotecario
+							</Card.Title>
+							<Card.Text>
+								Per ogni libro è possibile visualizzare:
+								<ul>
+									<li>Quantità disponibile</li>
+									<li>
+										Quantità in magazzino{" "}
+										<i>(non disponibile)</i>
+									</li>
+									<li>
+										Quantità prenotata{" "}
+										<i>
+											(con riferimento dell'utente
+											richiedente)
+										</i>{" "}
+									</li>
+									<li>Quantità al banco del bibliotecario</li>
+									<li>Quantità fuori sede per prestito</li>
+								</ul>
+								Questo viene gestito attribuendo un apposito{" "}
+								<u>
+									<strong>status</strong> all'entità di
+									magazzino{" "}
+								</u>
+								che rappresenta il libro.
+							</Card.Text>
+						</Card.Body>
+					</Card>
+				</Col>
+			</Row>
+			<Row>
+				<h2>Dettagli tecnici</h2>
+				<Col>
+					<Card className="mb-3">
+						<Card.Body>
+							<Card.Title>
+								Autenticazione con <strong>JWT</strong>
+							</Card.Title>
+							<Card.Text>
+								La sicurezza è garantita attraverso
+								l'autenticazione con JWT token. Ogni fetch al
+								server contiene un token di autenticazione
+								criptato lato server per verificare l'identità
+								ed i permessi dell'utente.
+							</Card.Text>
+						</Card.Body>
+					</Card>
+					<Card className="mb-3">
+						<Card.Body>
+							<Card.Title>
+								Utilizzo di <strong>Redux</strong> e di{" "}
+								<strong>TypeScript</strong>
+							</Card.Title>
+							<Card.Text>
+								Lo scambio di informazioni tra i componenti è
+								gestito attraverso Redux, permettendo di avere
+								uno stato globale dell'applicazione mantenendo
+								il codice pulito e facilmente manutenibile.
+								L'utilizzo di TypeScript aggiunge ancora più
+								robustezza e sicurezza in interventi posteriori
+								con maggiore precisione.
+							</Card.Text>
+						</Card.Body>
+					</Card>
+					<Card className="mb-3">
+						<Card.Body>
+							<Card.Title>
+								Back end gestito da <strong>API .NET 8</strong>
+							</Card.Title>
+							<Card.Text>
+								Il back end è gestito da delle API .NET 8 che si
+								occupa di gestire le richieste dal frontend, la
+								comunicazione con il database e la gestione
+								della sicurezza.
 							</Card.Text>
 						</Card.Body>
 					</Card>
