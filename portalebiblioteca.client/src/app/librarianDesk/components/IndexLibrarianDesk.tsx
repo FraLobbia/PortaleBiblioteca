@@ -1,4 +1,4 @@
-import { Button, Form, Table } from "react-bootstrap";
+import { Button, Col, Container, Form, Row, Table } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../../Functions/hooks";
 import { useEffect, useState } from "react";
 import {
@@ -79,7 +79,7 @@ const IndexLibrarianDesk = () => {
 			cancelButtonText: `No`,
 		}).then((result) => {
 			if (result.isConfirmed) {
-				fetchMoveToVirtualShelf(IdItemsEntityToVirtual)
+				dispatch(fetchMoveToVirtualShelf(IdItemsEntityToVirtual))
 					.then(() => dispatch(fetchAllItemsInVirtualShelf()))
 					.then(() => dispatch(fetchBookAtLibrarianDesk()))
 					.then(() => navigate("/librarian?tab=Desk"));
@@ -105,7 +105,7 @@ const IndexLibrarianDesk = () => {
 				<thead className="container text-center">
 					<tr className="row-cols-4 m-0">
 						<th>Libro</th>
-						<th>Destinatario prestito</th>
+						<th>Utente</th>
 						<th></th>
 					</tr>
 				</thead>
@@ -120,32 +120,49 @@ const IndexLibrarianDesk = () => {
 						itemsWithLoan.map((item, index) => (
 							<tr key={index}>
 								<td>
-									<Link
-										to={`/catalogo/details/${item.book.idBook}`}
-										className="d-flex align-items-center gap-2 justify-content-center">
-										<img
-											className="d-none d-md-block"
-											src={item.book.coverImage}
-											height={50}
-											alt="copertina libro"
-										/>
-										<div>
-											<p>{item.book.title} </p>
-											<p>{item.book.author.name}</p>
-										</div>
-									</Link>
+									<Container fluid>
+										<Link
+											to={`/catalogo/details/${item.book.idBook}`}>
+											<Row>
+												<Col
+													xs={3}
+													className="d-none d-md-block">
+													<img
+														src={
+															item.book.coverImage
+														}
+														height={50}
+														alt="copertina libro"
+													/>
+												</Col>
+												<Col xs={9}>
+													<p>{item.book.title} </p>
+													<p>
+														{item.book.author.name}
+													</p>
+												</Col>
+											</Row>
+										</Link>
+									</Container>
 								</td>
 								<td>
-									<div className="d-flex align-items-center gap-2 justify-content-center">
-										<img
-											className="d-none d-md-block"
-											src={item.user?.userImage}
-											alt="immagine user"
-											height={50}
-										/>
-										{item.user?.firstName}{" "}
-										{item.user?.lastName}
-									</div>
+									<Container fluid>
+										<Row>
+											<Col
+												xs={3}
+												className="d-none d-md-block">
+												<img
+													src={item.user?.userImage}
+													alt="immagine user"
+													height={50}
+												/>
+											</Col>
+											<Col xs={12} md={9}>
+												<p>{item.user?.firstName} </p>
+												<p>{item.user?.lastName}</p>
+											</Col>
+										</Row>
+									</Container>
 								</td>
 								<td>
 									<Button
@@ -188,22 +205,40 @@ const IndexLibrarianDesk = () => {
 							return (
 								<tr key={index} className="row-cols-4 m-0">
 									<td>
-										<Link
-											to={`/catalogo/details/${firstItem.book.idBook}`}
-											className="d-flex align-items-center gap-2 justify-content-center">
-											<img
-												className="d-none d-md-block"
-												src={firstItem.book.coverImage}
-												height={50}
-												alt="copertina libro"
-											/>
-											<div>
-												<p>{firstItem.book.title} </p>
-												<p>
-													{firstItem.book.author.name}
-												</p>
-											</div>
-										</Link>
+										<Container fluid>
+											<Row>
+												<Link
+													to={`/catalogo/details/${firstItem.book.idBook}`}
+													className="d-flex align-items-center gap-2 justify-content-center">
+													<Col
+														xs={3}
+														className="d-none d-md-block">
+														<img
+															src={
+																firstItem.book
+																	.coverImage
+															}
+															height={50}
+															alt="copertina libro"
+														/>
+													</Col>
+													<Col xs={12} md={9}>
+														<p>
+															{
+																firstItem.book
+																	.title
+															}{" "}
+														</p>
+														<p>
+															{
+																firstItem.book
+																	.author.name
+															}
+														</p>
+													</Col>
+												</Link>
+											</Row>
+										</Container>
 									</td>
 									<td>
 										{items.reduce(

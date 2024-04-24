@@ -1,4 +1,4 @@
-import { Button, Form, Table } from "react-bootstrap";
+import { Button, Col, Container, Form, Row, Table } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../../Functions/hooks";
 import { useEffect, useState } from "react";
 import {
@@ -7,7 +7,6 @@ import {
 	fetchReservedToBePicked,
 } from "../../../api/warehouse/warehouseFetches";
 import Swal from "sweetalert2";
-import { Book } from "../../../interfaces/book.interface";
 
 const IndexReservedToBePicked = () => {
 	// define hooks
@@ -35,7 +34,7 @@ const IndexReservedToBePicked = () => {
 			cancelButtonText: `No`,
 		}).then((result) => {
 			if (result.isConfirmed) {
-				fetchMoveToDesk(idItemsEntity).then(() =>
+				dispatch(fetchMoveToDesk(idItemsEntity)).then(() =>
 					dispatch(fetchReservedToBePicked()).then(() =>
 						dispatch(fetchBookAtLibrarianDesk())
 					)
@@ -63,7 +62,9 @@ const IndexReservedToBePicked = () => {
 					<tr className="row-cols-4 m-0">
 						<th>Scaffali pubblici</th>
 						<th>Libro</th>
-						<th>Destinatario prestito</th>
+						<th className="table--destinatario-section">
+							Destinatario prestito
+						</th>
 						<th></th>
 					</tr>
 				</thead>
@@ -93,20 +94,29 @@ const IndexReservedToBePicked = () => {
 								<tr key={index}>
 									<td>{item.shelf.shelfName}</td>
 									<td>
-										<div className="d-flex align-items-center gap-2 justify-content-start">
-											<img
-												className="d-none d-md-block"
-												src={item.book.coverImage}
-												height={50}
-												alt="copertina libro"
-											/>
-											<div>
-												<p>{item.book.title} </p>
-												<p>{item.book.author.name}</p>
-											</div>
-										</div>
+										<Container fluid>
+											<Row>
+												<Col
+													xs={3}
+													className="d-none d-md-block">
+													<img
+														src={
+															item.book.coverImage
+														}
+														height={50}
+														alt="copertina libro"
+													/>
+												</Col>
+												<Col xs={12} md={9}>
+													<p>{item.book.title} </p>
+													<p>
+														{item.book.author.name}
+													</p>
+												</Col>
+											</Row>
+										</Container>
 									</td>
-									<td>
+									<td className="table--destinatario-section">
 										<div className="d-flex align-items-center gap-2 justify-content-start">
 											<img
 												className="d-none d-md-block"

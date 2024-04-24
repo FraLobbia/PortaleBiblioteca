@@ -1,13 +1,12 @@
 import Swal from "sweetalert2";
+import { Loan } from "../interfaces/loans.interface";
 
-export const formatData = (data: string | undefined | Date) => {
-	if (data === undefined) return "";
-	const dateParts = data.split("-");
-	const year = parseInt(dateParts[0]);
-	const month = parseInt(dateParts[1]);
-	const day = parseInt(dateParts[2]);
+export const formatData = (data: Date, addDay?: number) => {
+	const date = new Date(data);
 
-	const date = new Date(year, month - 1, day); // month - 1 perché i mesi in JavaScript partono da 0
+	if (addDay) {
+		date.setDate(date.getDate() + addDay);
+	}
 
 	const options = {
 		weekday: "long" as const,
@@ -17,6 +16,36 @@ export const formatData = (data: string | undefined | Date) => {
 	};
 
 	return capitalizeFirstLetter(date.toLocaleDateString("it-IT", options));
+};
+
+export const howManyDaysAgo = (date: Date) => {
+	const today = new Date();
+	const dateToCompare = new Date(date);
+
+	// difference in days
+	const differenceInTime = today.getTime() - dateToCompare.getTime();
+	const differenceInDays = differenceInTime / (1000 * 3600 * 24);
+
+	const differenceInDaysRounded = Math.round(differenceInDays);
+
+	switch (differenceInDaysRounded) {
+		case 0:
+			return (
+				"Oggi alle " +
+				dateToCompare.toLocaleTimeString("it-IT").slice(0, 5)
+			);
+		case 1:
+			return (
+				"Ieri alle " +
+				dateToCompare.toLocaleTimeString("it-IT").slice(0, 5)
+			);
+		default:
+			return (
+				differenceInDaysRounded +
+				" giorni fa alle " +
+				dateToCompare.toLocaleTimeString("it-IT").slice(0, 5)
+			);
+	}
 };
 
 export const Toast = Swal.mixin({
@@ -37,32 +66,6 @@ export function capitalizeFirstLetter(str: string) {
 	});
 }
 
-export const howManyDaysAgo = (date: string | Date | undefined) => {
-	// 2024-04-05 12:04:59.9108221
-	if (date === undefined) return "Data non disponibile";
-	const today = new Date();
-	const dateToCheck = new Date(date);
-	const diffTime = Math.abs(today.getTime() - dateToCheck.getTime());
-	const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) - 1;
-	switch (diffDays) {
-		case 0:
-			return (
-				"Oggi alle " +
-				dateToCheck.toLocaleTimeString("it-IT").slice(0, 5)
-			);
-		case 1:
-			return (
-				"Ieri alle " +
-				dateToCheck.toLocaleTimeString("it-IT").slice(0, 5)
-			);
-		default:
-			return (
-				diffDays +
-				" giorni fa alle " +
-				dateToCheck.toLocaleTimeString("it-IT").slice(0, 5)
-			);
-	}
-};
 export const setDarkMode = () => {
 	document.querySelector("body")?.setAttribute("data-theme", "dark");
 	localStorage.setItem("selectedTheme", "dark");
@@ -89,5 +92,22 @@ export const convertToAisleName = (aisleNumber: number) => {
 			return "Magazzino " + "Corsia " + aisleNumber;
 		default:
 			return "Corsia " + aisleNumber;
+	}
+};
+
+export const isBookAvailableAtDesk = (loan: Loan): string => {
+	if (loan.returned) {
+		return "Libro restituito";
+	}
+	switch (loan.item?.shelf.shelfName) {
+		case "Banco del bibliotecario - Corsia 110 - A1":
+			return "Sì, passa al banco del bibliotecario per ritirarlo";
+		case "In prestito":
+			return "Ce l'hai tu! Ricordati di restituirlo!";
+		default:
+			return (
+				"No, sarà disponibile al banco del bibliotecario a partire da " +
+				formatData(loan.loanDate, 1)
+			);
 	}
 };

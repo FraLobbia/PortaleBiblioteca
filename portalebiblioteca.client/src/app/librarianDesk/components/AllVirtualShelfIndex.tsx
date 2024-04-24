@@ -4,7 +4,7 @@ import {
 	fetchAllItemsInVirtualShelf,
 	fetchBookAtLibrarianDesk,
 } from "../../../api/warehouse/warehouseFetches";
-import { Button, Form, Table } from "react-bootstrap";
+import { Button, Col, Container, Form, Row, Table } from "react-bootstrap";
 import { flagLoanAsReturned } from "../../../api/loans/loansFetches";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
@@ -71,7 +71,9 @@ const AllVirtualShelfIndex = () => {
 				<thead className="container text-center">
 					<tr className="row-cols-4 m-0">
 						<th>Libro</th>
-						<th>Destinatario prestito</th>
+						<th className="table--destinatario-section">
+							Destinatario prestito
+						</th>
 						<th></th>
 					</tr>
 				</thead>
@@ -102,32 +104,66 @@ const AllVirtualShelfIndex = () => {
 							.map((item, index) => (
 								<tr key={index}>
 									<td>
-										<Link
-											to={`/catalogo/details/${item.book.idBook}`}
-											className="d-flex align-items-center gap-2 justify-content-center">
-											<img
-												className="d-none d-md-block"
-												src={item.book.coverImage}
-												height={50}
-												alt="copertina libro"
-											/>
-											<div>
-												<p>{item.book.title} </p>
-												<p>{item.book.author.name}</p>
-											</div>
-										</Link>
+										<Container>
+											<Row>
+												<Link
+													to={`/catalogo/details/${item.book.idBook}`}
+													className="d-flex align-items-center gap-2 justify-content-center">
+													<Col
+														xs={3}
+														className="d-none d-md-block">
+														<img
+															src={
+																item.book
+																	.coverImage
+															}
+															height={50}
+															style={{
+																objectFit:
+																	"cover",
+															}}
+															alt="copertina libro"
+														/>
+													</Col>
+													<Col xs={9}>
+														<p>
+															{item.book.title}{" "}
+														</p>
+														<p>
+															{
+																item.book.author
+																	.name
+															}
+														</p>
+													</Col>
+												</Link>
+											</Row>
+										</Container>
 									</td>
-									<td>
-										<div className="d-flex align-items-center gap-2 justify-content-center">
-											<img
-												className="d-none d-md-block"
-												src={item.user?.userImage}
-												alt="immagine user"
-												height={50}
-											/>
-											{item.user?.firstName}{" "}
-											{item.user?.lastName}
-										</div>
+									<td className="table--destinatario-section">
+										<Container>
+											<Row>
+												<Col
+													xs={3}
+													className="d-none d-md-block">
+													<img
+														src={
+															item.user?.userImage
+														}
+														alt="immagine user"
+														style={{
+															objectFit: "cover",
+															height: 50,
+															width: 50,
+														}}
+													/>
+												</Col>
+												<Col xs={9}>
+													{item.user?.firstName}{" "}
+													{item.user?.lastName}
+												</Col>
+											</Row>
+										</Container>
 									</td>
 									<td>
 										<Button

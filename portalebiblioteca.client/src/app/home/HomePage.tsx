@@ -17,7 +17,6 @@ import { fetchBookList } from "../../api/booksCatalog/bookCRUDFetches";
 import { Loan } from "../../interfaces/loans.interface";
 import { fetchLoansByUserId } from "../../api/loans/loansFetches";
 import NewReview from "../reviews/components/NewReview";
-import { SyncLoader } from "react-spinners";
 import LoadingComponent from "../_miscellaneous/reusable/LoadingComponent";
 
 const HomePage = () => {
@@ -142,7 +141,7 @@ const HomePage = () => {
 						</p>
 						<Link to="/features" className="btn btn-mattone shadow">
 							<FontAwesomeIcon icon={faCompass} />
-							<span className="ms-2">Che cosa facciamo</span>
+							<span className="ms-2">Che cosa puoi fare</span>
 						</Link>
 					</section>
 				</Col>
@@ -174,14 +173,12 @@ const HomePage = () => {
 			<hr />
 
 			<section id="lascia-una-recensione">
-				{isLoading ? (
-					<LoadingComponent />
-				) : loansCurrentUser.length ? (
+				<h2 className="text-end">
+					...lasciare una recensione per un libro che hai letto di
+					recente
+				</h2>
+				{loansCurrentUser.length ? (
 					<>
-						<h2 className="text-end">
-							...lasciare una recensione per un libro che hai
-							letto di recente
-						</h2>
 						<Slider className="my-3" {...settingsSliderLoans}>
 							{loansCurrentUser.map((loan: Loan) => (
 								<div

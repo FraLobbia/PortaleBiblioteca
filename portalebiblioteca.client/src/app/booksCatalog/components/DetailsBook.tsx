@@ -109,7 +109,7 @@ const DetailsBook = ({ book }: DetailsBookProps) => {
 						<dt>Genere:</dt>
 						<dd>{book.genre.name}</dd>
 						<dt>Data di pubblicazione:</dt>
-						<dd>{formatData(book.publicationDate?.toString())}</dd>
+						<dd>{formatData(book.publicationDate)}</dd>
 						<dt>ISBN:</dt>
 						<dd>{book.isbn}</dd>
 					</Col>

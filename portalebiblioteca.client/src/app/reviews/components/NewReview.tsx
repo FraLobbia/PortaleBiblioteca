@@ -27,11 +27,12 @@ const NewReview = ({ book }: NewReviewProps) => {
 	);
 
 	// what happens when the component mounts:
-	// set the review object
 	useEffect(() => {
 		dispatch(fetchReviewListByBookId(book.idBook));
 	}, []);
 
+	// set the review object if the user has already written a review
+	// review will be passed to the SingleReview component
 	useEffect(() => {
 		if (reviewAlreadyWritten) {
 			setReview(reviewAlreadyWritten);

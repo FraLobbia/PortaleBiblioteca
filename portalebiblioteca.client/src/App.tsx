@@ -25,6 +25,7 @@ import EditAuthors from "./app/authors/EditAuthors";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import HomeReviews from "./app/reviews/HomeReviews";
+import Features from "./app/home/Features";
 function App() {
 	const selectedTheme = localStorage.getItem("selectedTheme");
 
@@ -37,6 +38,7 @@ function App() {
 			<div style={{ paddingTop: "40px" }}>
 				<Routes>
 					<Route path="/" element={<HomePage />} />
+					<Route path="/features" element={<Features />} />
 
 					<Route path="/catalogo">
 						<Route index element={<IndexBooks />} />

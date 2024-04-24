@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { formatData, howManyDaysAgo } from "../../../Functions/utility";
+import {
+	formatData,
+	howManyDaysAgo,
+	isBookAvailableAtDesk,
+} from "../../../Functions/utility";
 import { useAppSelector } from "../../../Functions/hooks";
 import { Loan } from "../../../interfaces/loans.interface";
 import { Table } from "react-bootstrap";
@@ -91,15 +95,7 @@ const UserLoansHistory = () => {
 										<hr className="m-0" />
 										<p>{howManyDaysAgo(loan?.loanDate)}</p>
 									</td>
-									<td>
-										{loan?.item?.shelf.shelfName.includes(
-											"Banco"
-										) ? (
-											<p className="text-success">Sì</p>
-										) : (
-											<p className="text-danger">No</p>
-										)}
-									</td>
+									<td>{isBookAvailableAtDesk(loan)}</td>
 									{ShowAlsoReturned && (
 										<>
 											{loan?.returned ? (
