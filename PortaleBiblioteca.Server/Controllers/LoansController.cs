@@ -75,7 +75,7 @@ namespace PortaleBiblioteca.Server.Controllers
                     {
                         loan.Item.IdItemsEntity,
                         loan.Item.IdBook,
-                        loan.Item.Status,
+                        Status = loan.Item.Status.ToString(),
                         loan.Item.ChangeDate,
                         loan.Item.IdShelf,
                         loan.Item.IdLoan,

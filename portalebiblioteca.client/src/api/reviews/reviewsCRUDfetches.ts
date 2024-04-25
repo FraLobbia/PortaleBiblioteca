@@ -35,7 +35,7 @@ export const fetchReviewList = () => async (dispatch: AppDispatch) => {
 
 export const fetchReviewListByBookId =
 	(idBook: number) => async (dispatch: AppDispatch) => {
-		dispatch(setLoading(true));
+		//dispatch(setLoading(true));
 		try {
 			const response = await fetchWithAuth(
 				url + `api/Reviews/book/${idBook}`,
@@ -61,7 +61,7 @@ export const fetchReviewListByBookId =
 			// Handle errors here, if necessary
 			console.error("Errore nel fetch:", error);
 		} finally {
-			dispatch(setLoading(false));
+			//dispatch(setLoading(false));
 		}
 	};
 

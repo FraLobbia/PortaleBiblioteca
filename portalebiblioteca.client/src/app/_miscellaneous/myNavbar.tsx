@@ -146,8 +146,8 @@ const MyNavbar = () => {
 								<NavDropdown.Item
 									as={NavLink}
 									eventKey="10"
-									to="/prestiti">
-									I tuoi libri in prestito
+									to="/private-area">
+									Area personale
 								</NavDropdown.Item>
 
 								<NavDropdown.Divider />

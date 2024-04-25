@@ -26,6 +26,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import HomeReviews from "./app/reviews/HomeReviews";
 import Features from "./app/home/Features";
+import PrivateArea from "./app/privateArea/PrivateArea";
 function App() {
 	const selectedTheme = localStorage.getItem("selectedTheme");
 
@@ -73,6 +74,8 @@ function App() {
 						<Route path="signup" element={<SignUpPage />} />
 						<Route path="edit" element={<EditProfile />} />
 					</Route>
+
+					<Route path="/private-area" element={<PrivateArea />} />
 
 					<Route path="/prestiti">
 						<Route index element={<UserLoansDashboard />} />
