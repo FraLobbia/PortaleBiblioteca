@@ -107,7 +107,7 @@ const AllVirtualShelfIndex = () => {
 										<Container>
 											<Row>
 												<Link
-													to={`/catalogo/details/${item.book.idBook}`}
+													to={`/catalogo/details/${item.idBook}`}
 													className="d-flex align-items-center gap-2 justify-content-center">
 													<Col
 														xs={3}

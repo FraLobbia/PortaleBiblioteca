@@ -7,6 +7,7 @@ import {
 	fetchReservedToBePicked,
 } from "../../../api/warehouse/warehouseFetches";
 import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
 
 const IndexReservedToBePicked = () => {
 	// define hooks
@@ -96,23 +97,37 @@ const IndexReservedToBePicked = () => {
 									<td>
 										<Container fluid>
 											<Row>
-												<Col
-													xs={3}
-													className="d-none d-md-block">
-													<img
-														src={
-															item.book.coverImage
-														}
-														height={50}
-														alt="copertina libro"
-													/>
-												</Col>
-												<Col xs={12} md={9}>
-													<p>{item.book.title} </p>
-													<p>
-														{item.book.author.name}
-													</p>
-												</Col>
+												<Link
+													to={`/catalogo/details/${item.idBook}`}
+													className="d-flex align-items-center gap-2 justify-content-center">
+													<Col
+														xs={3}
+														className="d-none d-md-block">
+														<img
+															src={
+																item.book
+																	.coverImage
+															}
+															height={50}
+															style={{
+																objectFit:
+																	"cover",
+															}}
+															alt="copertina libro"
+														/>
+													</Col>
+													<Col xs={9}>
+														<p>
+															{item.book.title}{" "}
+														</p>
+														<p>
+															{
+																item.book.author
+																	.name
+															}
+														</p>
+													</Col>
+												</Link>
 											</Row>
 										</Container>
 									</td>

@@ -1,3 +1,12 @@
+import {
+	faArrowsLeftRight,
+	faArrowsUpDown,
+	faFeather,
+	faGlasses,
+	faLandmark,
+	faRoad,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Container, Row, Col, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
@@ -6,12 +15,17 @@ const Features = () => {
 		<Container className="mt-5">
 			<h1 className="mb-3">Che cosa puoi fare in questo portale</h1>
 			<Row>
+				<h2>Come utente</h2>
 				<Col>
 					<Card className="mb-3">
 						<Card.Body>
 							<Link to={"/catalogo"}>
 								<Card.Title>
 									Visualizzazione del Catalogo
+									<FontAwesomeIcon
+										className="ms-2"
+										icon={faGlasses}
+									/>
 								</Card.Title>
 							</Link>
 							<Card.Text>
@@ -26,7 +40,13 @@ const Features = () => {
 					<Card className="mb-3">
 						<Card.Body>
 							<Link to={"/recensioni"}>
-								<Card.Title>Scrivere recensioni</Card.Title>
+								<Card.Title>
+									Scrivere recensioni
+									<FontAwesomeIcon
+										className="ms-2"
+										icon={faFeather}
+									/>
+								</Card.Title>
 							</Link>
 							<Card.Text>
 								Per ogni libro è possibile scrivere una
@@ -40,7 +60,13 @@ const Features = () => {
 					<Card className="mb-3">
 						<Card.Body>
 							<Link to={"/prestiti"}>
-								<Card.Title>Prestito Libri</Card.Title>
+								<Card.Title>
+									Prestito Libri
+									<FontAwesomeIcon
+										className="ms-2"
+										icon={faLandmark}
+									/>
+								</Card.Title>
 							</Link>
 							<Card.Text>
 								Gli utenti hanno un area riservata in cui
@@ -58,12 +84,17 @@ const Features = () => {
 						</Card.Body>
 					</Card>
 				</Col>
+			</Row>
+
+			<hr />
+			<Row className="align-items-center">
+				<h2>Come bibliotecario</h2>
 				<Col>
 					<Card className="mb-3">
 						<Card.Body>
 							<Link to={"/librarian"}>
 								<Card.Title>
-									Gestione da Parte del Bibliotecario
+									Gestione della biblioteca
 								</Card.Title>
 							</Link>
 							<Card.Text>
@@ -90,6 +121,84 @@ const Features = () => {
 							</Card.Text>
 						</Card.Body>
 					</Card>
+					<Card className="mb-3">
+						<Card.Body>
+							<Card.Title>Inventario</Card.Title>
+							<Card.Text>
+								<p>
+									L'inventario delle entità dei libri è diviso
+									in 4 sezioni principali:
+								</p>
+								<ul>
+									<li>
+										<strong>Magazzino</strong>: dove sono
+										conservati i libri non disponibili
+									</li>
+									<li>
+										<strong>Corsie</strong>: dove sono
+										conservati i libri disponibili
+									</li>
+									<li>
+										<strong>Banco del Bibliotecario</strong>
+										: dove sono conservati i libri pronti
+										per essere consegnati ai richiedenti
+									</li>
+									<li>
+										<strong>In prestito</strong>: uno
+										scaffale virtuale per gestire i libri in
+										prestito fuori sede
+									</li>
+								</ul>
+							</Card.Text>
+						</Card.Body>
+					</Card>
+				</Col>
+				<Col xs={12} md={8} className="text-center">
+					<Card className="mb-3">
+						<Card.Body>
+							<Card.Title>Legenda degli scaffali</Card.Title>
+							<Card.Text className="text-start">
+								<ul>
+									<li>
+										<FontAwesomeIcon icon={faRoad} />
+										<span className="ms-2">
+											Ci sono <strong>10</strong> corsie
+										</span>
+									</li>
+									<li>
+										<FontAwesomeIcon
+											icon={faArrowsLeftRight}
+										/>
+										<span className="ms-2">
+											Ogni corsia è lunga{" "}
+											<strong>100</strong> baie
+										</span>
+									</li>
+									<li>
+										<FontAwesomeIcon
+											icon={faArrowsUpDown}
+										/>
+										<span className="ms-2">
+											Ogni baia ha <strong>5 </strong>
+											livelli di altezza che corrispondono
+											alle lettere dell'alfabeto partendo
+											dal basso
+										</span>
+									</li>
+								</ul>
+								<p className="text-muted">
+									Al momento ci sono 5000 posti per riporre i
+									libri, la struttura è pensata e predisposta
+									per essere espansa al bisogno.
+								</p>
+							</Card.Text>
+						</Card.Body>
+					</Card>
+					<img
+						src="https://i.imgflip.com/8nyo72.jpg"
+						className="img-thumbnail"
+						alt="legenda biblioteca"
+					/>
 				</Col>
 			</Row>
 			<hr />

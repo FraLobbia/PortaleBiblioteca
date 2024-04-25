@@ -95,7 +95,7 @@ const FormEditBook = () => {
 	return (
 		<Container>
 			<div className="d-flex justify-content-between align-items-center">
-				<h1>Modifica dettagli del libro</h1>
+				<h2 className="mt-3">Modifica dettagli del libro</h2>
 				<Button
 					className="d-flex align-items-center gap-2"
 					variant="danger"

@@ -47,7 +47,9 @@ const EditBook = () => {
 						alt="copertina libro"
 					/>
 					<div>
-						<h1 className="m-0">{currentBook?.title}</h1>
+						<h1 className="m-0 text-mattone-dark">
+							{currentBook?.title}
+						</h1>
 						<h4>{currentBook?.author.name}</h4>
 					</div>
 				</Link>

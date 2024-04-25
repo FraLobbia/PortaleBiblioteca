@@ -46,11 +46,17 @@ footer {
 	--bs-emphasis-color: #f5f5f5;
 	--bs-border-color-translucent: white;
 	--bs-emphasis-color-rgb: 245, 245, 245;
+
+	h1 {
+		color: #ffcc89;
+	}
 	.tab-text {
 		color: $mattone-light;
 	}
-	h1 {
-		color: #ffcc89;
+	.active {
+		.tab-text {
+			color: $warning;
+		}
 	}
 }
 
@@ -59,6 +65,11 @@ footer {
 	--bs-body-color: $mattone-dark;
 	.tab-text {
 		color: $mattone-dark;
+	}
+	.active {
+		.tab-text {
+			color: darken($color: $warning, $amount: 20%);
+		}
 	}
 }
 
