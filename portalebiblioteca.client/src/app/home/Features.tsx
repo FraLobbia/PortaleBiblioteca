@@ -13,9 +13,16 @@ import { Link } from "react-router-dom";
 const Features = () => {
 	return (
 		<Container className="mt-5">
-			<h1 className="mb-3">Che cosa puoi fare in questo portale</h1>
+			<div className="alert-dark alert shadow">
+				<div className="alert-dark alert border-5 border shadow">
+					<h1 className="m-3 text-mattone-dark">
+						Cosa puoi fare in questo portale?
+					</h1>
+				</div>
+			</div>
+
 			<Row>
-				<h2>Come utente</h2>
+				<h2>..come utente</h2>
 				<Col>
 					<Card className="mb-3">
 						<Card.Body>
@@ -29,10 +36,15 @@ const Features = () => {
 								</Card.Title>
 							</Link>
 							<Card.Text>
-								Il portale permette agli utenti di visualizzare
-								il catalogo completo della biblioteca,
-								permettendo di cercare e filtrare i libri in
-								base ai propri interessi.
+								Il catalogo permette agli utenti di:
+								<ul>
+									<li>visualizzare tutti i libri</li>
+									<li>filtrare per genere ed autore</li>
+									<li>
+										cercare un libro specifico per titolo,
+										autore o parola chiave
+									</li>
+								</ul>
 							</Card.Text>
 						</Card.Body>
 					</Card>
@@ -69,16 +81,32 @@ const Features = () => {
 								</Card.Title>
 							</Link>
 							<Card.Text>
-								Gli utenti hanno un area riservata in cui
-								visualizzare i propri prestiti e restituirli.
-								Attraverso il catalogo possono prendere in
-								prestito i libri a seconda della loro
-								disponibilità sulle corsie. <br />
+								<ul>
+									<li>
+										Richiesta prestito libro dalla sezione
+										catalogo
+									</li>
+								</ul>
+								<ul>
+									<li>
+										Area privata
+										<ul>
+											<li>Visualizzazione prestiti</li>
+											<li>
+												Prestiti pronti per il ritiro
+											</li>
+											<li>
+												Suggerimenti per lasciare una
+												recensione dei libri letti
+											</li>
+										</ul>
+									</li>
+								</ul>
 								<span className="text-muted fst-italic">
-									La quantità di libri in magazzino è
-									considerata non disponibile finchè non
-									vengono spostati sulle corsie pubbliche dal
-									bibliotecario.
+									La quantità di libri disponibile non conta i
+									libri in prestito fuori sede e quelli in
+									magazzino (devono prima essere spostati in
+									corsia)
 								</span>
 							</Card.Text>
 						</Card.Body>
@@ -88,7 +116,7 @@ const Features = () => {
 
 			<hr />
 			<Row className="align-items-center">
-				<h2>Come bibliotecario</h2>
+				<h2>...come bibliotecario</h2>
 				<Col>
 					<Card className="mb-3">
 						<Card.Body>
@@ -192,16 +220,18 @@ const Features = () => {
 									per essere espansa al bisogno.
 								</p>
 							</Card.Text>
+							<img
+								src="https://i.imgflip.com/8o3sig.jpg"
+								className="img-thumbnail p-0"
+								alt="legenda biblioteca"
+							/>
 						</Card.Body>
 					</Card>
-					<img
-						src="https://i.imgflip.com/8nyo72.jpg"
-						className="img-thumbnail"
-						alt="legenda biblioteca"
-					/>
 				</Col>
 			</Row>
+
 			<hr />
+
 			<Row>
 				<h2>Punti chiave</h2>
 				<Col>
@@ -227,8 +257,8 @@ const Features = () => {
 										<span>
 											<i>
 												Per ricevuti si intende l'arrivo
-												ed il check-in di nuovi libri in
-												magazzino.
+												ed il check-in di nuove entità
+												di libri in magazzino.
 											</i>
 										</span>
 									</li>
@@ -253,19 +283,19 @@ const Features = () => {
 										Attraverso la consultazone del{" "}
 										<strong>catalogo </strong>
 										si possono prenotare i libri, se
-										disponibili
+										disponibili.
 									</li>
 									<li>
 										La prenotazione ricade su un libro nelle
 										corsie, quindi il libro{" "}
 										<strong>deve essere preso</strong> dal
 										bibliotecario e portato al banco
-										attraverso l'apposita funzione
+										attraverso l'apposita sezione.
 									</li>
 									<li>
 										Una volta che il libro{" "}
 										<strong> si trova al banco </strong>
-										può essere consegnato al richiedente
+										può essere consegnato al richiedente.
 									</li>
 									<li>
 										Quando il libro viene{" "}
@@ -300,16 +330,16 @@ const Features = () => {
 											(con riferimento dell'utente
 											richiedente)
 										</i>{" "}
+										ancora in corsia
 									</li>
 									<li>Quantità al banco del bibliotecario</li>
 									<li>Quantità fuori sede per prestito</li>
 								</ul>
 								Questo viene gestito attribuendo un apposito{" "}
 								<u>
-									<strong>status</strong> all'entità di
-									magazzino{" "}
+									<strong>status</strong> all'entità del
+									libro.
 								</u>
-								che rappresenta il libro.
 							</Card.Text>
 						</Card.Body>
 					</Card>

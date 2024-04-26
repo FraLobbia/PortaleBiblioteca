@@ -36,7 +36,7 @@ const DetailsBook = ({ book }: DetailsBookProps) => {
 			idBook: idBook.toString(),
 			IdUser: idUser.toString(),
 		};
-		dispatch(addLoanToUser(loanObJ)).then(() => navigate("/prestiti"));
+		dispatch(addLoanToUser(loanObJ)).then(() => navigate("/private-area"));
 	};
 
 	return (

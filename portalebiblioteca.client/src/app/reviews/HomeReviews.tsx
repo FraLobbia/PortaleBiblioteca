@@ -20,8 +20,13 @@ const HomeReviews = () => {
 		<Container>
 			<BackButton />
 
-			<h1>Alcune delle nostre recensioni</h1>
-
+			<div className="alert-dark alert shadow">
+				<div className="alert-dark alert border-5 border shadow">
+					<h1 className="m-3 text-mattone-dark">
+						Alcune delle nostre recensioni
+					</h1>
+				</div>
+			</div>
 			<ReviewsList searchHidden reviews={reviews} />
 		</Container>
 	);
