@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Container, Form } from "react-bootstrap";
+import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { SignUpModel } from "../../interfaces/profile.interface";
 import { useAppDispatch } from "../../Functions/hooks";
@@ -33,67 +33,82 @@ const SignUpPage = () => {
 	};
 
 	return (
-		<Container>
-			<Form onSubmit={handleSignUp}>
-				<h1>Registrati</h1>
+		<Container className="mt-5">
+			<Row className="justify-content-center">
+				<Col md={6}>
+					<Form
+						onSubmit={handleSignUp}
+						className="alert alert-dark p-4">
+						<h1>Registrati</h1>
 
-				<Form.Group className="mb-3">
-					<Form.Label>Nome</Form.Label>
-					<Form.Control
-						type="text"
-						placeholder="Inserisci il tuo nome"
-						value={name}
-						onChange={(e) => setName(e.currentTarget.value)}
-					/>
-				</Form.Group>
+						<Form.Group className="mb-3">
+							<Form.Label>Nome</Form.Label>
+							<Form.Control
+								type="text"
+								placeholder="Inserisci il tuo nome"
+								value={name}
+								onChange={(e) => setName(e.currentTarget.value)}
+							/>
+						</Form.Group>
 
-				<Form.Group className="mb-3">
-					<Form.Label>Cognome</Form.Label>
-					<Form.Control
-						type="text"
-						placeholder="Inserisci il tuo cognome"
-						value={cognome}
-						onChange={(e) => setCognome(e.currentTarget.value)}
-					/>
-				</Form.Group>
+						<Form.Group className="mb-3">
+							<Form.Label>Cognome</Form.Label>
+							<Form.Control
+								type="text"
+								placeholder="Inserisci il tuo cognome"
+								value={cognome}
+								onChange={(e) =>
+									setCognome(e.currentTarget.value)
+								}
+							/>
+						</Form.Group>
 
-				<Form.Group className="mb-3">
-					<Form.Label>Email</Form.Label>
-					<Form.Control
-						type="text"
-						placeholder="Inserisci la tua email"
-						value={email}
-						onChange={(e) => setEmail(e.currentTarget.value)}
-					/>
-				</Form.Group>
+						<Form.Group className="mb-3">
+							<Form.Label>Email</Form.Label>
+							<Form.Control
+								type="text"
+								placeholder="Inserisci la tua email"
+								value={email}
+								onChange={(e) =>
+									setEmail(e.currentTarget.value)
+								}
+							/>
+						</Form.Group>
 
-				<Form.Group className="mb-3">
-					<Form.Label>Password</Form.Label>
-					<Form.Control
-						type="password"
-						placeholder="Inserisci la tua password"
-						value={password}
-						onChange={(e) => setPassword(e.currentTarget.value)}
-					/>
-				</Form.Group>
+						<Form.Group className="mb-3">
+							<Form.Label>Password</Form.Label>
+							<Form.Control
+								type="password"
+								placeholder="Inserisci la tua password"
+								value={password}
+								onChange={(e) =>
+									setPassword(e.currentTarget.value)
+								}
+							/>
+						</Form.Group>
 
-				<Form.Group className="mb-3">
-					<Form.Label>Conferma Password</Form.Label>
-					<Form.Control
-						type="password"
-						placeholder="Conferma la tua password"
-						value={passwordConfirm}
-						onChange={(e) =>
-							setPasswordConfirm(e.currentTarget.value)
-						}
-					/>
-				</Form.Group>
-				{error && <p className="text-danger">{error}</p>}
+						<Form.Group className="mb-3">
+							<Form.Label>Conferma Password</Form.Label>
+							<Form.Control
+								type="password"
+								placeholder="Conferma la tua password"
+								value={passwordConfirm}
+								onChange={(e) =>
+									setPasswordConfirm(e.currentTarget.value)
+								}
+							/>
+						</Form.Group>
+						{error && <p className="text-danger">{error}</p>}
 
-				<Button variant="success" type="submit">
-					Registrati
-				</Button>
-			</Form>
+						<Button variant="success" type="submit">
+							Registrati
+						</Button>
+					</Form>
+					<div className="mt-4 text-center">
+						<Link to="/user/login">Sei già registrato? Accedi</Link>
+					</div>
+				</Col>
+			</Row>
 		</Container>
 	);
 };

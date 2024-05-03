@@ -30,8 +30,8 @@ const MyNavbar = () => {
 		<Navbar
 			collapseOnSelect
 			variant="dark"
-			className="bg-mattone p-0"
-			fixed="top"
+			className="bg-mattone p-0 border-0"
+			sticky="top"
 			expand="lg">
 			<Container className="justify-content-center justify-content-sm-between">
 				<Nav.Link as={NavLink} eventKey="13" to="/">

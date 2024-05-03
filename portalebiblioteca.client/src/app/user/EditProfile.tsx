@@ -48,11 +48,13 @@ const EditProfile = () => {
 	}, [user]);
 
 	return (
-		<Form onSubmit={handleSignUp}>
-			<Container>
-				<BackButton />
+		<Container>
+			<BackButton />
+			<Form onSubmit={handleSignUp} className="alert alert-dark p-4">
 				<Row>
-					<h1>Modifica il tuo profilo</h1>
+					<h1 className="text-mattone-dark">
+						Modifica il tuo profilo
+					</h1>
 					<Col xs={12}>
 						<Form.Group className="mb-3">
 							<div className="d-flex  align-items-center gap-2 justify-content-start">
@@ -140,8 +142,8 @@ const EditProfile = () => {
 						</Button>
 					</Col>
 				</Row>
-			</Container>
-		</Form>
+			</Form>
+		</Container>
 	);
 };
 
