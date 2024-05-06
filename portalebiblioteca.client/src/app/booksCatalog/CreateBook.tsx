@@ -114,7 +114,7 @@ const CreateBook = () => {
 							.map((genre) => (
 								<option
 									key={"genre-" + genre.idGenre}
-									value={genre.idGenre}>
+									value={genre.idGenre as number}>
 									{genre.name}
 								</option>
 							))}

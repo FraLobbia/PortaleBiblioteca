@@ -23,7 +23,7 @@ const NewReview = ({ book }: NewReviewProps) => {
 	const [review, setReview] = useState<Review | null>(null);
 
 	const reviewAlreadyWritten: Review | undefined = bookReviews?.find(
-		(review: Review) => review.user.idUser === user?.idUser
+		(review: Review) => review.user?.idUser === user?.idUser
 	);
 
 	// what happens when the component mounts:

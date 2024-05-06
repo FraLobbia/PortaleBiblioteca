@@ -31,7 +31,7 @@ const EditAuthors = () => {
 			name: name,
 			biography: biography,
 		};
-		editAuthorFetch(editedAuthorObj).then(() => {
+		dispatch(editAuthorFetch(editedAuthorObj)).then(() => {
 			navigate("/autori");
 		});
 	};

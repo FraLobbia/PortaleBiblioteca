@@ -28,7 +28,7 @@ const ReviewsList = ({ reviews, searchHidden }: ReviewsListProps) => {
 			{reviews
 				.filter(
 					(review: Review) =>
-						review.book.title
+						review.book?.title
 							.toLowerCase()
 							.includes(search.toLowerCase()) ||
 						review.reviewTitle
@@ -37,10 +37,10 @@ const ReviewsList = ({ reviews, searchHidden }: ReviewsListProps) => {
 						review.reviewBody
 							.toLowerCase()
 							.includes(search.toLowerCase()) ||
-						review.book.author.name
+						review.book?.author.name
 							.toLowerCase()
 							.includes(search.toLowerCase()) ||
-						review.user.firstName
+						review.user?.firstName
 							.toLowerCase()
 							.includes(search.toLowerCase())
 				)

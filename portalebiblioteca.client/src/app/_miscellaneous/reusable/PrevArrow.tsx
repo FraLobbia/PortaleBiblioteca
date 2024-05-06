@@ -9,6 +9,7 @@ function PrevArrow({
 	className,
 	style,
 	onClick,
+
 	opacity = "0.6",
 }: NextArrowProps) {
 	return (

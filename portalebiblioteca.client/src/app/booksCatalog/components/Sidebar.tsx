@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Form, Offcanvas } from "react-bootstrap";
+import { Button, Offcanvas } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../../Functions/hooks";
 import { Genre } from "../../../interfaces/genre.interface";
 import { fetchGenres } from "../../../api/genres/genresCRUDFetches";

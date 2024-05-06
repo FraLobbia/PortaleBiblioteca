@@ -48,25 +48,25 @@ const LoansOfUser = ({ loansCurrentUser }: WriteReviewProps) => {
 									ItemsEntityStatus.CheckedOutForLoan ||
 								(ShowAlsoReturned && loan.returned)
 						)
-						.sort((a: Loan, b: Loan) => {
-							const order = {
-								[ItemsEntityStatus.AtLibrarianDesk]: 1,
-								[ItemsEntityStatus.ReservedToBePicked]: 2,
-								[ItemsEntityStatus.CheckedOutForLoan]: 3,
-							};
+						// .sort((a: Loan, b: Loan) => {
+						// 	const order = {
+						// 		[ItemsEntityStatus.AtLibrarianDesk]: 1,
+						// 		[ItemsEntityStatus.ReservedToBePicked]: 2,
+						// 		[ItemsEntityStatus.CheckedOutForLoan]: 3,
+						// 	};
 
-							const statusA = a.item?.status;
-							const statusB = b.item?.status;
+						// 	const statusA = a.item?.status;
+						// 	const statusB = b.item?.status;
 
-							const orderA = statusA
-								? order[statusA] || Infinity
-								: Infinity;
-							const orderB = statusB
-								? order[statusB] || Infinity
-								: Infinity;
+						// 	const orderA = statusA
+						// 		? order[statusA] || Infinity
+						// 		: Infinity;
+						// 	const orderB = statusB
+						// 		? order[statusB] || Infinity
+						// 		: Infinity;
 
-							return orderA - orderB;
-						})
+						// 	return orderA - orderB;
+						// })
 
 						.map((loan: Loan) => (
 							<SingleLoan key={loan.idLoan} loan={loan} />

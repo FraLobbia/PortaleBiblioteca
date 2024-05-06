@@ -35,7 +35,7 @@ const SingleReview = ({ review, user }: SingleReviewProps) => {
 							{user?.firstName}
 						</span>
 					</p>
-					<p>{formatData(review.reviewDate)}</p>
+					<p>{review.reviewDate && formatData(review.reviewDate)}</p>
 				</div>
 				<p>
 					<Link

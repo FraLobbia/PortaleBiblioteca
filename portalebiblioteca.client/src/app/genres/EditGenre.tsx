@@ -31,7 +31,7 @@ const EditGenre = () => {
 			name: name,
 			description: description,
 		};
-		editGenreFetch(editedGenreObj).then(() => {
+		dispatch(editGenreFetch(editedGenreObj)).then(() => {
 			navigate("/generi");
 		});
 	};

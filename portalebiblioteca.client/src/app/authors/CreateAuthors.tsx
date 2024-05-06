@@ -4,10 +4,12 @@ import { useNavigate } from "react-router-dom";
 import BackButton from "../_miscellaneous/reusable/BackButton";
 import { Author } from "../../interfaces/book.interface";
 import { createAuthorFetch } from "../../api/authors/authorsCRUDFetches";
+import { useAppDispatch } from "../../Functions/hooks";
 
 const CreateAuthors = () => {
 	// define hooks
 	const navigate = useNavigate();
+	const dispatch = useAppDispatch();
 
 	// variables
 	const [name, setName] = useState("");
@@ -20,7 +22,7 @@ const CreateAuthors = () => {
 			name,
 			biography,
 		};
-		createAuthorFetch(newAuthorObj).then(() => {
+		dispatch(createAuthorFetch(newAuthorObj)).then(() => {
 			navigate("/autori");
 		});
 	};

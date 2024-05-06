@@ -4,10 +4,12 @@ import { Genre } from "../../interfaces/genre.interface";
 import { useNavigate } from "react-router-dom";
 import { createGenreFetch } from "../../api/genres/genresCRUDFetches";
 import BackButton from "../_miscellaneous/reusable/BackButton";
+import { useAppDispatch } from "../../Functions/hooks";
 
 const CreateGenre = () => {
 	// define hooks
 	const navigate = useNavigate();
+	const dispatch = useAppDispatch();
 
 	// variables
 	const [name, setName] = useState("");
@@ -20,7 +22,7 @@ const CreateGenre = () => {
 			name,
 			description,
 		};
-		createGenreFetch(newGenreObj).then(() => {
+		dispatch(createGenreFetch(newGenreObj)).then(() => {
 			navigate("/generi");
 		});
 	};
