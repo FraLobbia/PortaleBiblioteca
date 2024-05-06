@@ -75,7 +75,7 @@ const SingleLoan = ({ loan }: SingleLoanProps) => {
 
 	const prova = setPercent(loan);
 	return (
-		<Card className="my-2 p-2 shadow alert">
+		<Card className="my-2 p-2 shadow alert border">
 			<Card.Body>
 				<Container fluid>
 					<Row className="align-items-center">

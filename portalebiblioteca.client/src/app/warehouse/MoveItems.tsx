@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Accordion, Button, Container, Form } from "react-bootstrap";
+import { Accordion, Button, Col, Container, Form, Row } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../Functions/hooks";
 import { fetchBookById } from "../../api/booksCatalog/bookCRUDFetches";
@@ -16,6 +16,8 @@ import { MoveObject } from "../../interfaces/warehouse.interface";
 import InventoryTable from "./components/InventoryTable";
 import DetailsBook from "../booksCatalog/components/DetailsBook";
 import { convertToAisleName } from "../../Functions/utility";
+import LegendaCorsie from "../featuresPage/components/LegendaCorsie";
+import WarehouseSection from "../featuresPage/components/WarehouseSection";
 
 const MoveItems = () => {
 	// define hooks
@@ -212,13 +214,28 @@ const MoveItems = () => {
 
 			<Accordion flush>
 				<Accordion.Item eventKey="0">
+					<Accordion.Header>Legenda corsie</Accordion.Header>
+
+					<Accordion.Body>
+						<Container>
+							<Row className="justify-content-center">
+								<Col xs={12} md={6}>
+									<LegendaCorsie />
+									<WarehouseSection />
+								</Col>
+							</Row>
+						</Container>
+					</Accordion.Body>
+				</Accordion.Item>
+
+				<Accordion.Item eventKey="1">
 					<Accordion.Header>Inventario attuale</Accordion.Header>
 					<Accordion.Body>
 						<InventoryTable />
 					</Accordion.Body>
 				</Accordion.Item>
 
-				<Accordion.Item eventKey="1">
+				<Accordion.Item eventKey="2">
 					<Accordion.Header>Dettagli libro</Accordion.Header>
 					<Accordion.Body>
 						<DetailsBook book={book} />

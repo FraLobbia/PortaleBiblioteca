@@ -44,13 +44,17 @@ const HomePage = () => {
 						<InterestCarousel books={books} />
 						<hr />
 
-						<section id="lascia-una-recensione">
-							<h2 className="text-end">
-								...lasciare una recensione per un libro che hai
-								letto di recente
-							</h2>
-							<WriteReview loansCurrentUser={loansCurrentUser} />
-						</section>
+						{user && (
+							<section id="lascia-una-recensione">
+								<h2 className="text-end">
+									...lasciare una recensione per un libro che
+									hai letto di recente
+								</h2>
+								<WriteReview
+									loansCurrentUser={loansCurrentUser}
+								/>
+							</section>
+						)}
 					</main>
 				</>
 			) : (

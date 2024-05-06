@@ -1,4 +1,4 @@
-import { Button, Container, Form } from "react-bootstrap";
+import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { useState } from "react";
 import { useAppDispatch } from "../../Functions/hooks";
 import { LoginModel } from "../../interfaces/profile.interface";
@@ -25,35 +25,49 @@ const LoginPage = () => {
 	};
 
 	return (
-		<Container>
-			<Form onSubmit={handleSubmit}>
-				<h1>LOGIN</h1>
-				<Form.Group className="mb-3">
-					<Form.Label>Email</Form.Label>
-					<Form.Control
-						type="text"
-						placeholder="Inserisci la tua email"
-						value={email}
-						onChange={(e) => setEmail(e.currentTarget.value)}
-					/>
-				</Form.Group>
+		<Container className="mt-5">
+			<Row className="justify-content-center">
+				<Col md={6}>
+					<Form
+						onSubmit={handleSubmit}
+						className="alert alert-dark p-4">
+						<h1>Accedi</h1>
+						<Form.Group className="mb-3">
+							<Form.Label>Email</Form.Label>
+							<Form.Control
+								type="text"
+								placeholder="Inserisci la tua email"
+								value={email}
+								onChange={(e) =>
+									setEmail(e.currentTarget.value)
+								}
+							/>
+						</Form.Group>
 
-				<Form.Group className="mb-3">
-					<Form.Label>Password</Form.Label>
-					<Form.Control
-						type="password"
-						placeholder="Inserisci la tua password"
-						value={password}
-						onChange={(e) => setPassword(e.currentTarget.value)}
-					/>
-				</Form.Group>
-				<Button variant="primary" type="submit">
-					Login
-				</Button>
-			</Form>
-			<div className="mt-4">
-				<Link to="/user/signup">Non sei registrato? Registrati</Link>
-			</div>
+						<Form.Group className="mb-3">
+							<Form.Label>Password</Form.Label>
+							<Form.Control
+								type="password"
+								placeholder="Inserisci la tua password"
+								value={password}
+								onChange={(e) =>
+									setPassword(e.currentTarget.value)
+								}
+							/>
+						</Form.Group>
+						<div className="text-center">
+							<Button variant="primary" type="submit">
+								Login
+							</Button>
+						</div>
+					</Form>
+					<div className="mt-4 text-center">
+						<Link to="/user/signup">
+							Non sei registrato? Registrati
+						</Link>
+					</div>
+				</Col>
+			</Row>
 		</Container>
 	);
 };

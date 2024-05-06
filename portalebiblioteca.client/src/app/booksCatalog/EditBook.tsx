@@ -1,4 +1,4 @@
-import { Container, Tab, Tabs } from "react-bootstrap";
+import { Accordion, Col, Container, Row, Tab, Tabs } from "react-bootstrap";
 import FormEditBook from "./components/FormEditBook";
 import BackButton from "../_miscellaneous/reusable/BackButton";
 import { useAppSelector } from "../../Functions/hooks";
@@ -6,6 +6,8 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import BookLoans from "../prestiti/BookLoans";
 import InventoryTable from "../warehouse/components/InventoryTable";
 import ReceiveBooks from "../warehouse/components/ReceiveBooksForm";
+import LegendaCorsie from "../featuresPage/components/LegendaCorsie";
+import WarehouseSection from "../featuresPage/components/WarehouseSection";
 
 const EditBook = () => {
 	//define hooks
@@ -93,6 +95,22 @@ const EditBook = () => {
 						</>
 					}>
 					<InventoryTable />
+					<Accordion flush>
+						<Accordion.Item eventKey="0">
+							<Accordion.Header>Legenda corsie</Accordion.Header>
+
+							<Accordion.Body>
+								<Container>
+									<Row className="justify-content-center">
+										<Col xs={12} md={6}>
+											<WarehouseSection />
+											<LegendaCorsie />
+										</Col>
+									</Row>
+								</Container>
+							</Accordion.Body>
+						</Accordion.Item>
+					</Accordion>
 				</Tab>
 				<Tab
 					eventKey="Receive"
