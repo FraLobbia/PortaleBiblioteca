@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Button, Container, Form } from "react-bootstrap";
+import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { SignUpModel } from "../../interfaces/profile.interface";
 import { useAppDispatch } from "../../Functions/hooks";
 import { fetchCreateUser } from "../../api/users/userFetches";
+import { Link } from "react-router-dom";
 
 const SignUpPage = () => {
 	const dispatch = useAppDispatch();

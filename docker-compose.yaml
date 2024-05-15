@@ -1,0 +1,45 @@
+services:
+    api:
+        container_name: api.dotnet
+        build:
+            context: ./PortaleBiblioteca.Server
+            dockerfile: Dockerfile
+        ports:
+            - "7001:7001"
+        volumes:
+            - type: bind
+              source: ./PortaleBiblioteca.Server
+              target: /PortaleBiblioteca.Server
+        networks:
+            - backend
+
+    frontend:
+        container_name: react.frontend
+        build:
+            context: ./portalebiblioteca.client
+            dockerfile: Dockerfile
+        ports:
+            - "5173:5173"
+        volumes:
+            - type: bind
+              source: ./portalebiblioteca.client
+              target: /usr/share/nginx/html
+        depends_on:
+            - api
+        networks:
+            - backend
+
+    database:
+        container_name: sqlserver.database
+        image: mcr.microsoft.com/azure-sql-edge:latest
+        environment:
+            - ACCEPT_EULA=1
+            - SA_PASSWORD=cinSib-moxtax-vynso6
+        ports:
+            - "1433:1433"
+        networks:
+            - backend
+
+networks:
+    backend:
+        driver: bridge

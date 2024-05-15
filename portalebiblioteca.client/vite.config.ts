@@ -8,8 +8,8 @@ import child_process from "child_process";
 
 const baseFolder =
 	process.env.APPDATA !== undefined && process.env.APPDATA !== ""
-		? `${process.env.APPDATA}/ASP.NET/https`
-		: `${process.env.HOME}/.aspnet/https`;
+		? `./cert`
+		: `./cert`;
 
 const certificateArg = process.argv
 	.map((arg) => arg.match(/--name=(?<value>.+)/i))
@@ -59,12 +59,6 @@ export default defineConfig({
 		},
 	},
 	server: {
-		proxy: {
-			"^/weatherforecast": {
-				target: "https://localhost:7001/",
-				secure: false,
-			},
-		},
 		port: 5173,
 		https: {
 			key: fs.readFileSync(keyFilePath),

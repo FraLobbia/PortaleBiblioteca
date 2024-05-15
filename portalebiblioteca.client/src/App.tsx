@@ -90,6 +90,8 @@ function App() {
 							<Route path="signup" element={<SignUpPage />} />
 							<Route path="edit" element={<EditProfile />} />
 						</Route>
+
+						<Route path="*" element={<NotFound_404 />} />
 					</Routes>
 				</div>
 				<MyFooter />
